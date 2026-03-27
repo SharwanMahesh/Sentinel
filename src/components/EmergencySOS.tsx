@@ -20,6 +20,7 @@ export function EmergencySOS() {
   const [injuryType, setInjuryType] = useState('Trauma');
   const [secondaryRisk, setSecondaryRisk] = useState('Structural collapse');
   const [alertText, setAlertText] = useState('');
+  const [hospitalSort, setHospitalSort] = useState<'distance' | 'capacity'>('distance');
 
   // Auto-fill logic based on live anomalies
   React.useEffect(() => {
@@ -179,8 +180,18 @@ MONITORING P-WAVE NETWORKS...`);
                 <Bed className="w-4 h-4 text-green-500" /> Nearby Hospitals (50km)
               </h3>
               <div className="flex gap-2">
-                <button className="text-[10px] font-bold text-slate-400 bg-slate-800 px-2 py-1 rounded hover:text-white">Sort: Distance</button>
-                <button className="text-[10px] font-bold text-slate-500 hover:text-white px-2 py-1">Sort: Capacity</button>
+                <button 
+                  onClick={() => setHospitalSort('distance')}
+                  className={`text-[10px] font-bold px-2 py-1 rounded transition-colors ${hospitalSort === 'distance' ? 'text-slate-400 bg-slate-800' : 'text-slate-500 hover:text-white'}`}
+                >
+                  Sort: Distance
+                </button>
+                <button 
+                  onClick={() => setHospitalSort('capacity')}
+                  className={`text-[10px] font-bold px-2 py-1 rounded transition-colors ${hospitalSort === 'capacity' ? 'text-slate-400 bg-slate-800' : 'text-slate-500 hover:text-white'}`}
+                >
+                  Sort: Capacity
+                </button>
               </div>
             </div>
             
@@ -194,7 +205,12 @@ MONITORING P-WAVE NETWORKS...`);
                   }
                   return { ...h, displayDist: (1.2 + Math.random() * 5).toFixed(1) };
                 })
-                .sort((a, b) => Number(a.displayDist) - Number(b.displayDist))
+                .sort((a, b) => {
+                  if (hospitalSort === 'capacity') {
+                    return a.capacity - b.capacity;
+                  }
+                  return Number(a.displayDist) - Number(b.displayDist);
+                })
                 .slice(0, 15) // Show top 15 nearest/relevant
                 .map((h, i) => (
                 <div key={i} className="bg-slate-900/50 border border-slate-800 rounded-xl p-4 hover:border-slate-700 transition-colors cursor-pointer">
@@ -229,9 +245,9 @@ MONITORING P-WAVE NETWORKS...`);
             </h3>
             <div className="grid grid-cols-3 gap-3">
               {[
-                { label: 'RED', color: 'text-red-400', bg: 'bg-red-500/10', count: patients.filter(p => p.tag === 'RED' && p.status === 'awaiting').length },
-                { label: 'YELLOW', color: 'text-amber-400', bg: 'bg-amber-500/10', count: patients.filter(p => p.tag === 'YELLOW' && p.status === 'awaiting').length },
-                { label: 'GREEN', color: 'text-green-400', bg: 'bg-green-500/10', count: patients.filter(p => p.tag === 'GREEN' && p.status === 'awaiting').length }
+                { label: 'RED', color: 'text-red-400', bg: 'bg-red-500/10', count: patients.filter(p => p.tag === 'RED').length },
+                { label: 'YELLOW', color: 'text-amber-400', bg: 'bg-amber-500/10', count: patients.filter(p => p.tag === 'YELLOW').length },
+                { label: 'GREEN', color: 'text-green-400', bg: 'bg-green-500/10', count: patients.filter(p => p.tag === 'GREEN').length }
               ].map((item) => (
                 <div key={item.label} className={`${item.bg} border border-white/5 rounded-xl p-3 text-center`}>
                   <div className={`text-[9px] font-black ${item.color} uppercase mb-1`}>{item.label}</div>

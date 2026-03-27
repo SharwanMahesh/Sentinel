@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Activity, Loader2, Mic, Send } from 'lucide-react';
+import { Activity, Loader2, Mic, Send, X } from 'lucide-react';
 import { useDisaster } from '../context/DisasterContext';
 
 interface SpeechRecognitionEvent extends Event {
@@ -67,6 +67,7 @@ export function WalkieTalkiePanel() {
     patients, 
     hospitals, 
     addPatient, 
+    removePatient,
     addEvent, 
     latestTriageSignal, 
     setLatestVoiceTriageSignal,
@@ -75,7 +76,7 @@ export function WalkieTalkiePanel() {
   } = useDisaster();
 
   const [connectionStatus, setConnectionStatus] = useState<'connected' | 'searching' | 'disconnected'>('searching');
-  const [activeTab, setActiveTab] = useState<'transcription' | 'capacity'>('transcription');
+  const [activeTab, setActiveTab] = useState<'transcription' | 'capacity' | 'analyzed'>('transcription');
   const [transcription, setTranscription] = useState('');
   const [isMicActive, setIsMicActive] = useState(false);
   const [isSpeechDetected, setIsSpeechDetected] = useState(false);
@@ -398,7 +399,10 @@ export function WalkieTalkiePanel() {
           Transcription
         </button>
         <button onClick={() => setActiveTab('capacity')} className={`py-2 rounded-lg text-[11px] font-bold transition-colors ${activeTab === 'capacity' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:bg-slate-800'}`}>
-          Hospital Capacity ({hospitals.length})
+          Capacity ({hospitals.length})
+        </button>
+        <button onClick={() => setActiveTab('analyzed')} className={`py-2 rounded-lg text-[11px] font-bold transition-colors ${activeTab === 'analyzed' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:bg-slate-800'}`}>
+          Analyzed Patients ({patients.length})
         </button>
       </div>
 
@@ -442,6 +446,39 @@ export function WalkieTalkiePanel() {
                   <div className={`${hospital.capacity >= 90 ? 'bg-red-500' : hospital.capacity >= 75 ? 'bg-amber-500' : 'bg-green-500'} h-full`} style={{ width: `${hospital.capacity}%` }}></div>
                 </div>
                 <div className="text-[11px] text-slate-500 mt-2">Incoming: +{hospital.incoming} • Available beds: {hospital.availableBeds}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'analyzed' && (
+        <div className="flex-1 min-h-0 bg-[#161920] border border-slate-800 rounded-xl p-4 overflow-y-auto custom-scrollbar">
+          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Analyzed Patients Data</h3>
+          <div className="space-y-3">
+            {patients.length === 0 && (
+              <div className="text-sm text-slate-500 text-center py-4 border border-dashed border-slate-800 rounded-lg">No designated patients stored yet.</div>
+            )}
+            {patients.map((p) => (
+              <div key={p.id} className="bg-slate-900/60 border border-slate-800 rounded-lg p-3 flex justify-between items-center group transition-colors hover:border-slate-600">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-mono text-sm font-bold text-white">{p.id}</span>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-sm ${
+                      p.tag === 'RED' ? 'bg-red-500/20 text-red-500' : 
+                      p.tag === 'YELLOW' ? 'bg-amber-500/20 text-amber-500' :
+                      'bg-green-500/20 text-green-500'
+                    }`}>{p.score} PRIORITY • {p.tag}</span>
+                  </div>
+                  <div className="text-xs text-slate-400">Designated Hospital: <span className="text-slate-200">{p.hospital}</span></div>
+                </div>
+                <button 
+                  onClick={() => removePatient(p.id)}
+                  className="w-8 h-8 rounded bg-red-500/10 text-red-500 flex items-center justify-center opacity-50 hover:opacity-100 transition-opacity hover:bg-red-500 hover:text-white shrink-0"
+                  title="Remove record"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
             ))}
           </div>

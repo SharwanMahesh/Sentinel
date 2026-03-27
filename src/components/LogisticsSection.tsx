@@ -97,14 +97,16 @@ export function LogisticsSection({ onBack }: { onBack?: () => void }) {
       showToast("No hospital data available to export.", "warn");
       return;
     }
-    const headers = ["Hospital Name", "City", "Total Beds", "Available Beds", "ICU Beds", "Oxygen Liters", "Vaccine Doses", "Status"];
+    const headers = ["Hospital Name", "City", "Total Beds", "Available Beds", "Total Ventilators", "Available Ventilators", "Oxygen Supply %", "Active Ambulances", "Vaccine Doses", "Status"];
     const rows = allHospitals.map(h => [
       `"${h.name}"`,
       `"${h.city}"`,
       h.totalBeds.toString(),
       h.availableBeds.toString(),
-      h.availableIcuBeds.toString(),
-      h.oxygenLiters.toString(),
+      h.totalVentilators.toString(),
+      h.availableVentilators.toString(),
+      h.oxygenSupplyPercent.toString(),
+      h.activeAmbulances.toString(),
       h.vaccineDoses.toString(),
       h.status
     ]);
@@ -217,11 +219,11 @@ export function LogisticsSection({ onBack }: { onBack?: () => void }) {
       <div className="grid grid-cols-4 gap-6 mb-8 shrink-0">
         <ResourceCard
           title="Active Ambulances"
-          value={`${activeAmbulances}/${ambulances.length}`}
-          subtitle={`${ambulances.filter((a) => a.status === 'Maintenance').length} in maintenance`}
+          value={`${metrics.activeAmbulances}`}
+          subtitle={`${metrics.activeAmbulances} units deployed`}
           icon={<Truck className="w-6 h-6" />}
-          trend={`+${Math.max(1, activeAmbulances - 1)}`}
-          status="Normal"
+          trend={metrics.activeAmbulances < 50 ? '-5%' : '+12%'}
+          status={metrics.activeAmbulances < 50 ? 'Warning' : 'Normal'}
         />
         <ResourceCard
           title="Hospital Beds"
@@ -233,11 +235,11 @@ export function LogisticsSection({ onBack }: { onBack?: () => void }) {
         />
         <ResourceCard
           title="Oxygen Supply"
-          value={formatCompact(metrics.oxygenLiters)}
-          subtitle="Liters available"
+          value={`${metrics.oxygenSupplyPercent}%`}
+          subtitle="Avg Reserve Purity"
           icon={<Activity className="w-6 h-6" />}
-          trend={metrics.oxygenLiters < 12000 ? '-8%' : '-3%'}
-          status={metrics.oxygenLiters < 12000 ? 'Warning' : 'Normal'}
+          trend={metrics.oxygenSupplyPercent < 50 ? '-8%' : '+3%'}
+          status={metrics.oxygenSupplyPercent < 50 ? 'Warning' : 'Normal'}
         />
         <ResourceCard
           title="Vaccine Stock"

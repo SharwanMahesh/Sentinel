@@ -70,26 +70,26 @@ export function ResourceLogisticsPanel({ redPatientCount }: ResourceLogisticsPan
     quantity: 50
   });
 
-  const icuUtilization = 100 - toPercent(metrics.availableIcuBeds, metrics.totalIcuBeds);
   const bedUtilization = metrics.bedOccupancy;
-  const oxygenStress = Math.min(95, Math.max(20, Math.round(100 - metrics.oxygenLiters / 450)));
+  const ventilatorUtilization = 100 - toPercent(metrics.availableVentilators, metrics.totalVentilators);
+  const oxygenStress = 100 - metrics.oxygenSupplyPercent;
 
   const [resources, setResources] = useState<ResourceItem[]>([
-    { name: 'ICU Beds', capacity: icuUtilization, status: icuUtilization > 80 ? 'Near Capacity' : 'Stable', trend: 'up', arrivals: `+${Math.max(1, redPatientCount)} arrivals in next 15 min` },
-    { name: 'Ventilators', capacity: Math.max(30, Math.round((icuUtilization + bedUtilization) / 2)), status: 'Stable', trend: 'stable', arrivals: '+2 arrivals in next 30 min' },
-    { name: 'Oxygen Supply', capacity: oxygenStress, status: oxygenStress > 80 ? 'Trending Up' : 'Stable', trend: 'up', arrivals: `~${Math.round(metrics.oxygenLiters)}L stock in network` },
-    { name: 'Ambulances', capacity: 65, status: 'Stable', trend: 'down', arrivals: '+1 arrival in next 5 min' },
+    { name: 'Hospital Beds', capacity: bedUtilization, status: bedUtilization > 80 ? 'Near Capacity' : 'Stable', trend: 'up', arrivals: `+${Math.max(1, redPatientCount)} arrivals in next 15 min` },
+    { name: 'Ventilators', capacity: ventilatorUtilization, status: 'Stable', trend: 'stable', arrivals: `${metrics.availableVentilators} available` },
+    { name: 'Oxygen Supply', capacity: oxygenStress, status: oxygenStress > 80 ? 'Trending Up' : 'Stable', trend: 'up', arrivals: `${metrics.oxygenSupplyPercent}% avg reserve` },
+    { name: 'Ambulances', capacity: 100 - toPercent(metrics.activeAmbulances, 200), status: 'Stable', trend: 'down', arrivals: `${metrics.activeAmbulances} active units` },
   ]);
 
   const [alerts, setAlerts] = useState<Alert[]>([]);
 
   useEffect(() => {
     setResources((prev) => prev.map((resource) => {
-      if (resource.name === 'ICU Beds') {
+      if (resource.name === 'Hospital Beds') {
         return {
           ...resource,
-          capacity: icuUtilization,
-          status: icuUtilization > 80 ? 'Near Capacity' : 'Stable',
+          capacity: bedUtilization,
+          status: bedUtilization > 80 ? 'Near Capacity' : 'Stable',
           arrivals: `+${Math.max(1, redPatientCount)} arrivals in next 15 min`,
         };
       }
@@ -97,7 +97,8 @@ export function ResourceLogisticsPanel({ redPatientCount }: ResourceLogisticsPan
       if (resource.name === 'Ventilators') {
         return {
           ...resource,
-          capacity: Math.max(30, Math.round((icuUtilization + bedUtilization) / 2)),
+          capacity: ventilatorUtilization,
+          arrivals: `${metrics.availableVentilators} available`,
         };
       }
 
@@ -106,13 +107,21 @@ export function ResourceLogisticsPanel({ redPatientCount }: ResourceLogisticsPan
           ...resource,
           capacity: oxygenStress,
           status: oxygenStress > 80 ? 'Trending Up' : 'Stable',
-          arrivals: `~${Math.round(metrics.oxygenLiters)}L stock in network`,
+          arrivals: `${metrics.oxygenSupplyPercent}% avg reserve`,
+        };
+      }
+      
+      if (resource.name === 'Ambulances') {
+        return {
+          ...resource,
+          capacity: 100 - toPercent(metrics.activeAmbulances, 200),
+          arrivals: `${metrics.activeAmbulances} active units`,
         };
       }
 
       return resource;
     }));
-  }, [bedUtilization, icuUtilization, metrics.oxygenLiters, oxygenStress, redPatientCount]);
+  }, [bedUtilization, ventilatorUtilization, metrics.availableVentilators, metrics.oxygenSupplyPercent, metrics.activeAmbulances, oxygenStress, redPatientCount]);
 
   // Alert logic for red patient count spike
   useEffect(() => {
@@ -126,7 +135,7 @@ export function ResourceLogisticsPanel({ redPatientCount }: ResourceLogisticsPan
       
       // Auto-highlight affected resources
       setResources(prev => prev.map(r => 
-        r.name === 'ICU Beds' || r.name === 'Oxygen Supply' 
+        r.name === 'Hospital Beds' || r.name === 'Oxygen Supply' 
         ? { ...r, status: 'Near Capacity' as const } 
         : r
       ));

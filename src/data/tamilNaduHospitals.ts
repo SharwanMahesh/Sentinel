@@ -1,4 +1,4 @@
-import hospitalCsv from '../../resources/TNHospitals (1).csv?raw';
+import hospitalCsv from '../../resources/TNHospitals_CommandCenter_Dataset.csv?raw';
 
 type ResourceStatus = 'Normal' | 'Warning' | 'Critical';
 
@@ -12,11 +12,13 @@ export interface TamilNaduHospital {
 	totalBeds: number;
 	occupiedBeds: number;
 	availableBeds: number;
-	icuBeds: number;
-	availableIcuBeds: number;
-	oxygenLiters: number;
+	totalVentilators: number;
+	availableVentilators: number;
+	oxygenSupplyPercent: number;
+	activeAmbulances: number;
 	vaccineDoses: number;
 	capacity: number;
+	incoming: number;
 	status: ResourceStatus;
 	lat: number;
 	lng: number;
@@ -111,26 +113,17 @@ const buildHospital = (raw: {
 	city: string;
 	address: string;
 	pincode: string;
+	totalBeds: number;
+	availableBeds: number;
+	totalVentilators: number;
+	availableVentilators: number;
+	oxygenSupplyPercent: number;
+	activeAmbulances: number;
+	vaccineDoses: number;
 }): TamilNaduHospital => {
 	const seedKey = `${raw.name}-${raw.city}-${raw.pincode}`;
-	const h1 = seeded(`${seedKey}-beds`);
-	const h2 = seeded(`${seedKey}-occ`);
-	const h3 = seeded(`${seedKey}-icu`);
-	const h4 = seeded(`${seedKey}-oxy`);
-	const h5 = seeded(`${seedKey}-vax`);
-
-	const totalBeds = 80 + (h1 % 420);
-	const occupancyPct = 45 + (h2 % 50);
-	const occupiedBeds = Math.min(totalBeds, Math.round((totalBeds * occupancyPct) / 100));
-	const availableBeds = Math.max(0, totalBeds - occupiedBeds);
-
-	const icuBeds = Math.max(8, Math.round(totalBeds * (0.12 + (h3 % 9) / 100)));
-	const icuOccupied = Math.min(icuBeds, Math.round((icuBeds * (50 + (h2 % 45))) / 100));
-	const availableIcuBeds = Math.max(0, icuBeds - icuOccupied);
-
-	const oxygenLiters = 1500 + (h4 % 9000);
-	const vaccineDoses = 300 + (h5 % 5200);
-	const capacity = Math.round((occupiedBeds / totalBeds) * 100);
+	const occupiedBeds = Math.max(0, raw.totalBeds - raw.availableBeds);
+	const capacity = raw.totalBeds > 0 ? Math.round((occupiedBeds / raw.totalBeds) * 100) : 0;
 	const status: ResourceStatus = capacity >= 90 ? 'Critical' : capacity >= 75 ? 'Warning' : 'Normal';
 	const [lat, lng] = withCityCoordinates(raw.city, seedKey);
 
@@ -141,14 +134,16 @@ const buildHospital = (raw: {
 		city: raw.city,
 		address: raw.address,
 		pincode: raw.pincode,
-		totalBeds,
+		totalBeds: raw.totalBeds,
 		occupiedBeds,
-		availableBeds,
-		icuBeds,
-		availableIcuBeds,
-		oxygenLiters,
-		vaccineDoses,
+		availableBeds: raw.availableBeds,
+		totalVentilators: raw.totalVentilators,
+		availableVentilators: raw.availableVentilators,
+		oxygenSupplyPercent: raw.oxygenSupplyPercent,
+		activeAmbulances: raw.activeAmbulances,
+		vaccineDoses: raw.vaccineDoses,
 		capacity,
+		incoming: 0,
 		status,
 		lat,
 		lng,
@@ -185,12 +180,19 @@ const parseHospitals = (): TamilNaduHospital[] => {
 
 		parsed.push(
 			buildHospital({
-				id: (cols[idIdx] || `${i}`).trim() || `${i}`,
+				id: (cols[0] || `${i}`).trim() || `${i}`,
 				name,
-				state: (cols[stateIdx] || 'Tamilnadu').trim() || 'Tamilnadu',
+				state: (cols[2] || 'Tamilnadu').trim() || 'Tamilnadu',
 				city,
-				address: (cols[addrIdx] || '').trim(),
-				pincode: (cols[pinIdx] || '').trim(),
+				address: (cols[4] || '').trim(),
+				pincode: (cols[5] || '').trim(),
+				totalBeds: parseInt(cols[6] || '0', 10),
+				availableBeds: parseInt(cols[7] || '0', 10),
+				totalVentilators: parseInt(cols[8] || '0', 10),
+				availableVentilators: parseInt(cols[9] || '0', 10),
+				oxygenSupplyPercent: parseInt(cols[10] || '0', 10),
+				activeAmbulances: parseInt(cols[11] || '0', 10),
+				vaccineDoses: parseInt(cols[12] || '0', 10),
 			})
 		);
 	}
@@ -204,9 +206,10 @@ export const tamilNaduHospitalMetrics = (() => {
 	const totalBeds = tamilNaduHospitals.reduce((sum, h) => sum + h.totalBeds, 0);
 	const occupiedBeds = tamilNaduHospitals.reduce((sum, h) => sum + h.occupiedBeds, 0);
 	const availableBeds = tamilNaduHospitals.reduce((sum, h) => sum + h.availableBeds, 0);
-	const totalIcuBeds = tamilNaduHospitals.reduce((sum, h) => sum + h.icuBeds, 0);
-	const availableIcuBeds = tamilNaduHospitals.reduce((sum, h) => sum + h.availableIcuBeds, 0);
-	const oxygenLiters = tamilNaduHospitals.reduce((sum, h) => sum + h.oxygenLiters, 0);
+	const totalVentilators = tamilNaduHospitals.reduce((sum, h) => sum + h.totalVentilators, 0);
+	const availableVentilators = tamilNaduHospitals.reduce((sum, h) => sum + h.availableVentilators, 0);
+	const oxygenPercentSum = tamilNaduHospitals.reduce((sum, h) => sum + h.oxygenSupplyPercent, 0);
+	const activeAmbulances = tamilNaduHospitals.reduce((sum, h) => sum + h.activeAmbulances, 0);
 	const vaccineDoses = tamilNaduHospitals.reduce((sum, h) => sum + h.vaccineDoses, 0);
 
 	return {
@@ -215,9 +218,10 @@ export const tamilNaduHospitalMetrics = (() => {
 		occupiedBeds,
 		availableBeds,
 		bedOccupancy: totalBeds === 0 ? 0 : Math.round((occupiedBeds / totalBeds) * 100),
-		totalIcuBeds,
-		availableIcuBeds,
-		oxygenLiters,
+		totalVentilators,
+		availableVentilators,
+		oxygenSupplyPercent: tamilNaduHospitals.length > 0 ? Math.round(oxygenPercentSum / tamilNaduHospitals.length) : 0,
+		activeAmbulances,
 		vaccineDoses,
 	};
 })();
@@ -233,7 +237,7 @@ export const pickDispatchHospital = (cityPreference?: string): TamilNaduHospital
 
 	const preferredPool = inCity.length > 0 ? inCity : tamilNaduHospitals;
 	return [...preferredPool].sort((a, b) => {
-		if (b.availableIcuBeds !== a.availableIcuBeds) return b.availableIcuBeds - a.availableIcuBeds;
+		if (b.availableVentilators !== a.availableVentilators) return b.availableVentilators - a.availableVentilators;
 		return b.availableBeds - a.availableBeds;
 	})[0];
 };

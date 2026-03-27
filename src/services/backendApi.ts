@@ -9,9 +9,10 @@ export interface HospitalMetrics {
   occupiedBeds: number;
   availableBeds: number;
   bedOccupancy: number;
-  totalIcuBeds: number;
-  availableIcuBeds: number;
-  oxygenLiters: number;
+  totalVentilators: number;
+  availableVentilators: number;
+  oxygenSupplyPercent: number;
+  activeAmbulances: number;
   vaccineDoses: number;
 }
 

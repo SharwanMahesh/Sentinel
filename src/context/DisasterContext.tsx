@@ -35,13 +35,23 @@ export interface Patient {
 export interface Hospital {
   id: string;
   name: string;
+  state: string;
+  city: string;
+  address: string;
+  pincode: string;
+  totalBeds: number;
+  occupiedBeds: number;
+  availableBeds: number;
+  totalVentilators: number;
+  availableVentilators: number;
+  oxygenSupplyPercent: number;
+  activeAmbulances: number;
+  vaccineDoses: number;
   capacity: number;
   incoming: number;
-  totalBeds: number;
-  availableBeds: number;
+  status: 'Normal' | 'Warning' | 'Critical';
   lat: number;
   lng: number;
-  city: string;
 }
 
 export interface SystemEvent {
@@ -68,6 +78,7 @@ interface DisasterContextType {
   patients: Patient[];
   addPatient: (patient: Omit<Patient, 'id'>) => void;
   updatePatient: (id: string, updates: Partial<Patient>) => void;
+  removePatient: (id: string) => void;
   hospitals: Hospital[];
   updateHospital: (id: string, updates: Partial<Hospital>) => void;
   events: SystemEvent[];
@@ -127,11 +138,8 @@ const INITIAL_PATIENTS: Patient[] = [
 ];
 
 const INITIAL_HOSPITALS: Hospital[] = [
-  { id: 'h1', name: 'Rajiv Gandhi GH', capacity: 92, incoming: 5, totalBeds: 500, availableBeds: 40, lat: 13.0827, lng: 80.2707, city: 'Chennai' },
-  { id: 'h2', name: 'Apollo Hospital', capacity: 75, incoming: 3, totalBeds: 350, availableBeds: 87, lat: 13.0645, lng: 80.2505, city: 'Chennai' },
-  { id: 'h3', name: 'Fortis', capacity: 40, incoming: 2, totalBeds: 200, availableBeds: 120, lat: 13.0067, lng: 80.2206, city: 'Chennai' },
-  { id: 'h4', name: 'MIOT International', capacity: 60, incoming: 4, totalBeds: 400, availableBeds: 160, lat: 13.0210, lng: 80.1830, city: 'Chennai' },
-  { id: 'h5', name: 'Global Hospital', capacity: 30, incoming: 1, totalBeds: 300, availableBeds: 210, lat: 12.8988, lng: 80.1924, city: 'Chennai' },
+  { id: 'h1', name: 'Rajiv Gandhi GH', state: 'Tamilnadu', city: 'Chennai', address: 'GH Road', pincode: '600003', capacity: 92, incoming: 5, totalBeds: 500, occupiedBeds: 460, availableBeds: 40, totalVentilators: 50, availableVentilators: 2, oxygenSupplyPercent: 12, activeAmbulances: 10, vaccineDoses: 1000, status: 'Critical', lat: 13.0827, lng: 80.2707 },
+  { id: 'h2', name: 'Apollo Hospital', state: 'Tamilnadu', city: 'Chennai', address: 'Greams Road', pincode: '600006', capacity: 75, incoming: 3, totalBeds: 350, occupiedBeds: 263, availableBeds: 87, totalVentilators: 40, availableVentilators: 10, oxygenSupplyPercent: 45, activeAmbulances: 8, vaccineDoses: 800, status: 'Warning', lat: 13.0645, lng: 80.2505 },
 ];
 
 const INITIAL_TRIAGE_SIGNAL: TriageSignal = {
@@ -233,13 +241,23 @@ export const DisasterProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             hospitalsToSet = allTNHospitals.map(h => ({
               id: h.id,
               name: h.name,
+              state: h.state,
+              city: h.city,
+              address: h.address,
+              pincode: h.pincode,
               capacity: h.capacity,
-              incoming: 0,
+              incoming: h.incoming || 0,
               totalBeds: h.totalBeds,
+              occupiedBeds: h.occupiedBeds,
               availableBeds: h.availableBeds,
+              totalVentilators: h.totalVentilators,
+              availableVentilators: h.availableVentilators,
+              oxygenSupplyPercent: h.oxygenSupplyPercent,
+              activeAmbulances: h.activeAmbulances,
+              vaccineDoses: h.vaccineDoses,
+              status: h.status,
               lat: h.lat,
-              lng: h.lng,
-              city: h.city
+              lng: h.lng
             }));
           }
         }
@@ -319,6 +337,10 @@ export const DisasterProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setPatients(prev => prev.map(p => p.id === id ? { ...p, ...updates } : p));
   }, []);
 
+  const removePatient = useCallback((id: string) => {
+    setPatients(prev => prev.filter(p => p.id !== id));
+  }, []);
+
   const updateHospital = useCallback((id: string, updates: Partial<Hospital>) => {
     setHospitals(prev => prev.map(h => h.id === id ? { ...h, ...updates } : h));
   }, []);
@@ -370,6 +392,7 @@ export const DisasterProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       patients,
       addPatient,
       updatePatient,
+      removePatient,
       hospitals,
       updateHospital,
       events,

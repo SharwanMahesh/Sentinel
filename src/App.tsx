@@ -941,16 +941,6 @@ function DisasterDashboardContent({ onBack, onSwitchMode, activeSection, setActi
               <PriorityQueuePanel />
             </div>
           )}
-          {/* Floating Walkie-Talkie Button */}
-          {!hideAuxPanelsForSection && activeSection !== 'walkie' && (
-            <button 
-              onClick={() => setActiveSection('walkie')}
-              className="hidden lg:flex absolute bottom-6 right-6 xl:right-[370px] 2xl:right-[430px] w-14 h-14 bg-blue-600 rounded-full shadow-lg items-center justify-center text-white hover:bg-blue-700 transition-all z-30"
-              title="Walkie-Talkie"
-            >
-              <Radio className="w-6 h-6" />
-            </button>
-          )}
           {/* Event Log Overlay */}
           <AnimatePresence>
             {showEvents && (

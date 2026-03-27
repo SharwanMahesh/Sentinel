@@ -2758,52 +2758,92 @@
       "riskScore": 65,
       "waitTime": 0,
       "assignedDoctor": "Unassigned"
+    },
+    {
+      "id": "P-8835",
+      "name": "Anonymous Patient",
+      "age": 35,
+      "symptoms": [
+        "Simulated Case"
+      ],
+      "score": 13.689515901159266,
+      "timestamp": "2026-03-27T19:16:57.275Z",
+      "status": "Stable",
+      "stage": "AI-Monitored",
+      "vitals": {
+        "bp": "118/71",
+        "o2": 95
+      },
+      "lastCheckIn": "2026-03-27T19:16:57.275Z",
+      "aiRecommendation": "Continuous AI monitoring.",
+      "riskScore": 13.689515901159266,
+      "waitTime": 0
+    },
+    {
+      "id": "P-5601",
+      "name": "Anonymous Patient",
+      "age": 35,
+      "symptoms": [
+        "Simulated Case"
+      ],
+      "score": 88.43266052557172,
+      "timestamp": "2026-03-27T19:16:57.612Z",
+      "status": "Critical",
+      "stage": "Dispatched",
+      "vitals": {
+        "bp": "119/82",
+        "o2": 94
+      },
+      "lastCheckIn": "2026-03-27T19:16:57.612Z",
+      "aiRecommendation": "Immediate dispatch required.",
+      "riskScore": 88.43266052557172,
+      "waitTime": 0,
+      "ambulanceId": "AMB-322",
+      "eta": 567,
+      "hospital": "Aakash Hospital",
+      "bedNo": "B-19"
+    },
+    {
+      "id": "P-2845",
+      "name": "Anonymous Patient",
+      "age": 35,
+      "symptoms": [
+        "Simulated Case"
+      ],
+      "score": 93.85626609263127,
+      "timestamp": "2026-03-27T19:16:58.115Z",
+      "status": "Critical",
+      "stage": "Dispatched",
+      "vitals": {
+        "bp": "128/82",
+        "o2": 94
+      },
+      "lastCheckIn": "2026-03-27T19:16:58.115Z",
+      "aiRecommendation": "Immediate dispatch required.",
+      "riskScore": 93.85626609263127,
+      "waitTime": 0,
+      "ambulanceId": "AMB-361",
+      "eta": 586,
+      "hospital": "Aakash Hospital",
+      "bedNo": "B-5"
     }
   ],
   "disasterState": {
     "riskLevel": "High",
     "patients": [
       {
-        "id": "P-047",
-        "score": 91,
-        "tag": "RED",
-        "hospital": "Rajiv Gandhi GH",
-        "eta": "9 min",
-        "status": "dispatched",
-        "location": "12.927°N, 80.128°E",
-        "vitals": {
-          "heartRate": 112,
-          "bloodPressure": "90/60",
-          "oxygen": 88
-        }
-      },
-      {
-        "id": "P-082",
-        "score": 75,
-        "tag": "YELLOW",
-        "hospital": "Apollo Hospital",
-        "eta": "14 min",
-        "status": "awaiting",
-        "location": "12.935°N, 80.142°E",
-        "vitals": {
-          "heartRate": 98,
-          "bloodPressure": "110/70",
-          "oxygen": 94
-        }
-      },
-      {
-        "id": "P-012",
-        "score": 45,
+        "score": 32,
         "tag": "GREEN",
-        "hospital": "Fortis",
-        "eta": "22 min",
-        "status": "dispatched",
-        "location": "12.912°N, 80.115°E",
+        "hospital": "Bharath Hospital",
+        "eta": "9 min",
+        "status": "awaiting",
+        "location": "13.083°N, 80.271°E",
         "vitals": {
-          "heartRate": 76,
-          "bloodPressure": "120/80",
-          "oxygen": 98
-        }
+          "heartRate": 103,
+          "bloodPressure": "118/76",
+          "oxygen": 95
+        },
+        "id": "P-780"
       }
     ],
     "hospitals": [
@@ -3789,10 +3829,10 @@
       {
         "id": "760",
         "name": "Bharath Hospital",
-        "capacity": 70,
+        "capacity": 90,
         "incoming": 0,
         "totalBeds": 324,
-        "availableBeds": 97,
+        "availableBeds": 33,
         "lat": 13.083900000000002,
         "lng": 80.2719,
         "city": "Chennai"
@@ -3811,10 +3851,10 @@
       {
         "id": "805",
         "name": "Billroth Hospital Limited",
-        "capacity": 62,
+        "capacity": 87,
         "incoming": 0,
         "totalBeds": 462,
-        "availableBeds": 176,
+        "availableBeds": 59,
         "lat": 13.0815,
         "lng": 80.26910000000001,
         "city": "Chennai"
@@ -4262,10 +4302,10 @@
       {
         "id": "1250",
         "name": "Doctor Rex'S Hospital",
-        "capacity": 86,
+        "capacity": 95,
         "incoming": 0,
         "totalBeds": 150,
-        "availableBeds": 21,
+        "availableBeds": 8,
         "lat": 13.0815,
         "lng": 80.2715,
         "city": "Chennai"
@@ -4394,360 +4434,360 @@
     ],
     "events": [
       {
-        "id": "ml1d0k99h",
-        "timestamp": "2026-03-27T18:51:45.475Z",
+        "type": "sensor",
+        "message": "Seismic event confirmed by 5 nodes. Magnitude estimated at 6.8.",
+        "severity": "critical",
+        "id": "f5pd7kyaj",
+        "timestamp": "2026-03-27T20:31:07.714Z"
+      },
+      {
+        "id": "upesebuyl",
+        "timestamp": "2026-03-27T20:27:00.171Z",
         "type": "alert",
         "message": "TSUNAMI WARNING: Coastal inundation expected in 45 minutes.",
         "severity": "critical"
       },
       {
-        "id": "5nv34mcrg",
-        "timestamp": "2026-03-27T18:51:30.476Z",
+        "id": "5sgs5uy7u",
+        "timestamp": "2026-03-27T20:26:45.169Z",
         "type": "system",
         "message": "URGENT: Magnitude 7.2 Seismic Anomaly detected!",
-        "severity": "critical"
-      },
-      {
-        "id": "un4ep06q9",
-        "timestamp": "2026-03-27T18:49:31.675Z",
-        "type": "alert",
-        "message": "TSUNAMI WARNING: Coastal inundation expected in 45 minutes.",
         "severity": "critical"
       },
       {
         "type": "sensor",
         "message": "Seismic event confirmed by 5 nodes. Magnitude estimated at 6.8.",
         "severity": "critical",
-        "id": "5l3uyhy49",
-        "timestamp": "2026-03-27T18:49:17.241Z"
+        "id": "niczpp4ch",
+        "timestamp": "2026-03-27T20:15:07.319Z"
       },
       {
-        "id": "9vp9aw4p0",
-        "timestamp": "2026-03-27T18:49:16.723Z",
+        "id": "e4na6nb0o",
+        "timestamp": "2026-03-27T20:13:43.892Z",
+        "type": "alert",
+        "message": "TSUNAMI WARNING: Coastal inundation expected in 45 minutes.",
+        "severity": "critical"
+      },
+      {
+        "id": "5ouehny7r",
+        "timestamp": "2026-03-27T20:13:28.895Z",
         "type": "system",
         "message": "URGENT: Magnitude 7.2 Seismic Anomaly detected!",
         "severity": "critical"
       },
       {
-        "id": "yaat1x6o7",
-        "timestamp": "2026-03-27T18:03:17.203Z",
+        "id": "npb8a8dhe",
+        "timestamp": "2026-03-27T19:48:44.330Z",
         "type": "alert",
         "message": "TSUNAMI WARNING: Coastal inundation expected in 45 minutes.",
+        "severity": "critical"
+      },
+      {
+        "id": "ngpe9rp63",
+        "timestamp": "2026-03-27T19:48:29.334Z",
+        "type": "system",
+        "message": "URGENT: Magnitude 7.2 Seismic Anomaly detected!",
         "severity": "critical"
       },
       {
         "type": "sensor",
         "message": "Seismic event confirmed by 5 nodes. Magnitude estimated at 6.8.",
         "severity": "critical",
-        "id": "xr6ql41zc",
-        "timestamp": "2026-03-27T18:03:15.972Z"
-      },
-      {
-        "id": "1jy9dmhpc",
-        "timestamp": "2026-03-27T18:03:02.216Z",
-        "type": "system",
-        "message": "URGENT: Magnitude 7.2 Seismic Anomaly detected!",
-        "severity": "critical"
-      },
-      {
-        "id": "3j1eagufv",
-        "timestamp": "2026-03-27T17:54:13.402Z",
-        "type": "alert",
-        "message": "TSUNAMI WARNING: Coastal inundation expected in 45 minutes.",
-        "severity": "critical"
-      },
-      {
-        "id": "2jgo5idc5",
-        "timestamp": "2026-03-27T17:53:58.392Z",
-        "type": "system",
-        "message": "URGENT: Magnitude 7.2 Seismic Anomaly detected!",
-        "severity": "critical"
-      },
-      {
-        "id": "9k8r62orm",
-        "timestamp": "2026-03-27T17:44:22.055Z",
-        "type": "alert",
-        "message": "TSUNAMI WARNING: Coastal inundation expected in 45 minutes.",
-        "severity": "critical"
-      },
-      {
-        "id": "k72ik3zh5",
-        "timestamp": "2026-03-27T17:44:07.061Z",
-        "type": "system",
-        "message": "URGENT: Magnitude 7.2 Seismic Anomaly detected!",
-        "severity": "critical"
-      },
-      {
-        "type": "alert",
-        "message": "BROADCAST: DISASTER TYPE: Earthquake M7.2\nLOCATION: Epicenter [13.0827, 80.2707]\nTSUNAMI WARNING: YES — 45 min ETA\nTIMESTAMP: 27/3/2026, 10:59:10 pm\nAUTOMATED SYSTEM PRIORITY: CRITICAL",
-        "severity": "critical",
-        "id": "4cmdp54yy",
-        "timestamp": "2026-03-27T17:33:26.976Z"
-      },
-      {
-        "type": "alert",
-        "message": "BROADCAST: DISASTER TYPE: Earthquake M7.2\nLOCATION: Epicenter [13.0827, 80.2707]\nTSUNAMI WARNING: YES — 45 min ETA\nTIMESTAMP: 27/3/2026, 10:59:10 pm\nAUTOMATED SYSTEM PRIORITY: CRITICAL",
-        "severity": "critical",
-        "id": "drzqzce49",
-        "timestamp": "2026-03-27T17:32:54.167Z"
+        "id": "4agmy9rov",
+        "timestamp": "2026-03-27T19:39:26.420Z"
       },
       {
         "type": "sensor",
         "message": "Seismic event confirmed by 5 nodes. Magnitude estimated at 6.8.",
         "severity": "critical",
-        "id": "7m5qnom2e",
-        "timestamp": "2026-03-27T17:31:16.304Z"
+        "id": "stz52if2d",
+        "timestamp": "2026-03-27T19:37:28.575Z"
       },
       {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to HIGH",
+        "type": "dispatch",
+        "message": "Emergency dispatch triggered for P-617 to Bharath Hospital",
         "severity": "critical",
-        "id": "hrz3b8u7g",
-        "timestamp": "2026-03-27T17:29:46.302Z"
+        "id": "bjpkxzwn2",
+        "timestamp": "2026-03-27T19:37:20.093Z"
       },
       {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to HIGH",
+        "type": "dispatch",
         "severity": "critical",
-        "id": "k2niw0sdv",
-        "timestamp": "2026-03-27T17:29:46.302Z"
+        "message": "Voice triage complete: RED (100) from live walkie transmission.",
+        "id": "a29wao7nj",
+        "timestamp": "2026-03-27T19:37:18.011Z"
       },
       {
         "type": "system",
-        "message": "Tsunami Risk Level updated to MODERATE",
+        "message": "New patient P-617 logged with RED priority",
+        "severity": "critical",
+        "id": "ilvwu7u0o",
+        "timestamp": "2026-03-27T19:37:18.011Z"
+      },
+      {
+        "id": "sd0u6cxqf",
+        "timestamp": "2026-03-27T19:37:05.197Z",
+        "type": "alert",
+        "message": "TSUNAMI WARNING: Coastal inundation expected in 45 minutes.",
+        "severity": "critical"
+      },
+      {
+        "type": "dispatch",
         "severity": "warning",
-        "id": "u9c84fp0w",
-        "timestamp": "2026-03-27T17:29:33.231Z"
+        "message": "Voice triage complete: YELLOW (68) from live walkie transmission.",
+        "id": "x8ephbqrp",
+        "timestamp": "2026-03-27T19:36:57.529Z"
+      },
+      {
+        "type": "system",
+        "message": "New patient P-129 logged with YELLOW priority",
+        "severity": "info",
+        "id": "rhokrme2v",
+        "timestamp": "2026-03-27T19:36:57.529Z"
+      },
+      {
+        "id": "jdm6mwgo7",
+        "timestamp": "2026-03-27T19:36:50.200Z",
+        "type": "system",
+        "message": "URGENT: Magnitude 7.2 Seismic Anomaly detected!",
+        "severity": "critical"
+      },
+      {
+        "type": "dispatch",
+        "severity": "info",
+        "message": "Voice triage complete: GREEN (38) from live walkie transmission.",
+        "id": "l8jmz7rm4",
+        "timestamp": "2026-03-27T19:36:34.848Z"
+      },
+      {
+        "type": "system",
+        "message": "New patient P-173 logged with GREEN priority",
+        "severity": "info",
+        "id": "99iixt48s",
+        "timestamp": "2026-03-27T19:36:34.848Z"
+      },
+      {
+        "type": "dispatch",
+        "severity": "info",
+        "message": "Voice triage complete: BLACK (20) from live walkie transmission.",
+        "id": "eyushppxp",
+        "timestamp": "2026-03-27T19:35:59.547Z"
+      },
+      {
+        "type": "system",
+        "message": "New patient P-624 logged with BLACK priority",
+        "severity": "info",
+        "id": "37r19igm8",
+        "timestamp": "2026-03-27T19:35:59.547Z"
+      },
+      {
+        "type": "dispatch",
+        "severity": "info",
+        "message": "Voice triage complete: GREEN (32) from live walkie transmission.",
+        "id": "nn7jftgh8",
+        "timestamp": "2026-03-27T19:35:38.599Z"
+      },
+      {
+        "type": "system",
+        "message": "New patient P-744 logged with GREEN priority",
+        "severity": "info",
+        "id": "db03mqarz",
+        "timestamp": "2026-03-27T19:35:38.599Z"
+      },
+      {
+        "type": "dispatch",
+        "severity": "info",
+        "message": "Voice triage complete: GREEN (32) from live walkie transmission.",
+        "id": "4n5bqe6d0",
+        "timestamp": "2026-03-27T19:34:24.515Z"
+      },
+      {
+        "type": "system",
+        "message": "New patient P-780 logged with GREEN priority",
+        "severity": "info",
+        "id": "t3bg51916",
+        "timestamp": "2026-03-27T19:34:24.515Z"
+      },
+      {
+        "id": "ql4danboh",
+        "timestamp": "2026-03-27T19:33:19.687Z",
+        "type": "alert",
+        "message": "TSUNAMI WARNING: Coastal inundation expected in 45 minutes.",
+        "severity": "critical"
+      },
+      {
+        "id": "nsxvtrvb3",
+        "timestamp": "2026-03-27T19:33:04.701Z",
+        "type": "system",
+        "message": "URGENT: Magnitude 7.2 Seismic Anomaly detected!",
+        "severity": "critical"
+      },
+      {
+        "type": "sensor",
+        "message": "Seismic event confirmed by 5 nodes. Magnitude estimated at 6.8.",
+        "severity": "critical",
+        "id": "xvu0v5dep",
+        "timestamp": "2026-03-27T19:32:43.463Z"
+      },
+      {
+        "type": "sensor",
+        "message": "Seismic event confirmed by 5 nodes. Magnitude estimated at 6.8.",
+        "severity": "critical",
+        "id": "65p9x1sbf",
+        "timestamp": "2026-03-27T19:32:37.297Z"
+      },
+      {
+        "type": "system",
+        "message": "New patient P-886 logged with GREEN priority",
+        "severity": "info",
+        "id": "8dq1f10r5",
+        "timestamp": "2026-03-27T19:30:38.921Z"
+      },
+      {
+        "type": "system",
+        "message": "New patient P-335 logged with GREEN priority",
+        "severity": "info",
+        "id": "34hzigq7q",
+        "timestamp": "2026-03-27T19:29:47.572Z"
+      },
+      {
+        "id": "r85al6t1x",
+        "timestamp": "2026-03-27T19:27:22.976Z",
+        "type": "alert",
+        "message": "TSUNAMI WARNING: Coastal inundation expected in 45 minutes.",
+        "severity": "critical"
+      },
+      {
+        "id": "jgzgnt5ac",
+        "timestamp": "2026-03-27T19:27:07.988Z",
+        "type": "system",
+        "message": "URGENT: Magnitude 7.2 Seismic Anomaly detected!",
+        "severity": "critical"
+      },
+      {
+        "id": "8ic5daz0m",
+        "timestamp": "2026-03-27T19:25:09.607Z",
+        "type": "alert",
+        "message": "TSUNAMI WARNING: Coastal inundation expected in 45 minutes.",
+        "severity": "critical"
+      },
+      {
+        "id": "p9raimbwp",
+        "timestamp": "2026-03-27T19:24:54.595Z",
+        "type": "system",
+        "message": "URGENT: Magnitude 7.2 Seismic Anomaly detected!",
+        "severity": "critical"
+      },
+      {
+        "type": "alert",
+        "message": "BROADCAST: STATUS: SYSTEM READY\nNO ACTIVE ANOMALIES DETECTED\nMONITORING P-WAVE NETWORKS...",
+        "severity": "critical",
+        "id": "6t6q12brq",
+        "timestamp": "2026-03-27T19:24:48.991Z"
+      },
+      {
+        "type": "alert",
+        "message": "BROADCAST: DISASTER TYPE: Earthquake M7.2\nLOCATION: Epicenter [13.0827, 80.2707]\nTSUNAMI WARNING: NO \nTIMESTAMP: 28/3/2026, 12:54:32 am\nAUTOMATED SYSTEM PRIORITY: CRITICAL",
+        "severity": "critical",
+        "id": "kgpbsqr8p",
+        "timestamp": "2026-03-27T19:24:34.967Z"
+      },
+      {
+        "id": "adkiyjdm5",
+        "timestamp": "2026-03-27T19:24:32.728Z",
+        "type": "system",
+        "message": "URGENT: Magnitude 7.2 Seismic Anomaly detected!",
+        "severity": "critical"
+      },
+      {
+        "type": "alert",
+        "message": "BROADCAST: STATUS: SYSTEM READY\nNO ACTIVE ANOMALIES DETECTED\nMONITORING P-WAVE NETWORKS...",
+        "severity": "critical",
+        "id": "eaczf45kj",
+        "timestamp": "2026-03-27T19:24:29.076Z"
+      },
+      {
+        "type": "alert",
+        "message": "BROADCAST: STATUS: SYSTEM READY\nNO ACTIVE ANOMALIES DETECTED\nMONITORING P-WAVE NETWORKS...",
+        "severity": "critical",
+        "id": "skeq02kj2",
+        "timestamp": "2026-03-27T19:24:23.861Z"
+      },
+      {
+        "type": "alert",
+        "message": "BROADCAST: DISASTER TYPE: Earthquake M7.2\nLOCATION: Epicenter [13.0827, 80.2707]\nTSUNAMI WARNING: YES — 45 min ETA\nTIMESTAMP: 28/3/2026, 12:52:25 am\nAUTOMATED SYSTEM PRIORITY: CRITICAL",
+        "severity": "critical",
+        "id": "1igr2m2uc",
+        "timestamp": "2026-03-27T19:24:19.783Z"
+      },
+      {
+        "id": "xv0rexsts",
+        "timestamp": "2026-03-27T19:22:40.163Z",
+        "type": "alert",
+        "message": "TSUNAMI WARNING: Coastal inundation expected in 45 minutes.",
+        "severity": "critical"
+      },
+      {
+        "id": "gwppw6ki5",
+        "timestamp": "2026-03-27T19:22:25.163Z",
+        "type": "system",
+        "message": "URGENT: Magnitude 7.2 Seismic Anomaly detected!",
+        "severity": "critical"
+      },
+      {
+        "type": "alert",
+        "message": "BROADCAST: DISASTER TYPE: Earthquake M7.2\nLOCATION: Epicenter [13.0827, 80.2707]\nTSUNAMI WARNING: YES — 45 min ETA\nTIMESTAMP: 28/3/2026, 12:47:15 am\nAUTOMATED SYSTEM PRIORITY: CRITICAL",
+        "severity": "critical",
+        "id": "nbrmf72gt",
+        "timestamp": "2026-03-27T19:19:19.439Z"
+      },
+      {
+        "id": "tjjm9mn77",
+        "timestamp": "2026-03-27T19:17:30.189Z",
+        "type": "alert",
+        "message": "TSUNAMI WARNING: Coastal inundation expected in 45 minutes.",
+        "severity": "critical"
+      },
+      {
+        "id": "8jnckp8ak",
+        "timestamp": "2026-03-27T19:17:15.200Z",
+        "type": "system",
+        "message": "URGENT: Magnitude 7.2 Seismic Anomaly detected!",
+        "severity": "critical"
+      },
+      {
+        "type": "alert",
+        "message": "BROADCAST: STATUS: SYSTEM READY\nNO ACTIVE ANOMALIES DETECTED\nMONITORING P-WAVE NETWORKS...",
+        "severity": "critical",
+        "id": "7id6xmt4c",
+        "timestamp": "2026-03-27T19:17:08.099Z"
+      },
+      {
+        "type": "alert",
+        "message": "BROADCAST: DISASTER TYPE: Earthquake M7.2\nLOCATION: Epicenter [13.0827, 80.2707]\nTSUNAMI WARNING: YES — 45 min ETA\nTIMESTAMP: 28/3/2026, 12:44:35 am\nAUTOMATED SYSTEM PRIORITY: CRITICAL",
+        "severity": "critical",
+        "id": "y14f45qbt",
+        "timestamp": "2026-03-27T19:16:46.426Z"
       },
       {
         "type": "system",
         "message": "Tsunami Risk Level updated to HIGH",
         "severity": "critical",
-        "id": "30iaesfkl",
-        "timestamp": "2026-03-27T17:29:33.229Z"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to MODERATE",
-        "severity": "warning",
-        "id": "91xy3gvkb",
-        "timestamp": "2026-03-27T17:29:33.221Z"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to HIGH",
-        "severity": "critical",
-        "id": "5rd1o48ns",
-        "timestamp": "2026-03-27T17:29:32.777Z"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to MODERATE",
-        "severity": "warning",
-        "id": "6twdrxkbh",
-        "timestamp": "2026-03-27T17:29:32.761Z"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to HIGH",
-        "severity": "critical",
-        "id": "lcraym2qr",
-        "timestamp": "2026-03-27T17:29:31.769Z"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to MODERATE",
-        "severity": "warning",
-        "id": "31o0lbzg5",
-        "timestamp": "2026-03-27T17:29:31.760Z"
+        "id": "4zn3p9gki",
+        "timestamp": "2026-03-27T19:16:13.280Z"
       },
       {
         "type": "system",
         "message": "Tsunami Risk Level updated to LOW",
         "severity": "info",
-        "id": "08aai65om",
-        "timestamp": "2026-03-27T17:29:30.443Z"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to HIGH",
-        "severity": "critical",
-        "id": "pa85wtvup",
-        "timestamp": "2026-03-27T17:29:30.439Z"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to LOW",
-        "severity": "info",
-        "id": "qap8o2axb",
-        "timestamp": "2026-03-27T17:29:30.427Z"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to HIGH",
-        "severity": "critical",
-        "id": "2gcu05rof",
-        "timestamp": "2026-03-27T17:29:29.735Z"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to LOW",
-        "severity": "info",
-        "id": "3kst16hr5",
-        "timestamp": "2026-03-27T17:29:29.726Z"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to HIGH",
-        "severity": "critical",
-        "id": "rsdwkpzic",
-        "timestamp": "2026-03-27T17:29:28.901Z"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to LOW",
-        "severity": "info",
-        "id": "hpbwdb6ke",
-        "timestamp": "2026-03-27T17:29:28.888Z"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to HIGH",
-        "severity": "critical",
-        "id": "ahdr12cpq",
-        "timestamp": "2026-03-27T17:29:27.475Z"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to NONE",
-        "severity": "info",
-        "id": "vlfpro04s",
-        "timestamp": "2026-03-27T17:29:27.463Z"
-      },
-      {
-        "id": "lan92dnic",
-        "timestamp": "2026-03-27T17:29:25.643Z",
-        "type": "alert",
-        "message": "TSUNAMI WARNING: Coastal inundation expected in 45 minutes.",
-        "severity": "critical"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to HIGH",
-        "severity": "critical",
-        "id": "x1ph7625n",
-        "timestamp": "2026-03-27T17:29:21.895Z"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to MODERATE",
-        "severity": "warning",
-        "id": "tahjxngy5",
-        "timestamp": "2026-03-27T17:29:20.318Z"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to LOW",
-        "severity": "info",
-        "id": "1qmuvn7lu",
-        "timestamp": "2026-03-27T17:29:18.793Z"
-      },
-      {
-        "id": "l955xjj5w",
-        "timestamp": "2026-03-27T17:29:10.648Z",
-        "type": "system",
-        "message": "URGENT: Magnitude 7.2 Seismic Anomaly detected!",
-        "severity": "critical"
-      },
-      {
-        "type": "sensor",
-        "message": "Seismic event confirmed by 5 nodes. Magnitude estimated at 6.8.",
-        "severity": "critical",
-        "id": "aoi3lx3jl",
-        "timestamp": "2026-03-27T17:28:34.123Z"
-      },
-      {
-        "type": "alert",
-        "message": "BROADCAST: DISASTER TYPE: Earthquake M7.2\nLOCATION: Epicenter [13.0827, 80.2707]\nTSUNAMI WARNING: YES — 45 min ETA\nTIMESTAMP: 27/3/2026, 10:56:34 pm\nAUTOMATED SYSTEM PRIORITY: CRITICAL",
-        "severity": "critical",
-        "id": "52j8wnirl",
-        "timestamp": "2026-03-27T17:27:00.467Z"
-      },
-      {
-        "id": "em0h516h9",
-        "timestamp": "2026-03-27T17:26:49.339Z",
-        "type": "alert",
-        "message": "TSUNAMI WARNING: Coastal inundation expected in 45 minutes.",
-        "severity": "critical"
-      },
-      {
-        "id": "ioetko2xs",
-        "timestamp": "2026-03-27T17:26:34.344Z",
-        "type": "system",
-        "message": "URGENT: Magnitude 7.2 Seismic Anomaly detected!",
-        "severity": "critical"
-      },
-      {
-        "type": "alert",
-        "message": "BROADCAST: DISASTER TYPE: Earthquake M7.2\nLOCATION: Epicenter [13.0827, 80.2707]\nTSUNAMI WARNING: YES — 45 min ETA\nTIMESTAMP: 27/3/2026, 10:44:19 pm\nAUTOMATED SYSTEM PRIORITY: CRITICAL",
-        "severity": "critical",
-        "id": "tl767hgmf",
-        "timestamp": "2026-03-27T17:15:52.018Z"
-      },
-      {
-        "id": "di3gkgp4n",
-        "timestamp": "2026-03-27T17:14:34.745Z",
-        "type": "alert",
-        "message": "TSUNAMI WARNING: Coastal inundation expected in 45 minutes.",
-        "severity": "critical"
-      },
-      {
-        "type": "sensor",
-        "message": "Seismic event confirmed by 5 nodes. Magnitude estimated at 6.8.",
-        "severity": "critical",
-        "id": "lribqlz45",
-        "timestamp": "2026-03-27T17:14:26.077Z"
-      },
-      {
-        "id": "sktu79ane",
-        "timestamp": "2026-03-27T17:14:19.748Z",
-        "type": "system",
-        "message": "URGENT: Magnitude 7.2 Seismic Anomaly detected!",
-        "severity": "critical"
-      },
-      {
-        "type": "sensor",
-        "message": "Seismic event confirmed by 5 nodes. Magnitude estimated at 6.8.",
-        "severity": "critical",
-        "id": "76wo7ai4q",
-        "timestamp": "2026-03-27T17:13:26.811Z"
-      },
-      {
-        "type": "sensor",
-        "message": "Seismic event confirmed by 5 nodes. Magnitude estimated at 6.8.",
-        "severity": "critical",
-        "id": "nydfxpsq1",
-        "timestamp": "2026-03-27T17:10:53.296Z"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to HIGH",
-        "severity": "critical",
-        "id": "l5su4rvgt",
-        "timestamp": "2026-03-27T17:06:23.573Z"
-      },
-      {
-        "type": "system",
-        "message": "Tsunami Risk Level updated to MODERATE",
-        "severity": "warning",
-        "id": "8x9qurjry",
-        "timestamp": "2026-03-27T17:06:23.560Z"
+        "id": "cl966ocwc",
+        "timestamp": "2026-03-27T19:16:13.272Z"
       }
     ]
   },
   "meta": {
     "initializedAt": "2026-03-26T18:43:45.845Z",
-    "updatedAt": "2026-03-27T18:54:54.949Z",
+    "updatedAt": "2026-03-27T20:31:42.571Z",
     "source": "seeded-from-csv"
   }
 }

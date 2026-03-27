@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, AlertTriangle, Clock, Truck, Users, Activity, CheckCircle2, X, Hospital as HospitalIcon, Heart, Droplets, Wind, Phone } from 'lucide-react';
+import { MapPin, AlertTriangle, Clock, Truck, Users, Activity, CheckCircle2, X, Hospital as HospitalIcon, Heart, Droplets, Wind } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useDisaster, Patient } from '../context/DisasterContext';
 
 export function PriorityQueuePanel() {
   const { patients, hospitals, updatePatient } = useDisaster();
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
-  const [triageFilter, setTriageFilter] = useState<'ALL' | 'RED' | 'YELLOW' | 'GREEN'>('ALL');
-
-  const filteredPatients = triageFilter === 'ALL' 
-    ? patients 
-    : patients.filter(p => p.tag === triageFilter);
+  const filteredPatients = patients;
 
   const handleDispatch = (id: string) => {
     updatePatient(id, { status: 'dispatched', eta: '12 min' });
@@ -18,26 +14,6 @@ export function PriorityQueuePanel() {
 
   return (
     <div className="flex-1 flex flex-col h-full bg-[#0a0c10] text-slate-300 p-6 gap-6 overflow-hidden relative">
-      <div className="flex items-center justify-between mb-6 shrink-0">
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
-          <h3 className="text-sm font-bold text-white uppercase tracking-widest">Awaiting Dispatch</h3>
-        </div>
-        <div className="flex gap-2">
-          {['ALL', 'RED', 'YELLOW', 'GREEN'].map(t => (
-            <button
-              key={t}
-              onClick={() => setTriageFilter(t as any)}
-              className={`px-3 py-1 rounded-lg text-[10px] font-bold transition-all ${
-                triageFilter === t ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-              }`}
-            >
-              {t}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Patient Card Stack */}
       <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col gap-3 pr-2">
         <AnimatePresence mode="popLayout">
@@ -201,9 +177,6 @@ export function PriorityQueuePanel() {
             </div>
 
             <div className="flex gap-4">
-              <button className="w-14 h-14 bg-slate-800 hover:bg-slate-700 text-slate-400 rounded-xl flex items-center justify-center transition-all border border-slate-700 shadow-xl">
-                <Phone className="w-6 h-6" />
-              </button>
               <button 
                 onClick={() => {
                   handleDispatch(selectedPatient.id);

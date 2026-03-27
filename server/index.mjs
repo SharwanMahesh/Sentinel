@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 const dataDir = path.join(rootDir, 'data');
 const dbPath = path.join(dataDir, 'sentinel-db.json');
-const csvPath = path.join(rootDir, 'resources', 'TNHospitals (1).csv');
+const csvPath = path.join(rootDir, 'resources', 'TNHospitals_CommandCenter_Dataset.csv');
 
 const EXCLUDED_HOSPITAL_PATTERN = /(\beye\b|ophthalm|retina|vision care|eye care)/i;
 
@@ -158,46 +158,53 @@ const withCityCoordinates = (city, seedInput) => {
 };
 
 const buildHospital = (raw) => {
-  const seedKey = `${raw.name}-${raw.city}-${raw.pincode}`;
-  const h1 = seeded(`${seedKey}-beds`);
-  const h2 = seeded(`${seedKey}-occ`);
-  const h3 = seeded(`${seedKey}-icu`);
-  const h4 = seeded(`${seedKey}-oxy`);
-  const h5 = seeded(`${seedKey}-vax`);
+  // Discard header. In this dataset, raw[1] is 'Hospital'.
+  if (raw[1] === 'Hospital') return null;
 
-  const totalBeds = 80 + (h1 % 420);
-  const occupancyPct = 45 + (h2 % 50);
-  const occupiedBeds = Math.min(totalBeds, Math.round((totalBeds * occupancyPct) / 100));
-  const availableBeds = Math.max(0, totalBeds - occupiedBeds);
+  const id = `HOSP-${raw[0]}`;
+  const name = raw[1];
+  const state = raw[2];
+  const city = raw[3];
+  const address = raw[4];
+  const pincode = raw[5];
+  
+  const totalBeds = parseInt(raw[6] || 0, 10);
+  const availableBeds = parseInt(raw[7] || 0, 10);
+  const occupiedBeds = Math.max(0, totalBeds - availableBeds);
 
-  const icuBeds = Math.max(8, Math.round(totalBeds * (0.12 + (h3 % 9) / 100)));
-  const icuOccupied = Math.min(icuBeds, Math.round((icuBeds * (50 + (h2 % 45))) / 100));
-  const availableIcuBeds = Math.max(0, icuBeds - icuOccupied);
+  const totalVentilators = parseInt(raw[8] || 0, 10);
+  const availableVentilators = parseInt(raw[9] || 0, 10);
 
-  const oxygenLiters = 1500 + (h4 % 9000);
-  const vaccineDoses = 300 + (h5 % 5200);
-  const capacity = Math.round((occupiedBeds / totalBeds) * 100);
+  const oxygenSupplyPercent = parseInt(raw[10] || 0, 10);
+  const activeAmbulances = parseInt(raw[11] || 0, 10);
+  const vaccineDoses = parseInt(raw[12] || 0, 10);
+
+  const capacity = totalBeds > 0 ? Math.round((occupiedBeds / totalBeds) * 100) : 0;
   const status = capacity >= 90 ? 'Critical' : capacity >= 75 ? 'Warning' : 'Normal';
-  const [lat, lng] = withCityCoordinates(raw.city, seedKey);
+  
+  const seedKey = `${name}-${city}-${pincode}`;
+  const [lat, lng] = withCityCoordinates(city, seedKey);
 
   return {
-    id: raw.id,
-    name: raw.name,
-    state: raw.state,
-    city: raw.city,
-    address: raw.address,
-    pincode: raw.pincode,
+    id,
+    name,
+    state,
+    city,
+    address,
+    pincode,
     totalBeds,
     occupiedBeds,
     availableBeds,
-    icuBeds,
-    availableIcuBeds,
-    oxygenLiters,
+    totalVentilators,
+    availableVentilators,
+    oxygenSupplyPercent,
+    activeAmbulances,
     vaccineDoses,
     capacity,
     status,
     lat,
     lng,
+    incoming: Math.floor(Math.random() * 5), // Mock dynamic incoming traffic
   };
 };
 
@@ -567,18 +574,18 @@ Instruct: Write a highly professional, clinical 3 paragraph incident summary sui
 
   try {
     const isMock = !process.env.HF_API_KEY || process.env.HF_API_KEY === 'your_huggingface_api_key_here';
+    const fallbackSummary = `At ${new Date().toLocaleTimeString()}, a massive Magnitude ${magnitude} seismic event struck near coordinates [${epicenter}]. Immediate oceanographic sensor telemetry subsequently triggered a Category 4 coastal inundation warning (Tsunami ETA: 45m). Severe structural damage is projected along the immediate fault line.\n\nBioIntelligence Sentinel emergency SOS protocols have programmatically locked grid capacity at ${affectedHospitalsCount} structurally secure regional hospitals, actively diverting severe trauma cases away from the unstable coastal red zone. Fleet logistics have automatically auto-routed all available Idle ambulance units to Sector Alpha for immediate extraction support.\n\nProjected human casualty estimates are categorized as Moderate-to-Severe; however, the immediate automated load-balancing of the regional healthcare grid has successfully stabilized incoming triage queues. Statewide search, rescue, and evacuation coordinates have been continuously broadcasted.`;
+
     if (isMock) {
-      return res.json({
-        summary: `At ${new Date().toLocaleTimeString()}, a massive Magnitude ${magnitude} seismic event struck near coordinates [${epicenter}]. Immediate oceanographic sensor telemetry subsequently triggered a Category 4 coastal inundation warning (Tsunami ETA: 45m). Severe structural damage is projected along the immediate fault line.\n\nBioIntelligence Sentinel emergency SOS protocols have programmatically locked grid capacity at ${affectedHospitalsCount} structurally secure regional hospitals, actively diverting severe trauma cases away from the unstable coastal red zone. Fleet logistics have automatically auto-routed all available Idle ambulance units to Sector Alpha for immediate extraction support.\n\nProjected human casualty estimates are categorized as Moderate-to-Severe; however, the immediate automated load-balancing of the regional healthcare grid has successfully stabilized incoming triage queues. Statewide search, rescue, and evacuation coordinates have been continuously broadcasted.`
-      });
+      return res.json({ summary: fallbackSummary });
     }
 
     const hfText = await callHuggingFace(prompt);
-    
     res.json({ summary: hfText });
   } catch (err) {
-    console.error('NLP Report formatting error:', err);
-    res.json({ summary: `System Error: Unable to generate NLP impact report via external inference. Fallback operational logs note an earthquake of Magnitude ${magnitude} and automated lockdown of ${affectedHospitalsCount} facilities.` });
+    console.error('NLP Report formatting error:', err.message);
+    const fallbackSummary = `[Auto-Generated Fallback Executive Report] At ${new Date().toLocaleTimeString()}, a massive Magnitude ${magnitude} seismic event struck near coordinates [${epicenter}]. Immediate oceanographic sensor telemetry subsequently triggered a Category 4 coastal inundation warning (Tsunami ETA: 45m). Severe structural damage is projected along the immediate fault line.\n\nBioIntelligence Sentinel emergency SOS protocols have programmatically locked grid capacity at ${affectedHospitalsCount} structurally secure regional hospitals, actively diverting severe trauma cases away from the unstable coastal red zone. Fleet logistics have automatically auto-routed all available Idle ambulance units to Sector Alpha for immediate extraction support.\n\nProjected human casualty estimates are categorized as Moderate-to-Severe; however, the immediate automated load-balancing of the regional healthcare grid has successfully stabilized incoming triage queues. Statewide search, rescue, and evacuation coordinates have been continuously broadcasted.`;
+    res.json({ summary: fallbackSummary });
   }
 });
 
