@@ -1,9 +1,7 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 
 # BioIntelligence Sentinel
 ### AI-Powered Multi-Modal Disaster Triage & Live Logistics Dashboard
-</div>
+
 
 BioIntelligence Sentinel is an advanced, real-time command center designed for emergency dispatchers, first responders, and government logistics coordinators during mass-casualty events (Earthquakes, Tsunamis, etc.). 
 
