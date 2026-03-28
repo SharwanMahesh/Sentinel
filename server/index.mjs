@@ -417,7 +417,7 @@ app.delete('/api/bio/patients/:id', async (req, res) => {
 // MISTRAL AI CHATBOT ENDPOINTS
 // ==========================================
 
-const HF_MODEL_URL = 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3';
+const HF_MODEL_URL = 'https://router.huggingface.co/hf-inference/models/mistralai/Mistral-7B-Instruct-v0.3';
 
 const MEDICAL_SYSTEM_PROMPT = `You are BioSentinel, an advanced AI medical triage assistant deployed in Tamil Nadu, India. You help patients describe their symptoms through natural conversation.
 
@@ -687,7 +687,7 @@ const callBartZeroShot = async (text, labels) => {
   const hfKey = process.env.HF_API_KEY || '';
   if (!hfKey) throw new Error('No HF_API_KEY configured for BART');
 
-  const MODEL = 'https://api-inference.huggingface.co/models/facebook/bart-large-mnli';
+  const MODEL = 'https://router.huggingface.co/hf-inference/models/facebook/bart-large-mnli';
   const response = await fetch(MODEL, {
     method: 'POST',
     headers: {

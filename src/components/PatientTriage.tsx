@@ -81,13 +81,17 @@ export function PatientTriage() {
     setTimeout(() => {
       setIsAnalyzing(false);
       
-      // Calculate a mock score based on inputs
+      // Calculate a score based on inputs
       let score = 20; // Base score
       if (consciousness === 'UNCONSCIOUS') score += 25;
       if (selectedSymptoms.some(s => s.includes('Breathing'))) score += 20;
       if (bleeding === 'Severe') score += 15;
+      else if (bleeding === 'Moderate') score += 10;
       if (mobility === 'Immobile') score += 10;
       if (selectedSymptoms.includes('Cardiac Event')) score += 40;
+      
+      // Feature: more boxes = more score
+      score += (selectedSymptoms.length * 5);
       
       score = Math.min(score, 100);
       

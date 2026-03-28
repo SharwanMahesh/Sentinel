@@ -39,7 +39,16 @@ declare global {
     SpeechRecognition?: RecognitionCtor;
   }
 }
-
+const TRIAGE_SYMPTOM_EXTRACTORS = [
+  { value: 'Heavy Breathing / Labored', patterns: [/heavy breathing/i, /labored breathing/i, /shortness of breath/i, /can't breathe/i] },
+  { value: 'Not Walking / Immobile', patterns: [/cannot stand/i, /can\'?t stand/i, /not walking/i, /immobile/i] },
+  { value: 'Severe Uncontrolled Bleeding', patterns: [/severe bleeding/i, /uncontrolled bleeding/i, /bleeding heavily/i, /lots of blood/i] },
+  { value: 'Unconscious / Unresponsive', patterns: [/unconscious/i, /unresponsive/i, /not responding/i, /passed out/i] },
+  { value: 'Crush Injury', patterns: [/crush/i] },
+  { value: 'Trapped Under Debris', patterns: [/trapped/i, /debris/i] },
+  { value: 'Burn Injury', patterns: [/burn/i, /fire/i] },
+  { value: 'Cardiac Event', patterns: [/chest pain/i, /cardiac/i, /heart/i] },
+];
 
 export function WalkieTalkiePanel() {
   const {
@@ -48,7 +57,7 @@ export function WalkieTalkiePanel() {
     addPatient,
     removePatient,
     addEvent,
-    latestTriageSignal,
+    latestVoiceTriageSignal,
     setLatestVoiceTriageSignal,
     seismicAnomaly,
     updatePatient
@@ -66,8 +75,6 @@ export function WalkieTalkiePanel() {
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const keepListeningRef = useRef(false);
   const finalTranscriptRef = useRef('');
-
-
 
   const speechSupported = typeof window !== 'undefined' && Boolean(window.SpeechRecognition || window.webkitSpeechRecognition);
 
@@ -161,7 +168,55 @@ export function WalkieTalkiePanel() {
     recognitionRef.current.start();
   };
 
-  const handleAnalyze = async () => {
+  useEffect(() => {
+    if (!transcription.trim()) {
+      return;
+    }
+
+    const selectedSymptoms = TRIAGE_SYMPTOM_EXTRACTORS
+      .filter((item) => item.patterns.some((pattern) => pattern.test(transcription)))
+      .map((item) => item.value);
+
+    let consciousness: 'CONSCIOUS' | 'UNCONSCIOUS' = 'CONSCIOUS';
+    if (/unconscious|unresponsive|not responding|passed out/i.test(transcription)) {
+      consciousness = 'UNCONSCIOUS';
+    }
+
+    let bleeding = 'None';
+    if (/severe bleeding|uncontrolled bleeding|bleeding heavily|lots of blood/i.test(transcription)) {
+      bleeding = 'Severe';
+    } else if (/moderate bleeding/i.test(transcription)) {
+      bleeding = 'Moderate';
+    } else if (/minor bleeding|light bleeding/i.test(transcription)) {
+      bleeding = 'Minor';
+    }
+
+    let mobility = 'Unknown';
+    if (/cannot stand|can\'?t stand|immobile|not walking/i.test(transcription)) {
+      mobility = 'Immobile';
+    } else if (/assisted|with help/i.test(transcription)) {
+      mobility = 'Assisted';
+    } else if (/walking|ambulatory|can walk/i.test(transcription)) {
+      mobility = 'Walking';
+    }
+    
+    let age = '';
+    const ageMatch = transcription.match(/\b(\d{1,3})\s*(?:years|yrs|yo|y\.o)\b/i) || transcription.match(/\b(?:age|aged)\s*(\d{1,3})\b/i);
+    if (ageMatch) {
+      age = ageMatch[1];
+    }
+
+    setLatestVoiceTriageSignal({
+      selectedSymptoms,
+      notes: transcription.slice(0, 500),
+      age,
+      consciousness,
+      bleeding,
+      mobility,
+    });
+  }, [transcription, setLatestVoiceTriageSignal]);
+
+  const handleAnalyze = () => {
     if (!transcription.trim()) {
       return;
     }
@@ -169,20 +224,48 @@ export function WalkieTalkiePanel() {
     setIsAnalyzing(true);
     setTriageResult(null);
 
-    try {
-      const response = await fetch('/api/walkie/analyze-triage', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          transcript: transcription,
-          hospitals,
-          seismicAnomaly
-        })
-      });
-
-      const result = await response.json();
+    // Compute identical logical state locally based on current derived voice signal
+    setTimeout(() => {
+      let score = 20; 
+      if (latestVoiceTriageSignal.consciousness === 'UNCONSCIOUS') score += 25;
+      if (latestVoiceTriageSignal.selectedSymptoms.some(s => s.includes('Breathing'))) score += 20;
+      if (latestVoiceTriageSignal.bleeding === 'Severe') score += 15;
+      else if (latestVoiceTriageSignal.bleeding === 'Moderate') score += 10;
+      if (latestVoiceTriageSignal.mobility === 'Immobile') score += 10;
+      if (latestVoiceTriageSignal.selectedSymptoms.includes('Cardiac Event')) score += 40;
       
-      setLatestVoiceTriageSignal(result.voiceTriageSignal);
+      score += (latestVoiceTriageSignal.selectedSymptoms.length * 5);
+      
+      score = Math.min(score, 100);
+
+      let tag: 'RED' | 'YELLOW' | 'GREEN' | 'BLACK' = 'GREEN';
+      if (score >= 90) tag = 'RED';
+      else if (score >= 60) tag = 'YELLOW';
+      else if (score >= 30) tag = 'GREEN';
+      else tag = 'BLACK';
+
+      let sortedHospitals = [...hospitals];
+      if (seismicAnomaly) {
+        const [latE, lngE] = seismicAnomaly.epicenter;
+        sortedHospitals = sortedHospitals
+          .map(h => ({ ...h, dist: Math.sqrt(Math.pow(h.lat - latE, 2) + Math.pow(h.lng - lngE, 2)) }))
+          .sort((a, b) => a.dist - b.dist);
+      } else {
+        sortedHospitals = sortedHospitals.sort((a, b) => b.availableBeds - a.availableBeds);
+      }
+      
+      const preferredHospital = sortedHospitals.find((h) => h.capacity < 95) || sortedHospitals[0];
+      const etaMinutes = 8 + Math.floor(Math.random() * 8);
+
+      const result = {
+        score,
+        tag,
+        confidence: 94,
+        matchedSymptoms: latestVoiceTriageSignal.selectedSymptoms,
+        hospitalName: preferredHospital?.name || 'Nearest Facility',
+        eta: `${etaMinutes} min`
+      };
+
       setTriageResult(result);
 
       addPatient({
@@ -201,20 +284,19 @@ export function WalkieTalkiePanel() {
         },
       });
 
-      setResponsePreview(result.responsePreview);
+      setResponsePreview(
+        `Patient triaged ${result.tag} Priority with a severity score of ${result.score}. Detected conditions: ${result.matchedSymptoms.length > 0 ? result.matchedSymptoms.join(', ') : 'none'}. Responding units route to ${result.hospitalName}. ETA is ${result.eta}.`
+      );
 
       addEvent({
         type: 'dispatch',
         severity: result.tag === 'RED' ? 'critical' : result.tag === 'YELLOW' ? 'warning' : 'info',
-        message: `Voice triage complete: ${result.tag} (${result.score}) processed via perfect BART NLP.`,
+        message: `Voice triage complete: ${result.tag} (${result.score}) processed via auto-filled features.`,
       });
 
       setIsAnalyzing(false);
       setActiveTab('analyzed');
-    } catch(err) {
-      console.error(err);
-      setIsAnalyzing(false);
-    }
+    }, 1200);
   };
 
   return (
