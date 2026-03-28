@@ -222,12 +222,11 @@ MONITORING P-WAVE NETWORKS...`);
                       'bg-green-500/20 text-green-400'
                     }`}>{h.capacity}% Full</span>
                   </div>
-                  <div className="flex items-center gap-4 text-xs text-slate-400 mb-3">
+                  <div className="flex items-center justify-between text-xs text-slate-400 mb-3">
                     <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {h.displayDist} km</span>
                     <div className="flex gap-1">
-                      {['ICU', 'Trauma'].map(t => (
-                        <span key={t} className="bg-slate-800 text-[9px] px-1.5 py-0.5 rounded">{t}</span>
-                      ))}
+                      <span className="bg-slate-800 text-[9px] px-1.5 py-0.5 rounded font-bold text-slate-300">Beds: {h.availableBeds}/{h.totalBeds}</span>
+                      <span className="bg-slate-800 text-[9px] px-1.5 py-0.5 rounded font-bold text-slate-300">Vents: {h.availableVentilators}</span>
                     </div>
                   </div>
                   <div className="text-[10px] font-bold text-blue-400 bg-blue-500/10 px-3 py-1.5 rounded-lg border border-blue-500/20">

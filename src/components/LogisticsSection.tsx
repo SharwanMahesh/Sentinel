@@ -50,7 +50,8 @@ export function LogisticsSection({ onBack }: { onBack?: () => void }) {
         location: h.city,
         battery: 100 - Math.round(Math.random() * 30), // visual mock
         base: h.name,
-      }));
+      }))
+      .slice(0, 15); // Restrict to top 15 ambulances to prevent excessively long lists
   }, [allHospitals]);
   const [actionAlert, setActionAlert] = React.useState<{ message: string, type: 'success' | 'warn' } | null>(null);
   const [isTransferModalOpen, setIsTransferModalOpen] = React.useState(false);
@@ -66,9 +67,9 @@ export function LogisticsSection({ onBack }: { onBack?: () => void }) {
   React.useEffect(() => {
     if (trackedIds.length === 0 && allHospitals && allHospitals.length > 0) {
       const sorted = [...allHospitals].sort((a, b) => b.capacity - a.capacity);
-      const critical = sorted.slice(0, 4);
-      const moderate = sorted.slice(Math.floor(sorted.length / 2), Math.floor(sorted.length / 2) + 3);
-      const available = sorted.slice(-3);
+      const critical = sorted.slice(0, 10);
+      const moderate = sorted.slice(Math.floor(sorted.length / 2), Math.floor(sorted.length / 2) + 12);
+      const available = sorted.slice(-8);
       const selectedIds = [...critical, ...moderate, ...available]
         .sort((a, b) => b.capacity - a.capacity)
         .map(h => h.id);
@@ -309,9 +310,17 @@ export function LogisticsSection({ onBack }: { onBack?: () => void }) {
                 <div className="flex justify-between items-end">
                   <div>
                     <div className="text-sm font-bold text-slate-900">{hosp.name}</div>
-                    <div className="text-[10px] font-bold text-slate-400 uppercase">{hosp.city} • Available: {hosp.availableBeds}</div>
+                    <div className="text-[10px] font-bold text-slate-500 uppercase flex items-center gap-2 mt-1">
+                      <span>{hosp.city}</span>
+                      <span>•</span>
+                      <span className="text-slate-700">Beds: {hosp.availableBeds}/{hosp.totalBeds}</span>
+                      <span>•</span>
+                      <span>Vents: {hosp.availableVentilators}</span>
+                      <span>•</span>
+                      <span>O2: {hosp.oxygenSupplyPercent}%</span>
+                    </div>
                   </div>
-                  <div className={`text-xs font-bold ${hosp.status === 'Critical' ? 'text-red-600' : hosp.status === 'Warning' ? 'text-yellow-600' : 'text-green-600'
+                  <div className={`text-xs font-black px-2 py-1 rounded-full ${hosp.status === 'Critical' ? 'bg-red-100 text-red-600' : hosp.status === 'Warning' ? 'bg-yellow-100 text-yellow-600' : 'bg-green-100 text-green-600'
                     }`}>
                     {hosp.capacity}% Full
                   </div>
@@ -343,7 +352,7 @@ export function LogisticsSection({ onBack }: { onBack?: () => void }) {
       {/* Transfer Modal Overlay */}
       <AnimatePresence>
         {isTransferModalOpen && (
-          <div className="absolute inset-0 z-[2000] flex items-center justify-center p-4">
+          <div className="absolute inset-0 z-[2000] flex items-start justify-center p-4 pt-24">
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"

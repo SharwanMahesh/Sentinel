@@ -4,6 +4,8 @@ import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
+import multer from 'multer';
+import fs from 'node:fs';
 
 dotenv.config({ path: path.resolve(fileURLToPath(import.meta.url), '../../.env') });
 
@@ -46,6 +48,21 @@ const CITY_COORDINATES = {
   Sivakasi: [9.4493, 77.7974],
   Kuzhithurai: [8.3176, 77.1920],
 };
+
+// Configure multer for audio uploads
+const upload = multer({ 
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      const uploadDir = path.join(rootDir, 'uploads');
+      if (!existsSync(uploadDir)) mkdirSync(uploadDir, { recursive: true });
+      cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+      cb(null, `voice-${Date.now()}${path.extname(file.originalname) || '.webm'}`);
+    }
+  }),
+  limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
+});
 
 const INITIAL_DISASTER_PATIENTS = [
   {
@@ -677,6 +694,51 @@ app.put('/api/disaster/state', async (req, res) => {
   touchMeta();
   await db.write();
   res.json({ ok: true, updatedAt: db.data.meta.updatedAt });
+});
+
+// ==========================================
+// WALKIE-TALKIE TRANSCRIPTION (WHISPER)
+// ==========================================
+
+app.post('/api/walkie/transcribe', upload.single('audio'), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No audio file uploaded' });
+  }
+
+  const hfKey = process.env.HF_API_KEY || '';
+  if (!hfKey) {
+    return res.status(500).json({ error: 'No HF_API_KEY configured for Whisper' });
+  }
+
+  try {
+    const audioData = fs.readFileSync(req.file.path);
+    const response = await fetch('https://router.huggingface.co/hf-inference/models/openai/whisper-large-v3', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'audio/wav', // Whisper API accepts various formats, but wav/webm are common
+        Authorization: `Bearer ${hfKey}`,
+        'x-wait-for-model': 'true',
+      },
+      body: audioData,
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error('Whisper API error:', response.status, errText);
+      throw new Error(`Whisper API failed: ${response.status}`);
+    }
+
+    const result = await response.json();
+    
+    // Cleanup temporary file
+    fs.unlink(req.file.path, () => {});
+
+    res.json({ text: result.text || '' });
+  } catch (err) {
+    console.error('Transcription error:', err);
+    if (req.file) fs.unlink(req.file.path, () => {});
+    res.status(500).json({ error: 'Failed to transcribe audio' });
+  }
 });
 
 // ==========================================

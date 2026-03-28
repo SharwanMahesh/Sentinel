@@ -75,40 +75,133 @@ export function WalkieTalkiePanel() {
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const keepListeningRef = useRef(false);
   const finalTranscriptRef = useRef('');
+  const mountedRef = useRef(true);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const streamRef = useRef<MediaStream | null>(null);
+  const resultReceivedRef = useRef(false);
+  const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const [micStatus, setMicStatus] = useState<string>('');
 
   const speechSupported = typeof window !== 'undefined' && Boolean(window.SpeechRecognition || window.webkitSpeechRecognition);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setConnectionStatus(speechSupported ? 'connected' : 'disconnected');
+      setConnectionStatus('connected'); // Mic hardware detection is separate from speech API
     }, 800);
     return () => clearTimeout(timer);
-  }, [speechSupported]);
+  }, []);
 
+  // Cleanup on unmount
   useEffect(() => {
-    if (!speechSupported) {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      keepListeningRef.current = false;
+      if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
+      if (recognitionRef.current) {
+        try { recognitionRef.current.abort(); } catch { /* ok */ }
+      }
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+        try { mediaRecorderRef.current.stop(); } catch { /* ok */ }
+      }
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(t => t.stop());
+      }
+    };
+  }, []);
+
+  // ---- MediaRecorder fallback: record audio, send to backend for Whisper transcription ----
+  const startMediaRecorderFallback = (stream: MediaStream) => {
+    if (!mountedRef.current) return;
+    setMicStatus('Recording audio (fallback mode)...');
+
+    audioChunksRef.current = [];
+    const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+      ? 'audio/webm;codecs=opus'
+      : 'audio/webm';
+
+    const recorder = new MediaRecorder(stream, { mimeType });
+    mediaRecorderRef.current = recorder;
+
+    recorder.ondataavailable = (e) => {
+      if (e.data.size > 0) {
+        audioChunksRef.current.push(e.data);
+      }
+    };
+
+    recorder.onstop = async () => {
+      if (!mountedRef.current || audioChunksRef.current.length === 0) return;
+      setMicStatus('Transcribing audio...');
+
+      const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
+      const formData = new FormData();
+      formData.append('audio', audioBlob, 'recording.webm');
+
+      try {
+        const res = await fetch('/api/walkie/transcribe', {
+          method: 'POST',
+          body: formData,
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.text && mountedRef.current) {
+            finalTranscriptRef.current = `${finalTranscriptRef.current} ${data.text}`.trim();
+            setTranscription(finalTranscriptRef.current);
+            setMicStatus('Transcription complete');
+          }
+        } else {
+          console.warn('[WalkieTalkie] Transcribe API error:', res.status);
+          setMicStatus('Transcription failed — type manually');
+        }
+      } catch (err) {
+        console.error('[WalkieTalkie] Transcribe fetch error:', err);
+        setMicStatus('Transcription failed — type manually');
+      }
+    };
+
+    recorder.start(1000); // collect data every 1s
+  };
+
+  // ---- Web Speech API approach ----
+  const startSpeechRecognition = (stream: MediaStream) => {
+    if (!mountedRef.current || !speechSupported) {
+      // No speech API — go straight to MediaRecorder
+      startMediaRecorderFallback(stream);
       return;
     }
+
+    setMicStatus('Starting speech recognition...');
+    resultReceivedRef.current = false;
 
     const Ctor = (window.SpeechRecognition || window.webkitSpeechRecognition) as RecognitionCtor;
     const recognition = new Ctor();
     recognition.continuous = true;
     recognition.interimResults = true;
     recognition.lang = 'en-US';
+    recognitionRef.current = recognition;
 
     recognition.onstart = () => {
-      setIsMicActive(true);
+      if (mountedRef.current) {
+        setIsMicActive(true);
+        setMicStatus('Listening... speak now');
+      }
     };
 
     recognition.onspeechstart = () => {
-      setIsSpeechDetected(true);
+      if (mountedRef.current) setIsSpeechDetected(true);
     };
 
     recognition.onspeechend = () => {
-      setIsSpeechDetected(false);
+      if (mountedRef.current) setIsSpeechDetected(false);
     };
 
     recognition.onresult = (event: SpeechRecognitionEvent) => {
+      if (!mountedRef.current) return;
+      resultReceivedRef.current = true;
+      setMicStatus('Transcribing...');
+
       let finalChunk = '';
       let interimChunk = '';
 
@@ -128,44 +221,110 @@ export function WalkieTalkiePanel() {
       setTranscription(`${finalTranscriptRef.current} ${interimChunk}`.trim());
     };
 
-    recognition.onerror = () => {
-      setIsSpeechDetected(false);
+    recognition.onerror = (event: Event) => {
+      const errEvent = event as Event & { error?: string };
+      const errType = errEvent.error || 'unknown';
+      console.warn('[WalkieTalkie] SpeechRecognition error:', errType);
+
+      if (errType === 'not-allowed' || errType === 'service-not-allowed') {
+        // Fatal — switch to MediaRecorder
+        if (mountedRef.current) {
+          setMicStatus('Speech API denied — switching to audio recording...');
+          startMediaRecorderFallback(stream);
+        }
+        return;
+      }
+      // For other errors, onend will handle restart
     };
 
     recognition.onend = () => {
-      setIsSpeechDetected(false);
-      if (keepListeningRef.current) {
-        recognition.start();
-      } else {
+      if (mountedRef.current) setIsSpeechDetected(false);
+
+      if (keepListeningRef.current && mountedRef.current) {
+        // Restart after brief pause
+        setTimeout(() => {
+          if (keepListeningRef.current && mountedRef.current && recognitionRef.current) {
+            try {
+              recognitionRef.current.start();
+            } catch {
+              // If restart fails, switch to fallback
+              startMediaRecorderFallback(stream);
+            }
+          }
+        }, 300);
+      } else if (mountedRef.current) {
         setIsMicActive(false);
       }
     };
 
-    recognitionRef.current = recognition;
-
-    return () => {
-      keepListeningRef.current = false;
-      recognition.stop();
-      recognitionRef.current = null;
-    };
-  }, [speechSupported]);
-
-  const toggleMic = () => {
-    if (!recognitionRef.current || connectionStatus !== 'connected') {
+    try {
+      recognition.start();
+    } catch (e) {
+      console.error('[WalkieTalkie] recognition.start() failed:', e);
+      startMediaRecorderFallback(stream);
       return;
     }
+
+    // Fallback timer: if no results received within 4 seconds, switch to MediaRecorder
+    fallbackTimerRef.current = setTimeout(() => {
+      if (!resultReceivedRef.current && keepListeningRef.current && mountedRef.current) {
+        console.warn('[WalkieTalkie] No speech results after 4s — falling back to MediaRecorder');
+        setMicStatus('Speech API not responding — switching to audio recording...');
+        // Stop the broken speech recognition
+        try { recognition.abort(); } catch { /* ok */ }
+        recognitionRef.current = null;
+        // Start MediaRecorder fallback
+        startMediaRecorderFallback(stream);
+      }
+    }, 4000);
+  };
+
+  // ---- Main toggle ----
+  const toggleMic = async () => {
+    if (connectionStatus !== 'connected') return;
 
     setActiveTab('transcription');
 
     if (isMicActive) {
+      // STOP everything
       keepListeningRef.current = false;
-      recognitionRef.current.stop();
+      if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
+      if (recognitionRef.current) {
+        try { recognitionRef.current.abort(); } catch { /* ok */ }
+        recognitionRef.current = null;
+      }
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+        try { mediaRecorderRef.current.stop(); } catch { /* ok */ }
+      }
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(t => t.stop());
+        streamRef.current = null;
+      }
+      setIsMicActive(false);
+      setIsSpeechDetected(false);
+      setMicStatus('');
       return;
     }
 
+    // START — first, explicitly get mic permission via getUserMedia
+    setMicStatus('Requesting microphone access...');
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      streamRef.current = stream;
+    } catch (err) {
+      console.error('[WalkieTalkie] getUserMedia failed:', err);
+      setMicStatus('Microphone access denied. Please allow mic in browser settings.');
+      setConnectionStatus('disconnected');
+      return;
+    }
+
+    // Mic is confirmed working
     finalTranscriptRef.current = transcription;
     keepListeningRef.current = true;
-    recognitionRef.current.start();
+    setIsMicActive(true);
+
+    // Try Web Speech API first, with automatic fallback
+    startSpeechRecognition(streamRef.current!);
   };
 
   useEffect(() => {
@@ -378,14 +537,18 @@ export function WalkieTalkiePanel() {
           <div className="space-y-4">
             {hospitals.map((hospital) => (
               <div key={hospital.id} className="bg-slate-900/60 border border-slate-800 rounded-lg p-3">
-                <div className="flex justify-between text-xs mb-2">
-                  <span className="font-bold text-slate-200">{hospital.name}</span>
-                  <span className={`${hospital.capacity >= 90 ? 'text-red-400' : hospital.capacity >= 75 ? 'text-amber-400' : 'text-green-400'}`}>{hospital.capacity}%</span>
+                <div className="flex justify-between text-[11px] mb-2">
+                  <span className="font-bold text-slate-200">{hospital.name} <span className="text-slate-500 font-normal">({hospital.city})</span></span>
+                  <span className={`font-bold ${hospital.capacity >= 90 ? 'text-red-400' : hospital.capacity >= 75 ? 'text-amber-400' : 'text-green-400'}`}>{hospital.capacity}% Full</span>
                 </div>
                 <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
                   <div className={`${hospital.capacity >= 90 ? 'bg-red-500' : hospital.capacity >= 75 ? 'bg-amber-500' : 'bg-green-500'} h-full`} style={{ width: `${hospital.capacity}%` }}></div>
                 </div>
-                <div className="text-[11px] text-slate-500 mt-2">Incoming: +{hospital.incoming} • Available beds: {hospital.availableBeds}</div>
+                <div className="flex justify-between text-[10px] font-bold text-slate-500 mt-2 uppercase tracking-wider">
+                  <span>Beds: <span className="text-slate-300">{hospital.availableBeds} / {hospital.totalBeds}</span></span>
+                  <span>Vents: <span className="text-slate-300">{hospital.availableVentilators}</span></span>
+                  <span>Amb: <span className="text-slate-300">{hospital.availableAmbulances}</span></span>
+                </div>
               </div>
             ))}
           </div>
