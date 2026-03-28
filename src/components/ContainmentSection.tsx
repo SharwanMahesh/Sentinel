@@ -109,22 +109,24 @@ export function ContainmentSection({ initialCenter }: { initialCenter?: [number,
   );
 
   const ambulances: Ambulance[] = useMemo(() => {
-    if (hospitals.length === 0) {
+    if (allHospitals.length === 0) {
       return [
         { id: 'AMB-01', position: [13.086, 80.271], destination: 'Fallback Dispatch', eta: '6m' },
       ];
     }
 
-    // Distribute 15 ambulances roughly uniformly across the hospital dataset
-    const distributedHospitals = hospitals.filter((_, i) => i % Math.max(1, Math.floor(hospitals.length / 15)) === 0).slice(0, 15);
+    // Filter hospitals that actually have active ambulances deployed
+    const hospitalsWithAmbulances = allHospitals.filter(h => h.activeAmbulances > 0);
+    // Render top deployed fleets to avoid visual map clutter
+    const topHospitals = [...hospitalsWithAmbulances].sort((a,b) => b.activeAmbulances - a.activeAmbulances).slice(0, 25);
 
-    return distributedHospitals.map((hospital, idx) => ({
-      id: `AMB-${String(idx + 1).padStart(2, '0')}`,
-      position: [hospital.position[0] + (Math.random() * 0.04 - 0.02), hospital.position[1] + (Math.random() * 0.04 - 0.02)] as [number, number],
+    return topHospitals.map((hospital, idx) => ({
+      id: `FLEET-${hospital.name.slice(0, 3).toUpperCase()}-${String(idx + 1).padStart(2, '0')}`,
+      position: [hospital.lat + (Math.random() * 0.02 - 0.01), hospital.lng + (Math.random() * 0.02 - 0.01)] as [number, number],
       destination: hospital.name,
-      eta: `${Math.floor(Math.random() * 15) + 3}m`,
+      eta: `${hospital.activeAmbulances} Active Units | ${hospital.availableAmbulances} Standby`,
     }));
-  }, [hospitals]);
+  }, [allHospitals]);
 
   // Geofence detection
   useEffect(() => {
@@ -265,8 +267,8 @@ export function ContainmentSection({ initialCenter }: { initialCenter?: [number,
               <Popup>
                 <div className="p-2">
                   <div className="font-bold text-blue-600 mb-1">{amb.id}</div>
-                  <div className="text-xs text-slate-500">Destination: {amb.destination}</div>
-                  <div className="text-xs font-bold">ETA: {amb.eta}</div>
+                  <div className="text-xs text-slate-500">Base: {amb.destination}</div>
+                  <div className="text-xs font-bold text-slate-700">{amb.eta}</div>
                 </div>
               </Popup>
             </Marker>

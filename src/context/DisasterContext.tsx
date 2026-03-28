@@ -46,6 +46,7 @@ export interface Hospital {
   availableVentilators: number;
   oxygenSupplyPercent: number;
   activeAmbulances: number;
+  availableAmbulances: number;
   vaccineDoses: number;
   capacity: number;
   incoming: number;
@@ -138,8 +139,8 @@ const INITIAL_PATIENTS: Patient[] = [
 ];
 
 const INITIAL_HOSPITALS: Hospital[] = [
-  { id: 'h1', name: 'Rajiv Gandhi GH', state: 'Tamilnadu', city: 'Chennai', address: 'GH Road', pincode: '600003', capacity: 92, incoming: 5, totalBeds: 500, occupiedBeds: 460, availableBeds: 40, totalVentilators: 50, availableVentilators: 2, oxygenSupplyPercent: 12, activeAmbulances: 10, vaccineDoses: 1000, status: 'Critical', lat: 13.0827, lng: 80.2707 },
-  { id: 'h2', name: 'Apollo Hospital', state: 'Tamilnadu', city: 'Chennai', address: 'Greams Road', pincode: '600006', capacity: 75, incoming: 3, totalBeds: 350, occupiedBeds: 263, availableBeds: 87, totalVentilators: 40, availableVentilators: 10, oxygenSupplyPercent: 45, activeAmbulances: 8, vaccineDoses: 800, status: 'Warning', lat: 13.0645, lng: 80.2505 },
+  { id: 'h1', name: 'Rajiv Gandhi GH', state: 'Tamilnadu', city: 'Chennai', address: 'GH Road', pincode: '600003', capacity: 92, incoming: 5, totalBeds: 500, occupiedBeds: 460, availableBeds: 40, totalVentilators: 50, availableVentilators: 2, oxygenSupplyPercent: 12, activeAmbulances: 10, availableAmbulances: 1, vaccineDoses: 1000, status: 'Critical', lat: 13.0827, lng: 80.2707 },
+  { id: 'h2', name: 'Apollo Hospital', state: 'Tamilnadu', city: 'Chennai', address: 'Greams Road', pincode: '600006', capacity: 75, incoming: 3, totalBeds: 350, occupiedBeds: 263, availableBeds: 87, totalVentilators: 40, availableVentilators: 10, oxygenSupplyPercent: 45, activeAmbulances: 8, availableAmbulances: 3, vaccineDoses: 800, status: 'Warning', lat: 13.0645, lng: 80.2505 },
 ];
 
 const INITIAL_TRIAGE_SIGNAL: TriageSignal = {
@@ -254,6 +255,7 @@ export const DisasterProvider: React.FC<{ children: React.ReactNode }> = ({ chil
               availableVentilators: h.availableVentilators,
               oxygenSupplyPercent: h.oxygenSupplyPercent,
               activeAmbulances: h.activeAmbulances,
+              availableAmbulances: h.availableAmbulances,
               vaccineDoses: h.vaccineDoses,
               status: h.status,
               lat: h.lat,

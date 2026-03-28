@@ -70,15 +70,20 @@ export function ResourceLogisticsPanel({ redPatientCount }: ResourceLogisticsPan
     quantity: 50
   });
 
-  const bedUtilization = metrics.bedOccupancy;
-  const ventilatorUtilization = 100 - toPercent(metrics.availableVentilators, metrics.totalVentilators);
-  const oxygenStress = 100 - metrics.oxygenSupplyPercent;
+  const safeVentilatorsTotal = metrics.totalVentilators || 1;
+  const safeVentilatorsAvail = metrics.availableVentilators || 0;
+  const safeOxygen = metrics.oxygenSupplyPercent || 0;
+  const safeAmbulances = metrics.activeAmbulances || 0;
+
+  const bedUtilization = metrics.bedOccupancy || 0;
+  const ventilatorUtilization = 100 - toPercent(safeVentilatorsAvail, safeVentilatorsTotal);
+  const oxygenStress = safeOxygen > 0 ? 100 - safeOxygen : 0; // if 0, assume stable until data loads
 
   const [resources, setResources] = useState<ResourceItem[]>([
     { name: 'Hospital Beds', capacity: bedUtilization, status: bedUtilization > 80 ? 'Near Capacity' : 'Stable', trend: 'up', arrivals: `+${Math.max(1, redPatientCount)} arrivals in next 15 min` },
-    { name: 'Ventilators', capacity: ventilatorUtilization, status: 'Stable', trend: 'stable', arrivals: `${metrics.availableVentilators} available` },
-    { name: 'Oxygen Supply', capacity: oxygenStress, status: oxygenStress > 80 ? 'Trending Up' : 'Stable', trend: 'up', arrivals: `${metrics.oxygenSupplyPercent}% avg reserve` },
-    { name: 'Ambulances', capacity: 100 - toPercent(metrics.activeAmbulances, 200), status: 'Stable', trend: 'down', arrivals: `${metrics.activeAmbulances} active units` },
+    { name: 'Ventilators', capacity: ventilatorUtilization, status: 'Stable', trend: 'stable', arrivals: `${safeVentilatorsAvail} available` },
+    { name: 'Oxygen Supply', capacity: oxygenStress, status: oxygenStress > 80 ? 'Trending Up' : 'Stable', trend: 'up', arrivals: `${safeOxygen}% avg reserve` },
+    { name: 'Ambulances', capacity: 100 - toPercent(safeAmbulances, 200), status: 'Stable', trend: 'down', arrivals: `${safeAmbulances} active units` },
   ]);
 
   const [alerts, setAlerts] = useState<Alert[]>([]);
@@ -98,7 +103,7 @@ export function ResourceLogisticsPanel({ redPatientCount }: ResourceLogisticsPan
         return {
           ...resource,
           capacity: ventilatorUtilization,
-          arrivals: `${metrics.availableVentilators} available`,
+          arrivals: `${safeVentilatorsAvail} available`,
         };
       }
 
@@ -107,21 +112,21 @@ export function ResourceLogisticsPanel({ redPatientCount }: ResourceLogisticsPan
           ...resource,
           capacity: oxygenStress,
           status: oxygenStress > 80 ? 'Trending Up' : 'Stable',
-          arrivals: `${metrics.oxygenSupplyPercent}% avg reserve`,
+          arrivals: `${safeOxygen}% avg reserve`,
         };
       }
       
       if (resource.name === 'Ambulances') {
         return {
           ...resource,
-          capacity: 100 - toPercent(metrics.activeAmbulances, 200),
-          arrivals: `${metrics.activeAmbulances} active units`,
+          capacity: 100 - toPercent(safeAmbulances, 200),
+          arrivals: `${safeAmbulances} active units`,
         };
       }
 
       return resource;
     }));
-  }, [bedUtilization, ventilatorUtilization, metrics.availableVentilators, metrics.oxygenSupplyPercent, metrics.activeAmbulances, oxygenStress, redPatientCount]);
+  }, [bedUtilization, ventilatorUtilization, safeVentilatorsAvail, safeOxygen, safeAmbulances, oxygenStress, redPatientCount]);
 
   // Alert logic for red patient count spike
   useEffect(() => {

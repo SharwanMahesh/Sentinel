@@ -13,6 +13,7 @@ export interface HospitalMetrics {
   availableVentilators: number;
   oxygenSupplyPercent: number;
   activeAmbulances: number;
+  availableAmbulances: number;
   vaccineDoses: number;
 }
 
@@ -171,6 +172,36 @@ export const getBioMistralTriage = async (
   await assertOk(response);
   return response.json();
 };
+
+export interface ChatMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+export const chatWithAI = async (
+  messages: ChatMessage[],
+): Promise<{ reply: string; source?: string }> => {
+  const response = await fetch(`${API_BASE}/chatbot/chat`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages }),
+  });
+  await assertOk(response);
+  return response.json();
+};
+
+export const analyzeTriageFromChat = async (
+  transcript: string,
+): Promise<BioMistralTriageResponse> => {
+  const response = await fetch(`${API_BASE}/chatbot/analyze-triage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ transcript }),
+  });
+  await assertOk(response);
+  return response.json();
+};
+
 export const getDisasterReport = async (payload: {
   epicenter: [number, number];
   magnitude: number;

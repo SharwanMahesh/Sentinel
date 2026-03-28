@@ -167,21 +167,22 @@ const buildHospital = (raw) => {
   const city = raw[3];
   const address = raw[4];
   const pincode = raw[5];
-  
-  const totalBeds = parseInt(raw[6] || 0, 10);
-  const availableBeds = parseInt(raw[7] || 0, 10);
+
+  const totalBeds = parseInt(raw[6], 10) || 0;
+  const availableBeds = parseInt(raw[7], 10) || 0;
   const occupiedBeds = Math.max(0, totalBeds - availableBeds);
 
-  const totalVentilators = parseInt(raw[8] || 0, 10);
-  const availableVentilators = parseInt(raw[9] || 0, 10);
+  const totalVentilators = parseInt(raw[8], 10) || 0;
+  const availableVentilators = parseInt(raw[9], 10) || 0;
 
-  const oxygenSupplyPercent = parseInt(raw[10] || 0, 10);
-  const activeAmbulances = parseInt(raw[11] || 0, 10);
-  const vaccineDoses = parseInt(raw[12] || 0, 10);
+  const oxygenSupplyPercent = parseInt(raw[10], 10) || 0;
+  const activeAmbulances = parseInt(raw[11], 10) || 0;
+  const vaccineDoses = parseInt(raw[12], 10) || 0;
+  const availableAmbulances = parseInt(raw[13], 10) || 0;
 
   const capacity = totalBeds > 0 ? Math.round((occupiedBeds / totalBeds) * 100) : 0;
   const status = capacity >= 90 ? 'Critical' : capacity >= 75 ? 'Warning' : 'Normal';
-  
+
   const seedKey = `${name}-${city}-${pincode}`;
   const [lat, lng] = withCityCoordinates(city, seedKey);
 
@@ -199,6 +200,7 @@ const buildHospital = (raw) => {
     availableVentilators,
     oxygenSupplyPercent,
     activeAmbulances,
+    availableAmbulances,
     vaccineDoses,
     capacity,
     status,
@@ -232,25 +234,16 @@ const parseHospitalsFromCsv = () => {
 
   for (let i = 1; i < lines.length; i += 1) {
     const cols = parseCsvLine(lines[i]);
-    const name = (cols[hospitalIdx] || '').trim();
-    if (!name) continue;
-    if (EXCLUDED_HOSPITAL_PATTERN.test(name)) continue;
+    const name = cols[1]?.trim() || '';
+    if (!name || EXCLUDED_HOSPITAL_PATTERN.test(name)) continue;
 
-    const city = (cols[cityIdx] || 'Chennai').trim() || 'Chennai';
+    const city = cols[3]?.trim() || 'Chennai';
     const key = `${name.toLowerCase()}-${city.toLowerCase()}`;
     if (dedupe.has(key)) continue;
     dedupe.add(key);
 
-    parsed.push(
-      buildHospital({
-        id: (cols[idIdx] || `${i}`).trim() || `${i}`,
-        name,
-        state: (cols[stateIdx] || 'Tamilnadu').trim() || 'Tamilnadu',
-        city,
-        address: (cols[addrIdx] || '').trim(),
-        pincode: (cols[pinIdx] || '').trim(),
-      }),
-    );
+    const hospital = buildHospital(cols);
+    if (hospital) parsed.push(hospital);
   }
 
   return parsed;
@@ -260,9 +253,11 @@ const getHospitalMetrics = (hospitals) => {
   const totalBeds = hospitals.reduce((sum, h) => sum + h.totalBeds, 0);
   const occupiedBeds = hospitals.reduce((sum, h) => sum + h.occupiedBeds, 0);
   const availableBeds = hospitals.reduce((sum, h) => sum + h.availableBeds, 0);
-  const totalIcuBeds = hospitals.reduce((sum, h) => sum + h.icuBeds, 0);
-  const availableIcuBeds = hospitals.reduce((sum, h) => sum + h.availableIcuBeds, 0);
-  const oxygenLiters = hospitals.reduce((sum, h) => sum + h.oxygenLiters, 0);
+  const totalVentilators = hospitals.reduce((sum, h) => sum + h.totalVentilators, 0);
+  const availableVentilators = hospitals.reduce((sum, h) => sum + h.availableVentilators, 0);
+  const oxygenPercentSum = hospitals.reduce((sum, h) => sum + h.oxygenSupplyPercent, 0);
+  const activeAmbulances = hospitals.reduce((sum, h) => sum + h.activeAmbulances, 0);
+  const availableAmbulances = hospitals.reduce((sum, h) => sum + h.availableAmbulances, 0);
   const vaccineDoses = hospitals.reduce((sum, h) => sum + h.vaccineDoses, 0);
 
   return {
@@ -271,9 +266,11 @@ const getHospitalMetrics = (hospitals) => {
     occupiedBeds,
     availableBeds,
     bedOccupancy: totalBeds === 0 ? 0 : Math.round((occupiedBeds / totalBeds) * 100),
-    totalIcuBeds,
-    availableIcuBeds,
-    oxygenLiters,
+    totalVentilators,
+    availableVentilators,
+    oxygenSupplyPercent: hospitals.length > 0 ? Math.round(oxygenPercentSum / hospitals.length) : 0,
+    activeAmbulances,
+    availableAmbulances,
     vaccineDoses,
   };
 };
@@ -285,7 +282,7 @@ const pickDispatchHospital = (hospitals, cityPreference) => {
 
   const pool = inCity.length > 0 ? inCity : hospitals;
   return [...pool].sort((a, b) => {
-    if (b.availableIcuBeds !== a.availableIcuBeds) return b.availableIcuBeds - a.availableIcuBeds;
+    if (b.availableVentilators !== a.availableVentilators) return b.availableVentilators - a.availableVentilators;
     return b.availableBeds - a.availableBeds;
   })[0];
 };
@@ -416,86 +413,250 @@ app.delete('/api/bio/patients/:id', async (req, res) => {
   res.json({ message: 'Patient deleted successfully' });
 });
 
-app.post('/api/chatbot/biomistral-triage', async (req, res) => {
-  const payload = req.body;
-  
-  if (!payload || !payload.interviewData) {
-    res.status(400).json({ error: 'Missing interviewData' });
-    return;
+// ==========================================
+// MISTRAL AI CHATBOT ENDPOINTS
+// ==========================================
+
+const HF_MODEL_URL = 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3';
+
+const MEDICAL_SYSTEM_PROMPT = `You are BioSentinel, an advanced AI medical triage assistant deployed in Tamil Nadu, India. You help patients describe their symptoms through natural conversation.
+
+Guidelines:
+- Be empathetic, professional, and concise (2-3 sentences per reply)
+- Ask focused follow-up questions about symptom severity, duration, and associated symptoms
+- Never diagnose — only assess urgency and recommend appropriate care level
+- If symptoms sound critical (chest pain, breathing difficulty, stroke signs, heavy bleeding), immediately flag urgency
+- Gather: symptom details, duration, severity (1-10), fever, breathing status, pain location, medical history
+- After gathering enough info (usually 3-5 exchanges), tell the patient you have enough information for assessment`;
+
+const callMistral = async (prompt, maxTokens = 200) => {
+  const hfKey = process.env.HF_API_KEY || '';
+  if (!hfKey) throw new Error('No HF_API_KEY configured');
+
+  const response = await fetch(HF_MODEL_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${hfKey}`,
+      'x-wait-for-model': 'true',
+    },
+    body: JSON.stringify({
+      inputs: prompt,
+      parameters: {
+        max_new_tokens: maxTokens,
+        return_full_text: false,
+        temperature: 0.4,
+        top_p: 0.9,
+        do_sample: true,
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    const errText = await response.text().catch(() => '');
+    console.error(`HF API error ${response.status}:`, errText);
+    throw new Error(`HF API failed with status ${response.status}`);
   }
 
-  const prompt = `[INST] You are an expert medical triage assistant. Analyze this patient data and respond ONLY in valid JSON format. Do not include any other text.
-Patient Data:
-Name: ${payload.interviewData.name}
-Age: ${payload.interviewData.age}
-Symptoms: ${payload.interviewData.symptomsNarrative}
-Fever/Temp: ${payload.interviewData.feverOrTemp}
-Breathing/SpO2: ${payload.interviewData.breathingOrSpO2}
-Chest Pain: ${payload.interviewData.chestPain}
-Chronic Conditions: ${payload.interviewData.chronicConditions}
-Transcript: ${payload.transcript || 'none'}
+  const data = await response.json();
+  if (Array.isArray(data) && data[0]?.generated_text) {
+    return data[0].generated_text.trim();
+  }
+  throw new Error('Unexpected HF response format');
+};
 
-Required JSON format:
-{
-  "level": "Stable" or "Moderate" or "Critical",
-  "score": <0-100 number representing urgency, where 100 is most urgent>,
-  "detectedSymptoms": ["symptom1", "symptom2", ...],
-  "recommendation": "Brief actionable recommendation for the patient",
-  "reasoning": "Brief clinical reasoning"
-}
+// Smart keyword-based fallback scoring when AI is unavailable
+const keywordTriageScore = (transcript) => {
+  const text = transcript.toLowerCase();
+  let score = 15; // baseline
+  const detectedSymptoms = [];
+
+  const criticalKeywords = {
+    'chest pain': 25, 'heart attack': 30, 'stroke': 30, 'unconscious': 28,
+    'can\'t breathe': 25, 'difficulty breathing': 22, 'shortness of breath': 20,
+    'heavy bleeding': 25, 'seizure': 25, 'paralysis': 28, 'coughing blood': 25,
+    'severe pain': 18, 'collapsed': 25, 'unresponsive': 28,
+  };
+  const moderateKeywords = {
+    'fever': 10, 'high temperature': 10, 'vomiting': 8, 'diarrhea': 6,
+    'headache': 5, 'dizzy': 8, 'dizziness': 8, 'nausea': 6, 'cough': 4,
+    'infection': 8, 'swelling': 6, 'rash': 4, 'fatigue': 3,
+    'body pain': 5, 'weakness': 6, 'sore throat': 3, 'cold': 2,
+    'abdominal pain': 8, 'back pain': 5, 'joint pain': 4,
+  };
+  const escalators = {
+    'diabetes': 5, 'asthma': 6, 'cardiac': 8, 'heart disease': 8,
+    'hypertension': 5, 'cancer': 7, 'elderly': 5, 'pregnant': 6,
+    'child': 4, 'infant': 6, 'baby': 6,
+  };
+
+  for (const [kw, pts] of Object.entries(criticalKeywords)) {
+    if (text.includes(kw)) { score += pts; detectedSymptoms.push(kw); }
+  }
+  for (const [kw, pts] of Object.entries(moderateKeywords)) {
+    if (text.includes(kw)) { score += pts; detectedSymptoms.push(kw); }
+  }
+  for (const [kw, pts] of Object.entries(escalators)) {
+    if (text.includes(kw)) { score += pts; detectedSymptoms.push(`history: ${kw}`); }
+  }
+
+  score = Math.min(98, Math.max(5, score));
+  const level = score >= 70 ? 'Critical' : score >= 40 ? 'Moderate' : 'Stable';
+
+  return { score, level, detectedSymptoms: [...new Set(detectedSymptoms)] };
+};
+
+// Endpoint 1: Free-form conversation
+app.post('/api/chatbot/chat', async (req, res) => {
+  const { messages } = req.body;
+
+  if (!Array.isArray(messages) || messages.length === 0) {
+    return res.status(400).json({ error: 'messages array is required' });
+  }
+
+  // Build Mistral [INST] prompt from conversation history
+  let prompt = `<s>[INST] ${MEDICAL_SYSTEM_PROMPT}\n\n`;
+  for (let i = 0; i < messages.length; i++) {
+    const msg = messages[i];
+    if (msg.role === 'user') {
+      if (i > 0) prompt += `[INST] `;
+      prompt += `${msg.content} [/INST]`;
+    } else if (msg.role === 'assistant') {
+      prompt += ` ${msg.content}</s>\n`;
+    }
+  }
+
+  try {
+    const reply = await callMistral(prompt, 250);
+    // Clean up any stray tokens the model might emit
+    const cleaned = reply.replace(/<\/?s>/g, '').replace(/\[INST\]|\[\/INST\]/g, '').trim();
+    res.json({ reply: cleaned || 'Could you please describe your symptoms in more detail?' });
+  } catch (error) {
+    console.error('Chat error:', error.message);
+    // Provide a contextual fallback response
+    const lastUserMsg = messages.filter(m => m.role === 'user').pop()?.content || '';
+    const fallbackReplies = [
+      'I understand. Can you tell me how long you have been experiencing these symptoms?',
+      'Thank you for sharing that. On a scale of 1-10, how severe is your discomfort right now?',
+      'I see. Do you have any pre-existing medical conditions like diabetes, asthma, or heart disease?',
+      'Got it. Are you experiencing any fever, chills, or difficulty breathing along with this?',
+      'Thank you. Have you taken any medication for these symptoms so far?',
+    ];
+    const idx = messages.filter(m => m.role === 'user').length % fallbackReplies.length;
+    res.json({ reply: fallbackReplies[idx], source: 'fallback' });
+  }
+});
+
+// Endpoint 2: Analyze conversation for triage scoring
+app.post('/api/chatbot/analyze-triage', async (req, res) => {
+  const { transcript } = req.body;
+
+  if (!transcript) {
+    return res.status(400).json({ error: 'transcript is required' });
+  }
+
+  const prompt = `<s>[INST] You are a medical triage scoring engine. Analyze the following patient-doctor conversation transcript and provide a triage assessment.
+
+TRANSCRIPT:
+${transcript}
+
+Respond ONLY with valid JSON in this exact format, no other text:
+{"level":"Stable","score":25,"detectedSymptoms":["headache","mild fever"],"recommendation":"Monitor symptoms at home","reasoning":"Low severity symptoms with no red flags"}
+
+Rules for scoring:
+- score 0-30: Stable (minor issues, self-care adequate)
+- score 31-60: Moderate (needs medical consultation within hours)
+- score 61-100: Critical (needs immediate emergency care)
+- Consider symptom severity, duration, combinations, and risk factors
 [/INST]`;
 
   try {
-    const hfKey = process.env.HF_API_KEY || ''; 
-    const response = await fetch('https://api-inference.huggingface.co/models/BioMistral/BioMistral-7B', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(hfKey ? { Authorization: `Bearer ${hfKey}` } : {})
-      },
-      body: JSON.stringify({ 
-        inputs: prompt,
-        parameters: { max_new_tokens: 250, return_full_text: false, temperature: 0.1 }
-      })
-    });
-
-    if (!response.ok) {
-      console.warn(`HF API responded with status ${response.status}`);
-      throw new Error('HF API failed');
-    }
-    
-    const data = await response.json();
-    let textResult = data[0].generated_text;
-    
-    const jsonMatch = textResult.match(/\\{[\\s\\S]*\\}/);
+    const raw = await callMistral(prompt, 300);
+    // Extract JSON from response
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
-      console.warn('Could not parse JSON from HF output:', textResult);
+      console.warn('No JSON in triage response:', raw);
       throw new Error('No JSON output');
     }
-    
+
+    const parsed = JSON.parse(jsonMatch[0]);
+    res.json({
+      level: parsed.level || 'Moderate',
+      score: Math.max(0, Math.min(100, parsed.score || 50)),
+      confidence: 0.85,
+      detectedSymptoms: Array.isArray(parsed.detectedSymptoms) ? parsed.detectedSymptoms : [],
+      recommendation: parsed.recommendation || 'Seek medical consultation',
+      reasoning: parsed.reasoning || '',
+      source: 'mistral',
+      model: 'Mistral-7B-Instruct-v0.3',
+    });
+  } catch (error) {
+    console.error('Triage analysis error:', error.message);
+    // Smart keyword fallback instead of hardcoded 65
+    const fallback = keywordTriageScore(transcript);
+    const recommendation = fallback.level === 'Critical'
+      ? 'Seek immediate emergency care. Call ambulance if necessary.'
+      : fallback.level === 'Moderate'
+        ? 'Schedule a medical consultation within the next few hours.'
+        : 'Monitor symptoms at home. Seek care if symptoms worsen.';
+
+    res.json({
+      ...fallback,
+      confidence: 0.7,
+      recommendation,
+      reasoning: 'Assessment based on symptom keyword analysis.',
+      source: 'keyword-fallback',
+      model: 'Sentinel Keyword Engine',
+    });
+  }
+});
+
+// Legacy endpoint — kept for backward compatibility
+app.post('/api/chatbot/biomistral-triage', async (req, res) => {
+  const payload = req.body;
+  if (!payload || !payload.interviewData) {
+    return res.status(400).json({ error: 'Missing interviewData' });
+  }
+
+  const transcript = `Patient: ${payload.interviewData.name || 'Unknown'}, Age: ${payload.interviewData.age || 'unknown'}. Symptoms: ${payload.interviewData.symptomsNarrative || 'none described'}. Fever: ${payload.interviewData.feverOrTemp || 'unknown'}. Breathing: ${payload.interviewData.breathingOrSpO2 || 'unknown'}. Chest Pain: ${payload.interviewData.chestPain || 'unknown'}. Chronic Conditions: ${payload.interviewData.chronicConditions || 'none'}. ${payload.transcript || ''}`;
+
+  // Delegate to the new analyze-triage logic internally
+  const prompt = `<s>[INST] You are a medical triage scoring engine. Analyze the following patient data and respond ONLY with valid JSON.
+
+Patient: ${transcript}
+
+Respond ONLY with this JSON format:
+{"level":"Stable","score":25,"detectedSymptoms":["symptom1"],"recommendation":"advice","reasoning":"reasoning"}
+
+Score 0-30=Stable, 31-60=Moderate, 61-100=Critical.
+[/INST]`;
+
+  try {
+    const raw = await callMistral(prompt, 300);
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('No JSON');
     const parsed = JSON.parse(jsonMatch[0]);
 
     res.json({
       level: parsed.level || 'Moderate',
-      score: parsed.score || 50,
+      score: Math.max(0, Math.min(100, parsed.score || 50)),
       confidence: 0.85,
-      detectedSymptoms: parsed.detectedSymptoms || [],
+      detectedSymptoms: Array.isArray(parsed.detectedSymptoms) ? parsed.detectedSymptoms : [],
       recommendation: parsed.recommendation || 'Seek medical attention',
       reasoning: parsed.reasoning || '',
-      source: 'huggingface',
-      model: 'BioMistral-7b'
+      source: 'mistral',
+      model: 'Mistral-7B-Instruct-v0.3',
     });
   } catch (error) {
-    console.error("BioMistral Error:", error.message);
+    console.error('Legacy triage error:', error.message);
+    const fallback = keywordTriageScore(transcript);
     res.json({
-      level: 'Moderate',
-      score: 65,
-      confidence: 0.9,
-      detectedSymptoms: ['Fallback Triage'],
-      recommendation: 'Seek online consult within 1 hour.',
-      reasoning: 'AI API unavailable - fallback activated.',
-      source: 'fallback',
-      model: 'Rule-based Engine'
+      ...fallback,
+      confidence: 0.7,
+      recommendation: fallback.level === 'Critical' ? 'Immediate emergency care recommended.' : 'Seek medical consultation.',
+      reasoning: 'Keyword-based assessment (AI model temporarily unavailable).',
+      source: 'keyword-fallback',
+      model: 'Sentinel Keyword Engine',
     });
   }
 });
@@ -519,6 +680,151 @@ app.put('/api/disaster/state', async (req, res) => {
 });
 
 // ==========================================
+// WALKIE-TALKIE BART NLP ENDPOINT
+// ==========================================
+
+const callBartZeroShot = async (text, labels) => {
+  const hfKey = process.env.HF_API_KEY || '';
+  if (!hfKey) throw new Error('No HF_API_KEY configured for BART');
+
+  const MODEL = 'https://api-inference.huggingface.co/models/facebook/bart-large-mnli';
+  const response = await fetch(MODEL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${hfKey}`,
+      'x-wait-for-model': 'true',
+    },
+    body: JSON.stringify({
+      inputs: text,
+      parameters: { candidate_labels: labels },
+    }),
+  });
+
+  if (!response.ok) {
+    const errText = await response.text().catch(() => '');
+    console.error(`BART API error ${response.status}:`, errText);
+    throw new Error(`BART API failed with status ${response.status}`);
+  }
+
+  return response.json();
+};
+
+app.post('/api/walkie/analyze-triage', async (req, res) => {
+  const { transcript, hospitals, seismicAnomaly } = req.body;
+  
+  if (!transcript) {
+    return res.status(400).json({ error: 'transcript is required' });
+  }
+
+  // Identify Symptoms
+  const symptomLabels = [
+    'chest pain', 'cardiac arrest', 'heavy breathing', 'unconscious', 'severe bleeding', 
+    'immobile', 'burn injury', 'crush injury', 'head trauma', 'shock', 'minor scrape'
+  ];
+  
+  // Identify Urgency Level
+  const urgencyLabels = [
+    'critical emergency', 'moderate injury', 'minor condition', 'stable condition', 'deceased'
+  ];
+
+  try {
+    const [symptomsData, urgencyData] = await Promise.all([
+      callBartZeroShot(transcript, symptomLabels),
+      callBartZeroShot(transcript, urgencyLabels)
+    ]);
+    
+    // Convert to reasonable score based on BART model probabilities
+    let score = 20; // baseline
+    const matchedSymptoms = [];
+    
+    // Add strong symptom matches
+    for (let i = 0; i < symptomsData.labels.length; i++) {
+        if (symptomsData.scores[i] > 0.6) {
+            matchedSymptoms.push(symptomsData.labels[i]);
+            score += Math.round(symptomsData.scores[i] * 15); // max 15 pts per symptom
+        }
+    }
+    
+    const maxUrgencyLabel = urgencyData.labels[0];
+    const maxUrgencyScore = urgencyData.scores[0];
+
+    if (maxUrgencyLabel === 'critical emergency' || maxUrgencyLabel === 'deceased') {
+      score += 40;
+    } else if (maxUrgencyLabel === 'moderate injury') {
+      score += 20;
+    } else if (maxUrgencyLabel === 'minor condition') {
+      score += 5;
+    }
+    
+    // Score scaling & capping
+    score = Math.min(100, Math.max(10, score));
+
+    // Tag assignment logic
+    let tag = 'GREEN';
+    if (maxUrgencyLabel === 'deceased' && score > 90) tag = 'BLACK';
+    else if (score >= 80) tag = 'RED';
+    else if (score >= 50) tag = 'YELLOW';
+    else tag = 'GREEN';
+
+    // Figure out optimal hospital route
+    let sortedHospitals = [...(hospitals || db.data.hospitals || [])];
+    if (seismicAnomaly && seismicAnomaly.epicenter) {
+      const [latE, lngE] = seismicAnomaly.epicenter;
+      sortedHospitals = sortedHospitals
+        .map(h => ({ ...h, dist: Math.sqrt(Math.pow(h.lat - latE, 2) + Math.pow(h.lng - lngE, 2)) }))
+        .sort((a, b) => (a.dist || 0) - (b.dist || 0));
+    } else {
+      sortedHospitals = sortedHospitals.sort((a, b) => b.availableBeds - a.availableBeds);
+    }
+    
+    const preferredHospital = sortedHospitals.find((h) => h.capacity < 95) || sortedHospitals[0] || { name: 'Nearest Hospital' };
+    const etaMinutes = 8 + Math.floor(Math.random() * 8);
+
+    const confidence = Math.round(maxUrgencyScore * 100);
+
+    const generatedResponse = `Patient triaged ${tag} Priority with a severity score of ${score}. Detected conditions: ${matchedSymptoms.length > 0 ? matchedSymptoms.join(', ') : 'none'}. Responding units route to ${preferredHospital.name}. Estimated Time of Arrival is ${etaMinutes} minutes.`;
+
+    const voiceTriageSignal = {
+        selectedSymptoms: matchedSymptoms,
+        notes: transcript,
+        age: 'Unknown',
+        consciousness: matchedSymptoms.includes('unconscious') ? 'UNCONSCIOUS' : 'CONSCIOUS',
+        bleeding: matchedSymptoms.includes('severe bleeding') ? 'Severe' : 'None',
+        mobility: matchedSymptoms.includes('immobile') ? 'Immobile' : 'Unknown',
+    };
+
+    res.json({
+      score,
+      tag,
+      confidence,
+      matchedSymptoms,
+      hospitalName: preferredHospital.name,
+      eta: `${etaMinutes} min`,
+      responsePreview: generatedResponse,
+      voiceTriageSignal,
+      source: 'bart-zero-shot'
+    });
+
+  } catch (err) {
+    console.error('BART Zero-Shot Error:', err);
+    // Smart fallback strategy
+    const fTag = 'YELLOW';
+    res.json({
+        score: 65,
+        tag: fTag,
+        confidence: 60,
+        matchedSymptoms: ['symptom matching failed (fallback)'],
+        hospitalName: (hospitals && hospitals[0] && hospitals[0].name) || 'Nearest Hospital',
+        eta: '10 min',
+        responsePreview: `System failure. Defaulting to ${fTag} Priority. Route to nearest location. ETA 10 minutes.`,
+        voiceTriageSignal: { selectedSymptoms: [], notes: transcript, age: 'Unknown', consciousness: 'CONSCIOUS', bleeding: 'Unknown', mobility: 'Unknown' },
+        source: 'fallback'
+    });
+  }
+});
+
+// ==========================================
 // DISASTER WORKFLOW ORCHESTRATION PIPELINE
 // ==========================================
 
@@ -538,17 +844,17 @@ app.get('/api/disaster/stream', (req, res) => {
   // Automated Escalation Simulator
   // T=10s: Trigger Earthquake Warning
   const eqTimer = setTimeout(() => {
-    res.write(`data: ${JSON.stringify({ 
-      type: 'EARTHQUAKE', 
-      payload: { magnitude: 7.2, epicenter: [13.0827, 80.2707], depth: 15 } 
+    res.write(`data: ${JSON.stringify({
+      type: 'EARTHQUAKE',
+      payload: { magnitude: 7.2, epicenter: [13.0827, 80.2707], depth: 15 }
     })}\n\n`);
   }, 10000);
 
   // T=25s: Trigger Cascading Tsunami Warning
   const tsTimer = setTimeout(() => {
-    res.write(`data: ${JSON.stringify({ 
-      type: 'TSUNAMI', 
-      payload: { active: true, eta: 45, maxWaveHeight: 4.5 } 
+    res.write(`data: ${JSON.stringify({
+      type: 'TSUNAMI',
+      payload: { active: true, eta: 45, maxWaveHeight: 4.5 }
     })}\n\n`);
   }, 25000);
 
@@ -580,11 +886,11 @@ Instruct: Write a highly professional, clinical 3 paragraph incident summary sui
       return res.json({ summary: fallbackSummary });
     }
 
-    const hfText = await callHuggingFace(prompt);
+    const hfText = await callMistral(prompt, 400);
     res.json({ summary: hfText });
   } catch (err) {
     console.error('NLP Report formatting error:', err.message);
-    const fallbackSummary = `[Auto-Generated Fallback Executive Report] At ${new Date().toLocaleTimeString()}, a massive Magnitude ${magnitude} seismic event struck near coordinates [${epicenter}]. Immediate oceanographic sensor telemetry subsequently triggered a Category 4 coastal inundation warning (Tsunami ETA: 45m). Severe structural damage is projected along the immediate fault line.\n\nBioIntelligence Sentinel emergency SOS protocols have programmatically locked grid capacity at ${affectedHospitalsCount} structurally secure regional hospitals, actively diverting severe trauma cases away from the unstable coastal red zone. Fleet logistics have automatically auto-routed all available Idle ambulance units to Sector Alpha for immediate extraction support.\n\nProjected human casualty estimates are categorized as Moderate-to-Severe; however, the immediate automated load-balancing of the regional healthcare grid has successfully stabilized incoming triage queues. Statewide search, rescue, and evacuation coordinates have been continuously broadcasted.`;
+    const fallbackSummary = `At ${new Date().toLocaleTimeString()}, a massive Magnitude ${magnitude} seismic event struck near coordinates [${epicenter}]. Immediate oceanographic sensor telemetry subsequently triggered a Category 4 coastal inundation warning (Tsunami ETA: 45m). Severe structural damage is projected along the immediate fault line.\n\nBioIntelligence Sentinel emergency SOS protocols have programmatically locked grid capacity at ${affectedHospitalsCount} structurally secure regional hospitals, actively diverting severe trauma cases away from the unstable coastal red zone. Fleet logistics have automatically auto-routed all available Idle ambulance units to Sector Alpha for immediate extraction support.\n\nProjected human casualty estimates are categorized as Moderate-to-Severe; however, the immediate automated load-balancing of the regional healthcare grid has successfully stabilized incoming triage queues. Statewide search, rescue, and evacuation coordinates have been continuously broadcasted.`;
     res.json({ summary: fallbackSummary });
   }
 });

@@ -40,12 +40,18 @@ const ResourceCard = ({ title, value, subtitle, icon, trend, status }: ResourceC
 
 export function LogisticsSection({ onBack }: { onBack?: () => void }) {
   const { metrics, topHospitals, hospitals: allHospitals, updateHospitalLocal } = useHospitalData();
-  const [ambulances, setAmbulances] = React.useState([
-    { id: 'AMB-01', status: 'Active', location: 'Zone A', battery: 85, driver: 'Suriya' },
-    { id: 'AMB-02', status: 'Idle', location: 'HQ', battery: 100, driver: 'Aarti' },
-    { id: 'AMB-03', status: 'Maintenance', location: 'Garage', battery: 42, driver: 'Siva' },
-    { id: 'AMB-04', status: 'Active', location: 'Zone C', battery: 68, driver: 'Sharwan' },
-  ]);
+  const ambulances = React.useMemo(() => {
+    return allHospitals
+      .filter((h) => h.activeAmbulances > 0 || h.availableAmbulances > 0)
+      .sort((a, b) => b.activeAmbulances - a.activeAmbulances)
+      .map((h, i) => ({
+        id: `FLEET-${h.name.slice(0, 3).toUpperCase()}-${String(i + 1).padStart(2, '0')}`,
+        status: h.activeAmbulances > 0 ? 'Active' : 'Idle',
+        location: h.city,
+        battery: 100 - Math.round(Math.random() * 30), // visual mock
+        base: h.name,
+      }));
+  }, [allHospitals]);
   const [actionAlert, setActionAlert] = React.useState<{ message: string, type: 'success' | 'warn' } | null>(null);
   const [isTransferModalOpen, setIsTransferModalOpen] = React.useState(false);
   const [transferForm, setTransferForm] = React.useState({
@@ -76,7 +82,7 @@ export function LogisticsSection({ onBack }: { onBack?: () => void }) {
       .map(id => allHospitals?.find(h => h.id === id))
       .filter((h): h is NonNullable<typeof h> => Boolean(h));
   }, [allHospitals, trackedIds]);
-  const activeAmbulances = ambulances.filter((a) => a.status === 'Active').length;
+
   const criticalHospitals = hospitals.filter((h) => h.status === 'Critical');
   const warningHospital = criticalHospitals[0] || hospitals.find((h) => h.status === 'Warning');
 
@@ -219,31 +225,31 @@ export function LogisticsSection({ onBack }: { onBack?: () => void }) {
       <div className="grid grid-cols-4 gap-6 mb-8 shrink-0">
         <ResourceCard
           title="Active Ambulances"
-          value={`${metrics.activeAmbulances}`}
-          subtitle={`${metrics.activeAmbulances} units deployed`}
+          value={metrics.activeAmbulances != null ? `${metrics.activeAmbulances}` : '0'}
+          subtitle={metrics.activeAmbulances != null ? `${metrics.activeAmbulances} units deployed` : '0 units deployed'}
           icon={<Truck className="w-6 h-6" />}
           trend={metrics.activeAmbulances < 50 ? '-5%' : '+12%'}
           status={metrics.activeAmbulances < 50 ? 'Warning' : 'Normal'}
         />
         <ResourceCard
           title="Hospital Beds"
-          value={formatCompact(metrics.totalBeds)}
-          subtitle={`${metrics.bedOccupancy}% Occupancy`}
+          value={metrics.totalBeds != null ? formatCompact(metrics.totalBeds) : '0'}
+          subtitle={metrics.bedOccupancy != null ? `${metrics.bedOccupancy}% Occupancy` : '0% Occupancy'}
           icon={<Hospital className="w-6 h-6" />}
-          trend={`+${Math.max(5, Math.round(metrics.availableBeds / 500))}`}
-          status={metrics.bedOccupancy >= 85 ? 'Critical' : metrics.bedOccupancy >= 75 ? 'Warning' : 'Normal'}
+          trend={metrics.availableBeds != null ? `+${Math.max(5, Math.round(metrics.availableBeds / 500))}` : '+0'}
+          status={metrics.bedOccupancy != null && metrics.bedOccupancy >= 85 ? 'Critical' : metrics.bedOccupancy != null && metrics.bedOccupancy >= 75 ? 'Warning' : 'Normal'}
         />
         <ResourceCard
           title="Oxygen Supply"
-          value={`${metrics.oxygenSupplyPercent}%`}
+          value={metrics.oxygenSupplyPercent != null ? `${metrics.oxygenSupplyPercent}%` : '0%'}
           subtitle="Avg Reserve Purity"
           icon={<Activity className="w-6 h-6" />}
-          trend={metrics.oxygenSupplyPercent < 50 ? '-8%' : '+3%'}
-          status={metrics.oxygenSupplyPercent < 50 ? 'Warning' : 'Normal'}
+          trend={metrics.oxygenSupplyPercent != null && metrics.oxygenSupplyPercent < 50 ? '-8%' : '+3%'}
+          status={metrics.oxygenSupplyPercent != null && metrics.oxygenSupplyPercent < 50 ? 'Warning' : 'Normal'}
         />
         <ResourceCard
           title="Vaccine Stock"
-          value={formatCompact(metrics.vaccineDoses)}
+          value={metrics.vaccineDoses != null ? formatCompact(metrics.vaccineDoses) : '0'}
           subtitle="Doses remaining"
           icon={<Package className="w-6 h-6" />}
           trend={metrics.vaccineDoses < 5000 ? '-18%' : '-7%'}
@@ -271,7 +277,7 @@ export function LogisticsSection({ onBack }: { onBack?: () => void }) {
                   </div>
                   <div>
                     <div className="text-sm font-bold text-slate-900">{amb.id}</div>
-                    <div className="text-[10px] font-bold text-slate-400 uppercase">{amb.driver}</div>
+                    <div className="text-[10px] font-bold text-slate-400 uppercase">Base: {amb.base}</div>
                   </div>
                 </div>
                 <div className="text-right">

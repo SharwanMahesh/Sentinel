@@ -16,6 +16,7 @@ export interface TamilNaduHospital {
 	availableVentilators: number;
 	oxygenSupplyPercent: number;
 	activeAmbulances: number;
+	availableAmbulances: number;
 	vaccineDoses: number;
 	capacity: number;
 	incoming: number;
@@ -119,6 +120,7 @@ const buildHospital = (raw: {
 	availableVentilators: number;
 	oxygenSupplyPercent: number;
 	activeAmbulances: number;
+	availableAmbulances: number;
 	vaccineDoses: number;
 }): TamilNaduHospital => {
 	const seedKey = `${raw.name}-${raw.city}-${raw.pincode}`;
@@ -141,6 +143,7 @@ const buildHospital = (raw: {
 		availableVentilators: raw.availableVentilators,
 		oxygenSupplyPercent: raw.oxygenSupplyPercent,
 		activeAmbulances: raw.activeAmbulances,
+		availableAmbulances: raw.availableAmbulances,
 		vaccineDoses: raw.vaccineDoses,
 		capacity,
 		incoming: 0,
@@ -186,13 +189,14 @@ const parseHospitals = (): TamilNaduHospital[] => {
 				city,
 				address: (cols[4] || '').trim(),
 				pincode: (cols[5] || '').trim(),
-				totalBeds: parseInt(cols[6] || '0', 10),
-				availableBeds: parseInt(cols[7] || '0', 10),
-				totalVentilators: parseInt(cols[8] || '0', 10),
-				availableVentilators: parseInt(cols[9] || '0', 10),
-				oxygenSupplyPercent: parseInt(cols[10] || '0', 10),
-				activeAmbulances: parseInt(cols[11] || '0', 10),
-				vaccineDoses: parseInt(cols[12] || '0', 10),
+				totalBeds: parseInt(cols[6], 10) || 0,
+				availableBeds: parseInt(cols[7], 10) || 0,
+				totalVentilators: parseInt(cols[8], 10) || 0,
+				availableVentilators: parseInt(cols[9], 10) || 0,
+				oxygenSupplyPercent: parseInt(cols[10], 10) || 0,
+				activeAmbulances: parseInt(cols[11], 10) || 0,
+				vaccineDoses: parseInt(cols[12], 10) || 0,
+				availableAmbulances: parseInt(cols[13], 10) || 0,
 			})
 		);
 	}
@@ -210,6 +214,7 @@ export const tamilNaduHospitalMetrics = (() => {
 	const availableVentilators = tamilNaduHospitals.reduce((sum, h) => sum + h.availableVentilators, 0);
 	const oxygenPercentSum = tamilNaduHospitals.reduce((sum, h) => sum + h.oxygenSupplyPercent, 0);
 	const activeAmbulances = tamilNaduHospitals.reduce((sum, h) => sum + h.activeAmbulances, 0);
+	const availableAmbulances = tamilNaduHospitals.reduce((sum, h) => sum + h.availableAmbulances, 0);
 	const vaccineDoses = tamilNaduHospitals.reduce((sum, h) => sum + h.vaccineDoses, 0);
 
 	return {
@@ -222,6 +227,7 @@ export const tamilNaduHospitalMetrics = (() => {
 		availableVentilators,
 		oxygenSupplyPercent: tamilNaduHospitals.length > 0 ? Math.round(oxygenPercentSum / tamilNaduHospitals.length) : 0,
 		activeAmbulances,
+		availableAmbulances,
 		vaccineDoses,
 	};
 })();

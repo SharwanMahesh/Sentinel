@@ -1,180 +1,180 @@
-S.NO,Hospital,State,City,LocalAddress,Pincode,Total_Beds,Available_Beds,Total_Ventilators,Available_Ventilators,Oxygen_Supply_Percentage,Active_Ambulances,Vaccine_Stock_Doses
-0,A A Hospital,Tamilnadu,Hosur,Denkani Kottai Road Mathigiri,635110,113,58,5,1,49,5,608
-1,A C Hospital,Tamilnadu,Chennai,"No-8, 3Rd Main Road, United India Nagar, Ayanavaram, Chennai-600023",600023,62,14,10,5,26,5,467
-5,A.C. Hospital,Tamilnadu,Salem,"201,2Nd Agraharam",636001,71,59,15,5,100,3,419
-6,A.G. Eye Care Hospitals (U Nit Of Dr. A.G. Eye Hospitals Private Limited,Tamilnadu,Chennai,"No. 106, R.K. Mutt Road. Mylapore, Chennai, Tamilnadu",600004,16,12,1,0,55,2,170
-7,A.G. Hospital,Tamilnadu,Coimbatore,"34, Kpn Colony 3Rd Street, Tirupur",641601,122,62,9,8,45,6,766
-8,A.G. Padmavati'S Hospital Ltd.,Tamilnadu,Pondicherry,"R.S. No.127/A, Villianur Main Road, Arumparthapuram, Puducherry",605110,63,10,5,2,71,3,594
-15,A.N.N Hospital,Tamilnadu,Chennai,"81-85,Annai Therasa Street,Valasaravakkam",600087,138,130,5,3,51,5,662
-18,A.R.Hospital Pvt Ltd,Tamilnadu,Madurai,"609, K.K.Nagar, Madurai-625020",625020,84,15,7,0,89,5,398
-20,A.V. Hospitals,Tamilnadu,Chennai,"# 172, Solaiappan Street, Tondirepet (North Chennai) Near Maharani Theatre",600021,115,74,5,4,58,2,575
-22,A.V.M. Hospital A.V.M.M. Associates (P) Ltd,Tamilnadu,Tuticorin,"# 135, Palayamkottai Roadtuticorin",628003,137,23,12,10,24,5,748
-33,Aakash Hospital,Tamilnadu,Chennai,"# 393/1, T.H. Road, (Annexe) 393/1, Tiruvottiyur.Tiruvallur",600019,125,38,15,7,86,5,594
-39,Aarthi Hospital,Tamilnadu,Tirunelveli,"60,Santhaipettai Street",628502,118,89,7,5,89,5,438
-40,Aarthy Eye Hospital,Tamilnadu,Karur,"#16, Sengunthapuram Main Road, Karur.",639002,33,23,0,0,99,1,147
-59,Abdul Khadir Hospital,Tamilnadu,Nagercoil,"Parakkai Road,Elankadai,Kottar",629002,120,72,11,1,75,3,451
-68,Abhijay Hospital (P) Ltd.,Tamilnadu,Chennai,"No.22/2, E.S.I Hospital Road,Peravallur,",600011,76,31,13,3,21,6,526
-78,Abinand Hospital,Tamilnadu,Coimbatore,"237-F/7, Pollachi Main Road,Sundarapuram, Coimbatore",641024,96,27,9,8,98,3,760
-79,Abiraami Hospital,Tamilnadu,Cuddalore,"24-Alc,Campus,Manjakuppam",607001,121,121,15,9,94,5,476
-80,Acchutha Eye Care,Tamilnadu,Erode,"#H-3, Evn Road, Permar Nagar, Near Surampatti Nall Road, Erode-638009",638009,27,15,0,0,20,2,113
-106,Adithya Speciality Hospital,Tamilnadu,Madurai,"277, G.S.T Main Road, Near Harveypatty Bus Stop, Thirunagar, Madurai - 625006",625006,145,120,10,3,98,6,302
-116,Aditya Hospital,Tamilnadu,Chennai,"No.7, Barnbay Road, Kilpauk, Chennai-600010",600010,71,61,15,0,56,3,376
-132,Adyar P.M. Hospital,Tamilnadu,Chennai,"# 58, L.B. Road, Adyar, Chennai-600020Chennai",600020,111,75,7,4,52,5,706
-139,Agash Nursing Home,Tamilnadu,Chennai,"#234, G.S.T. Road, Chromepet",600044,32,18,2,0,76,2,79
-169,Ak Hospital,Tamilnadu,Chennai,"360 Poonamallee High Road,Junction Of Ph Rd &",600029,132,45,14,12,89,6,684
-173,Akilesh Orthopaedics Hospitals,Tamilnadu,Coimbatore,"95-97, Sasthiri Road, Rammagar.",641009,109,18,13,5,41,4,681
-217,Alva Hospital Pvt Ltd,Tamilnadu,Pollachi,"74/A2, Meenkarai Road,Pollachi Coimbatore",642013,97,57,14,12,83,6,511
-222,Amaravathi Hospital,Tamilnadu,Karur,"#74, Ramanujam Nagar, Kovai Road, Karur, Tamilnadu.",639002,58,7,15,8,31,3,331
-240,Amma Hospital,Tamilnadu,Chennai,"# 1, Sowrastra Nagar7Th Street, Chennai",600094,54,48,5,5,20,3,702
-241,Amma Hospital,Tamilnadu,Krishnagiri,"Bangalore Road, Hosur Town",635109,64,39,13,0,64,6,334
-242,Ammayi Eye Hospital,Tamilnadu,Chennai,"New # 80, 7Th Avenue, Ashoknagar, Chennai-600083",600083,33,28,0,0,22,0,128
-246,Amrit Medicare Pvt Ltd,Tamilnadu,Chennai,"No.310,Mint Street,Near Sowcarpet, Chennai-600079",600079,63,42,15,4,63,5,460
-255,Amudha Poly Clinic And Hospital,Tamilnadu,Erode,"101,Athani Road,Sathyamangalam,Erode",638401,32,15,2,2,82,2,57
-265,Anand Hospital,Tamilnadu,Chennai,"201, Kamaraj Salai,Manali,Chennaimanali",600068,60,13,14,11,98,5,699
-274,Anand Hospitals,Tamilnadu,Tiruppur,"#97/54,Jg Nagar,2Nd Street,60 Feet Road,",641602,111,91,13,1,93,6,767
-296,Anbu Hospital,Tamilnadu,Madurai,"No.150/1,Kamarajar Salai,",625009,88,36,9,1,81,5,312
-297,Anbu Hospital,Tamilnadu,Tanjore,"# 4,5, Lakshmivilas Street, Kumbakonam",612001,87,36,14,7,38,5,592
-299,Andhra Mahila Sabha,Tamilnadu,Chennai,"No.11 & 12, Dr.Durgabaideshmukh Road, R.A.Puram,",600028,64,41,5,3,20,5,612
-306,Anjakha Hospital,Tamilnadu,Kanchipuram,"#23,Medavakkam Main Road,Madipakkam",600091,57,54,5,2,54,3,437
-317,Annai Ent And Head & Neck Care Centre,Tamilnadu,Erode,"#12D,Palaniappa Street,Perundurai Road",638009,119,98,8,3,51,2,341
-318,Annai Hospital,Tamilnadu,Kanyakumari,"5-82/1, Kurumbanai Road, Karungal, Kanyakumari, Tamilnadu",629157,107,19,9,3,34,3,789
-319,Annai Velankanni Nursing Home,Tamilnadu,Tirunelveli,"Post Box No.107, Murugan Kurichi, Palayamkottai.",627002,37,21,0,0,23,0,189
-320,Annamalai Hospital,Tamilnadu,Chennai,"# 27, Govindan Raod, West Mambalam, Near Srinivasa Theatre",600033,80,29,6,2,53,3,416
-321,Annammal Hospital,Tamilnadu,Kuzhithurai,Kuzhithurai,629163,106,12,12,11,27,4,616
-332,Anu Hospital,Tamilnadu,Tanjore,"#69,Trichy Road,Very Near To Railway Station",613007,99,15,5,1,44,6,349
-351,Aparna Hospital,Tamilnadu,Coimbatore,"450-D,Palaghat Main Road,Kuniamuthu",641008,84,72,5,2,78,6,555
-376,Apollo First Med Hospitals,Tamilnadu,Chennai,"No 154, Poonamallee High Road, Near Neyveli House, Kilpauk, Chennai - 6000No 154, Poonamallee High Road, Near Neyveli House, Kilpauk, Chennai - 6000",600010,102,22,15,7,96,2,658
-379,Apollo Hospital ( T.H.Road-Chennai),Tamilnadu,Chennai,"#645, T.H.Road, Tondiarpet",600081,79,65,6,6,29,2,577
-387,Apollo Hospitals (Greams Road-Chennai),Tamilnadu,Chennai,"#21, Greams Lane,Greams Road, Chennai-600006",600006,95,41,12,10,99,4,419
-391,Apollo Hospitals Karaikudi,Tamilnadu,Karaikudi,"Madurai Main Road, Managiri Village Karaikodi, Tamilnadu-630307, Near, Chettinad Public School",630307,136,107,8,1,77,3,572
-395,Apollo Speciality Hospital (Chennai),Tamilnadu,Chennai,"No 320 5Th Floor, Padma Complex, Anna Salai, Near Lr Swami Building, Nandanam, Chennai, Tamil Nadu",600035,103,38,6,2,63,6,384
-396,Apollo Speciality Hospital (Madurai),Tamilnadu,Madurai,"20,Lake View, Kk Nagar,",625020,86,81,8,5,58,3,519
-403,Appasamy Medicare Centre Pvt Ltd,Tamilnadu,Chennai,"23-25, Friends Avenue, Arumbakkam, Chennaiarumbakkam",600106,68,20,5,5,39,3,781
-407,Appusami Hospital,Tamilnadu,Salem,"# 8Z/A, Gandhi Road,Salem-636007.",636007,95,40,11,8,63,2,529
-409,Arasan Eye Hospital,Tamilnadu,Erode,"#26, Annamalai Layout,Opp To Road Theatre",638011,34,32,2,2,39,1,194
-411,Aravind Eye Hospital (Salem),Tamilnadu,Salem,"64, Sankagiri Main Road, Nethimedu, Salem, Tamilnadu-636002, Opposite To Kaliamman Temple",636002,33,10,2,1,41,0,135
-412,Aravind Eye Hospital - Coimbatore,Tamilnadu,Coimbatore,"Avanashi Road, Coimbatore-641014Teelametu",641014,33,21,1,0,71,1,147
-413,Aravind Eye Hospital - Pondicherry,Tamilnadu,Pondicherry,"Cuddalore Main Road,Abishekapakkam Post,Thavalakuppam, Pondicherry-605007Thavalakuppam",605007,35,14,0,0,86,0,166
-414,Aravind Eye Hospital - Theni,Tamilnadu,Theni,"371,Periakulam Road,Allinagaram",625531,24,4,3,2,46,0,76
-415,Aravind Eye Hospital - Tirunelveli,Tamilnadu,Tirunelveli,# 1. S.N. High Road,627001,16,1,2,2,23,1,199
-417,Aravind Eye Hospital- Madhurai,Tamilnadu,Madurai,"1- Anna Nagar, Madurai-625020Madhurai",625020,34,15,1,1,83,2,132
-418,Aravind Eye Hospital-Tirupur,Tamilnadu,Tirupur,"Dharapuram Main Road, K. Chettipalayam, Tirupur, Tamilnadu",641608,16,14,0,0,83,1,192
-421,Aravind Sai Eye Hospital,Tamilnadu,Chennai,"# 1, Ganesan Street,Pammal Main Road Krishna Nagar",600075,21,9,0,0,92,1,136
-433,Ark Nursing Home,Tamilnadu,Krishnagiri,"29-A, 4Th Cross,Co Operative Colony Near Employment Officeco-Ops Colony",635001,39,18,0,0,78,1,144
-439,Arokya Hospital,Tamilnadu,Chennai,"#32, Pillayar Koil Street",600078,146,138,5,0,36,5,645
-447,Arthur Astrvatham Hospital,Tamilnadu,Madurai,"No.42-A,Kuruvikaran Salai,",625020,139,135,11,7,35,3,710
-448,Arul Hospital,Tamilnadu,Trichy,"#6A,T.V.K.Nagar,Puthur",620017,82,34,15,2,100,2,647
-449,Arul Mission Hospital,Tamilnadu,Tirunelveli,"7A1 & 2,North Main Road,Vallioor",627117,233,32,46,8,46,5,2181
-451,Arun Hospital,Tamilnadu,Madurai,"#186,Munichalai Road,",625009,131,18,8,5,78,4,618
-452,Arun Hospital (Pollachi),Tamilnadu,Pollachi,"49/84, New Scheme Roadpollachi Coimbatore",642002,99,75,14,10,72,3,386
-453,Arun Hospital (Theni),Tamilnadu,Theni,"51, Uthamapalayam Road,Bus Stand Bodinayakanur",625513,59,49,12,7,83,5,467
-458,Arunn Surgery,Tamilnadu,Coimbatore,"Dr.Nanjappa Road,",641018,96,54,11,5,22,6,594
-462,Arunpriya Nursing Home,Tamilnadu,Nagapattanam,"3&4, Pattamangalam Street,Nagapattinam",609001,25,15,1,0,81,2,150
-465,Arvinth Hospital,Tamilnadu,Namakkal,"# 17, Rangar Sannathi Street,Namakkal- 637001",637001,70,67,9,5,54,6,437
-498,Ashok Hosptial,Tamilnadu,Hosur,"#10-A, 1St Cross, Old Banfalore Road, Hosur,",635109,74,71,10,3,30,6,378
-507,Ashveny Clinic,Tamilnadu,Sivakasi,"1/6, Periyakaruppan Road,Sivakasi-626189",626189,29,27,3,2,40,1,100
-511,Ashwin Hospital,Tamilnadu,Erode,"#212/545,Skc Road,Surampatti Nall Road,",638001,100,57,9,3,20,4,576
-512,Ashwin Hospitals,Tamilnadu,Coimbatore,"#1, Alamu Nagar Road,Coimbatore-641012.",641012,62,62,10,6,94,3,598
-536,Assured Best Care Hospital,Tamilnadu,Trichy,"#1, Annamalai Nagar Main Road Thillai Nagarannamalai Nagar",620018,82,50,10,0,78,3,784
-539,Aswene Soundra Hospital & Research Centre,Tamilnadu,Chennai,"# 24,Kasturi Rangan Road,Teynampet",600018,95,24,13,0,51,2,484
-548,Athipathi Hospital And Research Center,Tamilnadu,Chennai,"Plot No 1,100 Ft Rd,Tanni Nagar,Velachary",600042,139,91,10,8,25,2,655
-550,Atlas Hospitals,Tamilnadu,Tiruchirapalli,"34/1-First Cross, V.N. Nagar, Near Chathiram Bus Stand, Tiruchirapalli-620002",620002,109,40,14,13,27,3,757
-571,Avm Medical Ent Research Fundation,Tamilnadu,Chennai,"3, P.S.S. Road,Mylapore",600004,99,54,9,5,77,5,654
-572,Avss Hospitals,Tamilnadu,Madurai,"# 32A, Kuruvikkaran Salai, Madurai-625009",625009,82,41,6,2,62,3,541
-577,Aysha Hospital,Tamilnadu,Chennai,"91A Millers Road, Kilpauk",600010,95,12,5,2,51,6,405
-590,B M Hospitals,Tamilnadu,Chennai,"36, 5Th Main Road,Thillai Ganga Nagarcheenai",600061,82,50,8,2,77,5,342
-592,B.B Hospital,Tamilnadu,Chennai,"No.52,Dayalu Nagar,Kolathur,Near Villirakham Railway Station,",600099,90,19,8,7,78,2,768
-593,B.G Hospital,Tamilnadu,Tiruchendur,"1/143-B,Tuticorin Road,Veerapandianpatnam, Tiruchendur",628216,140,94,13,1,70,2,322
-602,B.M.Orthopaedic Hospital,Tamilnadu,Chennai,"No.3/157, Mth Road, Ambattur,Chennai - 53",600053,148,78,7,6,70,4,550
-604,B.M.Silver Jubilee Multi Speciality Hospital,Tamilnadu,Kanchipuram,"41, Dharga Road, Pallavaram, Kancheepuram, Chennai-600043",600043,140,56,9,3,60,4,708
-607,B.P.Jain Hospital,Tamilnadu,Kanchipuram,"Plot No.6,Gokulam Colony,Anna Salai,Pammal,Kanchipuram",600075,84,42,5,4,79,5,800
-608,B.R. Hospital,Tamilnadu,Thiruvallur,"10&12, Alamaram Street, Tiruttani.",631209,130,99,12,4,91,4,669
-610,B.S. Hospital,Tamilnadu,Chennai,"# 16, 3Rd Main Road,Chitlapakkam,",600064,103,81,10,7,25,2,564
-611,B.S.S. Hospital,Tamilnadu,Chennai,"New No 200, Old # 179/1, R.K. Mutt Road, Mandaveli,",600028,150,31,10,1,33,5,372
-614,Babus Maternity Hosptial,Tamilnadu,Chennai,"# 7, Doraisamy Reddy Street, Tabaram",600045,97,15,12,6,23,6,629
-621,Bagdi Nursing Home,Tamilnadu,Chennai,"3Rd Floor, #10, Solaiappan Streett.Nagar",600017,35,33,2,2,82,0,169
-628,Balagangadhara Varma Nursing Home & Research Center,Tamilnadu,Chennai,"No 17, First Main Road,Narayanapuram",601302,21,14,0,0,100,2,118
-639,Balaji Hospital,Tamilnadu,Chengalpattu,"No.14,Varadanar Street,Vedachalanagar,Chengalpattuvedachala Nagar",603001,60,32,14,10,99,4,340
-648,Balaji Surya Hospital,Tamilnadu,Erode,"#129,Pollachi Road,Dharapuram",638656,85,31,11,3,99,6,779
-649,Balakrishna Eye Hospital & Eye Research Centre,Tamilnadu,Chennai,"11, Sastri First Cross Street, Chennai, Tamilnadu",600015,10,2,0,0,31,0,116
-668,Bappu Clinic & Nursing Home,Tamilnadu,Chennai,"#46, Kalaingar Main Road,Srinivasa Nagar, Perungalatur,",600063,26,11,0,0,36,2,145
-697,Be Well Hospitals Pvt Ltd,Tamilnadu,Pondicherry,"No. 15, Lawspet, Green Garden, Ecr, Pondicherry, Shenbaga Motors (Maruthi Show Room)",605008,72,37,6,5,69,5,434
-704,Bejan Singh Eye Hospital Pvt Ltd,Tamilnadu,Kanyakumari,"No.2/1,313C,M.S.Road,Vettoornimadam,Nagercoil,",629003,300,126,35,21,33,9,2301
-720,Bethel Hospital (P) Ltd,Tamilnadu,Coimbatore,"# 223, Dr. Rajendra Prasad Road.",641012,70,65,6,1,45,6,587
-723,Bgm Hospital,Tamilnadu,Madurai,"1/249,New Nathan Road,Iyyer Bungalow",625014,66,43,9,4,41,2,718
-734,Bhagwan Mahaveer Eye Hospital,Tamilnadu,Chennai,"# 142, M.S. Koil Street, Royapuram.",600013,15,8,0,0,88,1,73
-755,Bharani Paventhan Multi Speciality Hospital,Tamilnadu,Erode,"74, Sampath Nagar Erode Tamilnadu",638011,150,23,13,2,65,3,347
-760,Bharath Hospital,Tamilnadu,Chennai,"# 72, I St Main Road,Nanganallur",600061,82,21,13,3,45,6,319
-768,Bharathi Hospital,Tamilnadu,Virudhunagar,"# 592/2,Sri Renga Palayam,Rajapalayam",626117,124,121,14,8,25,4,569
-805,Billroth Hospital Limited,Tamilnadu,Chennai,"#43, Lakshmi Takis Rd,Shenay Nagarshenoy Nagar, Chennai",600030,138,33,9,8,62,2,606
-806,Billroth Hospitals - Ra Puram,Tamilnadu,Chennai,"#52, 2Nd Main Road, Raja Annamalai Puram,Raja Annamalai Puram",600028,115,64,14,4,86,4,469
-848,Brs Hospital Pvt.Ltd,Tamilnadu,Chennai,No.28. Cathedral Garden Roadcathedral Gardens Road,600034,97,57,8,1,77,4,792
-857,C.K. Hospital,Tamilnadu,Erode,"# 41, Balasubbarayalu Streeterode",638001,63,18,9,3,24,3,760
-861,C.S.I. Kalyani General Hospital,Tamilnadu,Chennai,"15, Dr Radhakrishnan Salai, Mylapore, Chennai-600004, Next To City Centre",600004,395,144,28,12,96,6,2635
-863,C.S.I. Rainy Multi-Speciality Hospital,Tamilnadu,Chennai,"#45, G.A. Road Chennai",600021,104,74,10,2,87,5,615
-865,C.S.M Nursing Home,Tamilnadu,Chennai,"# 18, Rukmani Street,West Mambalam",600033,11,10,0,0,47,0,136
-884,Cauvery Trust Hospital,Tamilnadu,Chennai,"No.36,Ponnankinaru Street,Villivakkam,",600049,551,109,25,17,58,10,1745
-944,Chandra Hospital,Tamilnadu,Madurai,"# 10, Pillayarpalayam Road",625001,67,25,10,1,84,3,570
-975,Chennai Eye Care Hospital,Tamilnadu,Chennai,"#6,12Th Cross Street,Dhandeeswaran Nagar,Velachery",600042,27,6,1,1,75,1,54
-976,Chennai Krishna Hospital,Tamilnadu,Chennai,"No.297, Gst Road, Near Mit Flyover, Chromepet, Chennai, Tamilnadu",600044,143,81,10,3,29,6,604
-977,Chennai Meenakshi Multispeciality Hospital Ltd.,Tamilnadu,Chennai,"# 148, Luz Church Road, Malapore, Chennai, Tamilnadu.",600004,76,62,6,2,45,3,493
-980,Chettinad Super Speciality Hospital (Cssh)-(A Unit Of Rajah Muthiah Charitable And Educational Trust),Tamilnadu,Chennai,"I.T. Highway,Kelambakkam",603103,368,339,26,20,63,5,1251
-984,Child Jesus Hospital,Tamilnadu,Trichy,"P Box No 17, Cantonment, Tiruchirappalli, Trichy-620001Near To All India Radio Station",620001,72,59,14,9,43,5,482
-1005,Chitra Kalyana Raman Nursing Home,Tamilnadu,Salem,"56,A/1,Rajaji Road",636007,34,24,2,0,95,2,114
-1007,Chitras Ent Laser Surgery Super Speciality Hospital,Tamilnadu,Chennai,"30C, Cathedral Garden Lane,Nungambakkam.",600034,69,62,6,6,83,3,348
-1016,Christian Hospital,Tamilnadu,Madurai,"Vaigai Dam Road, Periyakulam,Perivakulam- 625 601",625601,143,33,14,3,30,3,760
-1020,Christudas Orthopaedic Speciality Hospital,Tamilnadu,Chennai,"#9.Duraiswamy Ngr. I.A.F. Road, Tamilnadu Chennai 59",600059,113,81,13,12,72,5,527
-1036,City Hospital,Tamilnadu,Erode,"#87,Rkv Road,Near Chennai Silks",638003,116,95,10,4,35,4,538
-1037,City Hospital,Tamilnadu,Tuticorin,"106, G/8A, Palai Main Road (W)Millerpuram Corner,",628008,54,29,6,4,57,3,302
-1044,City Hospital Pavalam Trauma Centre,Tamilnadu,Dindigul,4/361 Gandhiji Nagar Trichy Road,624005,75,42,7,0,82,3,453
-1052,Clinic Nallam,Tamilnadu,Pondicherry,"86,Eswaran Koil Street",605001,22,16,1,1,51,2,126
-1059,Coimbatore Bone And Joint Foundation Pvt Ltd,Tamilnadu,Coimbatore,"#1091-Mettupalayam Road,North Coimbatore Bus Stop,R.S.Puram",641002,120,106,7,7,81,5,411
-1060,Coimbatore Kidney Centre,Tamilnadu,Coimbatore,"738-B, Puliakulam Road, Coimbatore, Tamilnadu",641045,58,48,5,5,34,3,499
-1077,Crescent Hospitals,Tamilnadu,Madurai,"37/1,Sivaganga Road,Opp To Aavin Milk Project",625020,90,17,6,3,99,4,568
-1083,Csi Hospital,Tamilnadu,Kanchipuram,No.21.Hospital Roadkanchipuram,631502,50,9,12,0,71,3,469
-1085,Csr Nursing Home,Tamilnadu,Coimbatore,"# 272, 7Th Street Extension,Gandhipuram, Coimbatore-641012",641012,20,4,2,0,93,1,185
-1102,D.S.K. Hospital,Tamilnadu,Coimbatore,"# 19, Kadirnagar, Kangeyam Road, Tirupur.",641604,89,37,11,4,40,6,591
-1114,Darshan Surgical Centre Llp,Tamilnadu,Chennai,"Block T-80, New No-24 5Th Main Road",600040,64,28,11,7,86,3,349
-1144,Deepa Kannan Hospital,Tamilnadu,Karur,"# 33,Muthunagar,Karur",639002,60,36,11,9,25,3,598
-1151,Deepam Eye Hospital,Tamilnadu,Chennai,"#72,Medavakkam,Tank Road,Kilpauk",600010,13,4,3,2,43,0,137
-1152,Deepam Hospital,Tamilnadu,Chennai,"#327, Muthurangam Road,Tambaram(West),Kanchipuram,West Tambaram",600045,78,68,11,1,62,5,730
-1153,Deepam Hospital,Tamilnadu,Coimbatore,"687, Trichy Road.",641045,112,69,14,6,53,4,738
-1154,Deepam Hospital,Tamilnadu,Valapady,"#128,Ayya Gounder Street,Opp Police Station",636115,75,28,9,3,45,6,378
-1155,Deepam Hospital Ltd,Tamilnadu,Chennai,"30, Ayyasamy Street,",600044,109,109,10,2,91,5,330
-1156,Deepam Hospital Ltd,Tamilnadu,Chennai,"107-A, Gst Road, Chennai",600044,139,55,9,6,97,3,321
-1160,Deepika Eye Care Hospital,Tamilnadu,Kanchipuram,"1564/4D,Chengalpet Road",602105,37,12,1,0,37,0,163
-1163,Deepthi Hospital,Tamilnadu,Namakkal,"31-A,Mohanur Road",637001,115,63,6,2,72,4,490
-1183,Devadoss Multispeciality Hospital,Tamilnadu,Madurai,"#75/1,Alagarkovil Main Roadsurveyor Colony,",625007,148,70,9,5,97,5,425
-1184,Devaki Cancer Institute,Tamilnadu,Madurai,"#26,Theni Main Road,Arasaradi,Near Bypass Road",625016,73,9,13,5,21,6,426
-1185,Devaki Hospital,Tamilnadu,Sivagangai,"No.6/1,Kamban Mani Mandapam Road,Karaikudi,",630001,57,51,15,2,64,3,393
-1191,Devi Priya Hospital,Tamilnadu,Madurai,"12/54, A2G, T.B. Road,Usilampattiusilampatti, Madurai-625532.",625532,86,49,6,6,65,3,333
-1219,Dharan Hospital,Tamilnadu,Salem,"14,Seela Naicken Patti By Pass. On A National Highway Salem",636201,101,57,13,13,28,5,768
-1224,Dhiviya Nursing Home,Tamilnadu,Erode,"306, Chennimalai Road, Kangayam",638701,12,9,2,2,21,0,161
-1232,Dinesh Nursing Home,Tamilnadu,Madurai,"No.6-1-33,West Street,Viswanathapuram, Madurai-625014",625014,30,8,0,0,97,2,72
-1250,Doctor Rex'S Hospital,Tamilnadu,Chennai,"# 37, Millers Road, Kilpauk",600010,136,120,10,0,44,6,760
-1257,Dr Agarwal'S Eye Hospital Ltd,Tamilnadu,Chennai,"19, Cathedral Road",600086,27,13,1,0,70,0,198
-1258,Dr Agarwal'S Eye Hospital Ltd (Nanganallur),Tamilnadu,Nanganallur,"Ophthalmology Dept Margreet Sydney Hospital No 13, 2Nd Street Nanganallur Chennai-600061",600061,14,10,1,1,72,1,131
-1262,Dr Agarwals Eye Hospital Ltd,Tamilnadu,Chennai,"#107, A Block 3Rd Avenue Anna Nagar Near",600040,11,10,3,2,32,1,124
-1263,Dr Agarwals Eye Hospital Ltd,Tamilnadu,Chennai,"#33,7Th Avenue,Ashok Nagar",600083,21,14,1,1,62,0,143
-1264,Dr Agarwals Eye Hospital Ltd,Tamilnadu,Chennai,"No-6, Duraisamy Street Tdk Towers Tambaram",600045,17,14,2,2,100,0,92
-1265,Dr Agarwals Eye Hospital Ltd,Tamilnadu,Kanchipuram,"#32-B,Indiragandhi Road Opp Taluk Office",631502,36,19,3,0,85,0,134
-1266,Dr Agarwals Eye Hospital Ltd (Dharmapuri),Tamilnadu,Dharmapuri,"136 1St Floor,Nethaji Bye Pass Road",636701,10,1,0,0,74,1,191
-1267,Dr Agarwals Eye Hospital Ltd (Gopalapuram),Tamilnadu,Chennai,Retina Foudation No 31 1St Street Gopalapuram,600086,34,3,0,0,98,2,95
-1268,Dr Agarwals Eye Hospital Ltd (Kumbakonam),Tamilnadu,Kumbakonam,"2/381, Indiranagar,Kumbakonam",612001,28,16,0,0,33,2,138
-1269,Dr Agarwals Eye Hospital Ltd (Periyar Nagar),Tamilnadu,Chennai,"B-63, Siva Elango Salai 70Feet Road, Periyar Nagar",600082,33,19,2,0,87,2,130
-1270,Dr Agarwals Eye Hospital Ltd (Salem),Tamilnadu,Salem,"#114/7,Gandhi Road,Salem",636007,26,16,3,0,40,2,65
-1271,Dr Agarwals Eye Hospital Ltd (Villupuram),Tamilnadu,Villupuram,"#19, Trichy Trunk Road,Near To Villupuram Signal",605602,17,13,1,0,91,0,145
-1277,Dr Kamakshi National Hospital,Tamilnadu,Chennai,No 12 Jaffer Serang Streetsecond Line Beach Chennai,600001,132,63,14,10,44,5,358
-1280,Dr Lankesh Eye Hospital Pvt Ltd,Tamilnadu,Ashok Nagar,No-2 41St Street. 6Th Avenue. Ashok Nagarashok Nagar,600083,35,15,2,0,50,1,110
-1284,Dr Manoharan Hospital,Tamilnadu,Coimbatore,"No.1210,Thadagam Road,Near To Aavin Milk Company,R.S. Puram,",641002,124,112,6,5,23,5,416
-1293,Dr. A. Ansari Hospital,Tamilnadu,Nagapattanam,"# 20, Naganathar Sannadhi, Nagapattinam, Tamilnadu",611001,56,8,5,2,98,3,356
-1294,Dr. A. Govindarajan Eye Hospitals,Tamilnadu,Trichy,"No: 6, Officer'S Colony, Puthur Tiruchirapalli-620017Trichy",620017,35,22,0,0,33,1,164
-1300,Dr. Arvind Vision Care,Tamilnadu,Chennai,"#61, Reddy Palayam Road, Mogappair West, Chennai, Tamilnadu",600037,72,23,9,1,53,4,541
-1316,Dr. G.C. Hospital,Tamilnadu,Karur,"#30, North Pradakshanam Road, Karur, Tamilnadu.",639001,141,128,15,6,38,5,358
-1322,Dr. Grace George Hospital,Tamilnadu,Chennai,"# 34, Udayavar Koil Street,Thirumizhisai, Poonamalee.",600029,76,51,14,11,26,3,725
-1325,Dr. Jacquline Divyananda (Divya Hospital),Tamilnadu,Chennai,"# 20, Medavakkam Main Road, Madipakkam",600091,94,28,7,3,37,3,716
-1329,Dr. Jeyasekharan Medical Trust,Tamilnadu,Nagercoil,"#1159, K.P. Road, Nagerkoil.",629003,243,196,37,4,59,9,1278
-1331,Dr. K.M. Nallaswamy Hospital,Tamilnadu,Erode,"#93, Power House Road,Erode",638001,109,66,10,1,88,5,508
-1339,Dr. Kumaraswami Health Centre ( A Unit Of Indian Medical Centre),Tamilnadu,Kanyakumari,"N.H. Road # 47, 1/4C,1/4D,1/4E Perumalpuramperumalpuram, Kanyakumari.",629703,136,67,13,3,70,6,568
-1341,Dr. Loganathan Orthopaedic Hospital,Tamilnadu,Erode,"606/A, Mettur Main Road, Bhavani,",638301,128,99,11,7,90,5,482
-1347,Dr. Mehta'S Multispeciality Hospital Pvt Ltd.,Tamilnadu,Chennai,"2 (E), Mc. Nicholas Road, Chennai, Opposite To Chetpet Police Station.",600031,113,31,6,3,80,5,364
+S.NO,Hospital,State,City,LocalAddress,Pincode,Total_Beds,Available_Beds,Total_Ventilators,Available_Ventilators,Oxygen_Supply_Percentage,Active_Ambulances,Vaccine_Stock_Doses,Available_Ambulances
+0,A A Hospital,Tamilnadu,Hosur,Denkani Kottai Road Mathigiri,635110,113,58,5,1,49,5,608,5
+1,A C Hospital,Tamilnadu,Chennai,"No-8, 3Rd Main Road, United India Nagar, Ayanavaram, Chennai-600023",600023,62,14,10,5,26,5,467,7
+5,A.C. Hospital,Tamilnadu,Salem,"201,2Nd Agraharam",636001,71,59,15,5,100,3,419,8
+6,A.G. Eye Care Hospitals (U Nit Of Dr. A.G. Eye Hospitals Private Limited,Tamilnadu,Chennai,"No. 106, R.K. Mutt Road. Mylapore, Chennai, Tamilnadu",600004,16,12,1,0,55,2,170,2
+7,A.G. Hospital,Tamilnadu,Coimbatore,"34, Kpn Colony 3Rd Street, Tirupur",641601,122,62,9,8,45,6,766,11
+8,A.G. Padmavati'S Hospital Ltd.,Tamilnadu,Pondicherry,"R.S. No.127/A, Villianur Main Road, Arumparthapuram, Puducherry",605110,63,10,5,2,71,3,594,7
+15,A.N.N Hospital,Tamilnadu,Chennai,"81-85,Annai Therasa Street,Valasaravakkam",600087,138,130,5,3,51,5,662,9
+18,A.R.Hospital Pvt Ltd,Tamilnadu,Madurai,"609, K.K.Nagar, Madurai-625020",625020,84,15,7,0,89,5,398,13
+20,A.V. Hospitals,Tamilnadu,Chennai,"# 172, Solaiappan Street, Tondirepet (North Chennai) Near Maharani Theatre",600021,115,74,5,4,58,2,575,4
+22,A.V.M. Hospital A.V.M.M. Associates (P) Ltd,Tamilnadu,Tuticorin,"# 135, Palayamkottai Roadtuticorin",628003,137,23,12,10,24,5,748,7
+33,Aakash Hospital,Tamilnadu,Chennai,"# 393/1, T.H. Road, (Annexe) 393/1, Tiruvottiyur.Tiruvallur",600019,125,38,15,7,86,5,594,7
+39,Aarthi Hospital,Tamilnadu,Tirunelveli,"60,Santhaipettai Street",628502,118,89,7,5,89,5,438,7
+40,Aarthy Eye Hospital,Tamilnadu,Karur,"#16, Sengunthapuram Main Road, Karur.",639002,33,23,0,0,99,1,147,2
+59,Abdul Khadir Hospital,Tamilnadu,Nagercoil,"Parakkai Road,Elankadai,Kottar",629002,120,72,11,1,75,3,451,10
+68,Abhijay Hospital (P) Ltd.,Tamilnadu,Chennai,"No.22/2, E.S.I Hospital Road,Peravallur,",600011,76,31,13,3,21,6,526,12
+78,Abinand Hospital,Tamilnadu,Coimbatore,"237-F/7, Pollachi Main Road,Sundarapuram, Coimbatore",641024,96,27,9,8,98,3,760,8
+79,Abiraami Hospital,Tamilnadu,Cuddalore,"24-Alc,Campus,Manjakuppam",607001,121,121,15,9,94,5,476,9
+80,Acchutha Eye Care,Tamilnadu,Erode,"#H-3, Evn Road, Permar Nagar, Near Surampatti Nall Road, Erode-638009",638009,27,15,0,0,20,2,113,7
+106,Adithya Speciality Hospital,Tamilnadu,Madurai,"277, G.S.T Main Road, Near Harveypatty Bus Stop, Thirunagar, Madurai - 625006",625006,145,120,10,3,98,6,302,11
+116,Aditya Hospital,Tamilnadu,Chennai,"No.7, Barnbay Road, Kilpauk, Chennai-600010",600010,71,61,15,0,56,3,376,9
+132,Adyar P.M. Hospital,Tamilnadu,Chennai,"# 58, L.B. Road, Adyar, Chennai-600020Chennai",600020,111,75,7,4,52,5,706,9
+139,Agash Nursing Home,Tamilnadu,Chennai,"#234, G.S.T. Road, Chromepet",600044,32,18,2,0,76,2,79,5
+169,Ak Hospital,Tamilnadu,Chennai,"360 Poonamallee High Road,Junction Of Ph Rd &",600029,132,45,14,12,89,6,684,9
+173,Akilesh Orthopaedics Hospitals,Tamilnadu,Coimbatore,"95-97, Sasthiri Road, Rammagar.",641009,109,18,13,5,41,4,681,8
+217,Alva Hospital Pvt Ltd,Tamilnadu,Pollachi,"74/A2, Meenkarai Road,Pollachi Coimbatore",642013,97,57,14,12,83,6,511,9
+222,Amaravathi Hospital,Tamilnadu,Karur,"#74, Ramanujam Nagar, Kovai Road, Karur, Tamilnadu.",639002,58,7,15,8,31,3,331,6
+240,Amma Hospital,Tamilnadu,Chennai,"# 1, Sowrastra Nagar7Th Street, Chennai",600094,54,48,5,5,20,3,702,7
+241,Amma Hospital,Tamilnadu,Krishnagiri,"Bangalore Road, Hosur Town",635109,64,39,13,0,64,6,334,11
+242,Ammayi Eye Hospital,Tamilnadu,Chennai,"New # 80, 7Th Avenue, Ashoknagar, Chennai-600083",600083,33,28,0,0,22,0,128,2
+246,Amrit Medicare Pvt Ltd,Tamilnadu,Chennai,"No.310,Mint Street,Near Sowcarpet, Chennai-600079",600079,63,42,15,4,63,5,460,10
+255,Amudha Poly Clinic And Hospital,Tamilnadu,Erode,"101,Athani Road,Sathyamangalam,Erode",638401,32,15,2,2,82,2,57,5
+265,Anand Hospital,Tamilnadu,Chennai,"201, Kamaraj Salai,Manali,Chennaimanali",600068,60,13,14,11,98,5,699,9
+274,Anand Hospitals,Tamilnadu,Tiruppur,"#97/54,Jg Nagar,2Nd Street,60 Feet Road,",641602,111,91,13,1,93,6,767,9
+296,Anbu Hospital,Tamilnadu,Madurai,"No.150/1,Kamarajar Salai,",625009,88,36,9,1,81,5,312,8
+297,Anbu Hospital,Tamilnadu,Tanjore,"# 4,5, Lakshmivilas Street, Kumbakonam",612001,87,36,14,7,38,5,592,13
+299,Andhra Mahila Sabha,Tamilnadu,Chennai,"No.11 & 12, Dr.Durgabaideshmukh Road, R.A.Puram,",600028,64,41,5,3,20,5,612,12
+306,Anjakha Hospital,Tamilnadu,Kanchipuram,"#23,Medavakkam Main Road,Madipakkam",600091,57,54,5,2,54,3,437,12
+317,Annai Ent And Head & Neck Care Centre,Tamilnadu,Erode,"#12D,Palaniappa Street,Perundurai Road",638009,119,98,8,3,51,2,341,8
+318,Annai Hospital,Tamilnadu,Kanyakumari,"5-82/1, Kurumbanai Road, Karungal, Kanyakumari, Tamilnadu",629157,107,19,9,3,34,3,789,6
+319,Annai Velankanni Nursing Home,Tamilnadu,Tirunelveli,"Post Box No.107, Murugan Kurichi, Palayamkottai.",627002,37,21,0,0,23,0,189,3
+320,Annamalai Hospital,Tamilnadu,Chennai,"# 27, Govindan Raod, West Mambalam, Near Srinivasa Theatre",600033,80,29,6,2,53,3,416,8
+321,Annammal Hospital,Tamilnadu,Kuzhithurai,Kuzhithurai,629163,106,12,12,11,27,4,616,6
+332,Anu Hospital,Tamilnadu,Tanjore,"#69,Trichy Road,Very Near To Railway Station",613007,99,15,5,1,44,6,349,7
+351,Aparna Hospital,Tamilnadu,Coimbatore,"450-D,Palaghat Main Road,Kuniamuthu",641008,84,72,5,2,78,6,555,9
+376,Apollo First Med Hospitals,Tamilnadu,Chennai,"No 154, Poonamallee High Road, Near Neyveli House, Kilpauk, Chennai - 6000No 154, Poonamallee High Road, Near Neyveli House, Kilpauk, Chennai - 6000",600010,102,22,15,7,96,2,658,10
+379,Apollo Hospital ( T.H.Road-Chennai),Tamilnadu,Chennai,"#645, T.H.Road, Tondiarpet",600081,79,65,6,6,29,2,577,4
+387,Apollo Hospitals (Greams Road-Chennai),Tamilnadu,Chennai,"#21, Greams Lane,Greams Road, Chennai-600006",600006,95,41,12,10,99,4,419,6
+391,Apollo Hospitals Karaikudi,Tamilnadu,Karaikudi,"Madurai Main Road, Managiri Village Karaikodi, Tamilnadu-630307, Near, Chettinad Public School",630307,136,107,8,1,77,3,572,12
+395,Apollo Speciality Hospital (Chennai),Tamilnadu,Chennai,"No 320 5Th Floor, Padma Complex, Anna Salai, Near Lr Swami Building, Nandanam, Chennai, Tamil Nadu",600035,103,38,6,2,63,6,384,9
+396,Apollo Speciality Hospital (Madurai),Tamilnadu,Madurai,"20,Lake View, Kk Nagar,",625020,86,81,8,5,58,3,519,7
+403,Appasamy Medicare Centre Pvt Ltd,Tamilnadu,Chennai,"23-25, Friends Avenue, Arumbakkam, Chennaiarumbakkam",600106,68,20,5,5,39,3,781,7
+407,Appusami Hospital,Tamilnadu,Salem,"# 8Z/A, Gandhi Road,Salem-636007.",636007,95,40,11,8,63,2,529,5
+409,Arasan Eye Hospital,Tamilnadu,Erode,"#26, Annamalai Layout,Opp To Road Theatre",638011,34,32,2,2,39,1,194,2
+411,Aravind Eye Hospital (Salem),Tamilnadu,Salem,"64, Sankagiri Main Road, Nethimedu, Salem, Tamilnadu-636002, Opposite To Kaliamman Temple",636002,33,10,2,1,41,0,135,6
+412,Aravind Eye Hospital - Coimbatore,Tamilnadu,Coimbatore,"Avanashi Road, Coimbatore-641014Teelametu",641014,33,21,1,0,71,1,147,1
+413,Aravind Eye Hospital - Pondicherry,Tamilnadu,Pondicherry,"Cuddalore Main Road,Abishekapakkam Post,Thavalakuppam, Pondicherry-605007Thavalakuppam",605007,35,14,0,0,86,0,166,2
+414,Aravind Eye Hospital - Theni,Tamilnadu,Theni,"371,Periakulam Road,Allinagaram",625531,24,4,3,2,46,0,76,3
+415,Aravind Eye Hospital - Tirunelveli,Tamilnadu,Tirunelveli,# 1. S.N. High Road,627001,16,1,2,2,23,1,199,3
+417,Aravind Eye Hospital- Madhurai,Tamilnadu,Madurai,"1- Anna Nagar, Madurai-625020Madhurai",625020,34,15,1,1,83,2,132,4
+418,Aravind Eye Hospital-Tirupur,Tamilnadu,Tirupur,"Dharapuram Main Road, K. Chettipalayam, Tirupur, Tamilnadu",641608,16,14,0,0,83,1,192,5
+421,Aravind Sai Eye Hospital,Tamilnadu,Chennai,"# 1, Ganesan Street,Pammal Main Road Krishna Nagar",600075,21,9,0,0,92,1,136,4
+433,Ark Nursing Home,Tamilnadu,Krishnagiri,"29-A, 4Th Cross,Co Operative Colony Near Employment Officeco-Ops Colony",635001,39,18,0,0,78,1,144,2
+439,Arokya Hospital,Tamilnadu,Chennai,"#32, Pillayar Koil Street",600078,146,138,5,0,36,5,645,13
+447,Arthur Astrvatham Hospital,Tamilnadu,Madurai,"No.42-A,Kuruvikaran Salai,",625020,139,135,11,7,35,3,710,6
+448,Arul Hospital,Tamilnadu,Trichy,"#6A,T.V.K.Nagar,Puthur",620017,82,34,15,2,100,2,647,7
+449,Arul Mission Hospital,Tamilnadu,Tirunelveli,"7A1 & 2,North Main Road,Vallioor",627117,233,32,46,8,46,5,2181,25
+451,Arun Hospital,Tamilnadu,Madurai,"#186,Munichalai Road,",625009,131,18,8,5,78,4,618,6
+452,Arun Hospital (Pollachi),Tamilnadu,Pollachi,"49/84, New Scheme Roadpollachi Coimbatore",642002,99,75,14,10,72,3,386,11
+453,Arun Hospital (Theni),Tamilnadu,Theni,"51, Uthamapalayam Road,Bus Stand Bodinayakanur",625513,59,49,12,7,83,5,467,6
+458,Arunn Surgery,Tamilnadu,Coimbatore,"Dr.Nanjappa Road,",641018,96,54,11,5,22,6,594,7
+462,Arunpriya Nursing Home,Tamilnadu,Nagapattanam,"3&4, Pattamangalam Street,Nagapattinam",609001,25,15,1,0,81,2,150,3
+465,Arvinth Hospital,Tamilnadu,Namakkal,"# 17, Rangar Sannathi Street,Namakkal- 637001",637001,70,67,9,5,54,6,437,9
+498,Ashok Hosptial,Tamilnadu,Hosur,"#10-A, 1St Cross, Old Banfalore Road, Hosur,",635109,74,71,10,3,30,6,378,8
+507,Ashveny Clinic,Tamilnadu,Sivakasi,"1/6, Periyakaruppan Road,Sivakasi-626189",626189,29,27,3,2,40,1,100,2
+511,Ashwin Hospital,Tamilnadu,Erode,"#212/545,Skc Road,Surampatti Nall Road,",638001,100,57,9,3,20,4,576,12
+512,Ashwin Hospitals,Tamilnadu,Coimbatore,"#1, Alamu Nagar Road,Coimbatore-641012.",641012,62,62,10,6,94,3,598,7
+536,Assured Best Care Hospital,Tamilnadu,Trichy,"#1, Annamalai Nagar Main Road Thillai Nagarannamalai Nagar",620018,82,50,10,0,78,3,784,7
+539,Aswene Soundra Hospital & Research Centre,Tamilnadu,Chennai,"# 24,Kasturi Rangan Road,Teynampet",600018,95,24,13,0,51,2,484,7
+548,Athipathi Hospital And Research Center,Tamilnadu,Chennai,"Plot No 1,100 Ft Rd,Tanni Nagar,Velachary",600042,139,91,10,8,25,2,655,10
+550,Atlas Hospitals,Tamilnadu,Tiruchirapalli,"34/1-First Cross, V.N. Nagar, Near Chathiram Bus Stand, Tiruchirapalli-620002",620002,109,40,14,13,27,3,757,7
+571,Avm Medical Ent Research Fundation,Tamilnadu,Chennai,"3, P.S.S. Road,Mylapore",600004,99,54,9,5,77,5,654,7
+572,Avss Hospitals,Tamilnadu,Madurai,"# 32A, Kuruvikkaran Salai, Madurai-625009",625009,82,41,6,2,62,3,541,11
+577,Aysha Hospital,Tamilnadu,Chennai,"91A Millers Road, Kilpauk",600010,95,12,5,2,51,6,405,5
+590,B M Hospitals,Tamilnadu,Chennai,"36, 5Th Main Road,Thillai Ganga Nagarcheenai",600061,82,50,8,2,77,5,342,11
+592,B.B Hospital,Tamilnadu,Chennai,"No.52,Dayalu Nagar,Kolathur,Near Villirakham Railway Station,",600099,90,19,8,7,78,2,768,12
+593,B.G Hospital,Tamilnadu,Tiruchendur,"1/143-B,Tuticorin Road,Veerapandianpatnam, Tiruchendur",628216,140,94,13,1,70,2,322,10
+602,B.M.Orthopaedic Hospital,Tamilnadu,Chennai,"No.3/157, Mth Road, Ambattur,Chennai - 53",600053,148,78,7,6,70,4,550,12
+604,B.M.Silver Jubilee Multi Speciality Hospital,Tamilnadu,Kanchipuram,"41, Dharga Road, Pallavaram, Kancheepuram, Chennai-600043",600043,140,56,9,3,60,4,708,7
+607,B.P.Jain Hospital,Tamilnadu,Kanchipuram,"Plot No.6,Gokulam Colony,Anna Salai,Pammal,Kanchipuram",600075,84,42,5,4,79,5,800,9
+608,B.R. Hospital,Tamilnadu,Thiruvallur,"10&12, Alamaram Street, Tiruttani.",631209,130,99,12,4,91,4,669,10
+610,B.S. Hospital,Tamilnadu,Chennai,"# 16, 3Rd Main Road,Chitlapakkam,",600064,103,81,10,7,25,2,564,5
+611,B.S.S. Hospital,Tamilnadu,Chennai,"New No 200, Old # 179/1, R.K. Mutt Road, Mandaveli,",600028,150,31,10,1,33,5,372,7
+614,Babus Maternity Hosptial,Tamilnadu,Chennai,"# 7, Doraisamy Reddy Street, Tabaram",600045,97,15,12,6,23,6,629,6
+621,Bagdi Nursing Home,Tamilnadu,Chennai,"3Rd Floor, #10, Solaiappan Streett.Nagar",600017,35,33,2,2,82,0,169,1
+628,Balagangadhara Varma Nursing Home & Research Center,Tamilnadu,Chennai,"No 17, First Main Road,Narayanapuram",601302,21,14,0,0,100,2,118,6
+639,Balaji Hospital,Tamilnadu,Chengalpattu,"No.14,Varadanar Street,Vedachalanagar,Chengalpattuvedachala Nagar",603001,60,32,14,10,99,4,340,4
+648,Balaji Surya Hospital,Tamilnadu,Erode,"#129,Pollachi Road,Dharapuram",638656,85,31,11,3,99,6,779,6
+649,Balakrishna Eye Hospital & Eye Research Centre,Tamilnadu,Chennai,"11, Sastri First Cross Street, Chennai, Tamilnadu",600015,10,2,0,0,31,0,116,2
+668,Bappu Clinic & Nursing Home,Tamilnadu,Chennai,"#46, Kalaingar Main Road,Srinivasa Nagar, Perungalatur,",600063,26,11,0,0,36,2,145,2
+697,Be Well Hospitals Pvt Ltd,Tamilnadu,Pondicherry,"No. 15, Lawspet, Green Garden, Ecr, Pondicherry, Shenbaga Motors (Maruthi Show Room)",605008,72,37,6,5,69,5,434,10
+704,Bejan Singh Eye Hospital Pvt Ltd,Tamilnadu,Kanyakumari,"No.2/1,313C,M.S.Road,Vettoornimadam,Nagercoil,",629003,300,126,35,21,33,9,2301,17
+720,Bethel Hospital (P) Ltd,Tamilnadu,Coimbatore,"# 223, Dr. Rajendra Prasad Road.",641012,70,65,6,1,45,6,587,6
+723,Bgm Hospital,Tamilnadu,Madurai,"1/249,New Nathan Road,Iyyer Bungalow",625014,66,43,9,4,41,2,718,9
+734,Bhagwan Mahaveer Eye Hospital,Tamilnadu,Chennai,"# 142, M.S. Koil Street, Royapuram.",600013,15,8,0,0,88,1,73,2
+755,Bharani Paventhan Multi Speciality Hospital,Tamilnadu,Erode,"74, Sampath Nagar Erode Tamilnadu",638011,150,23,13,2,65,3,347,7
+760,Bharath Hospital,Tamilnadu,Chennai,"# 72, I St Main Road,Nanganallur",600061,82,21,13,3,45,6,319,7
+768,Bharathi Hospital,Tamilnadu,Virudhunagar,"# 592/2,Sri Renga Palayam,Rajapalayam",626117,124,121,14,8,25,4,569,9
+805,Billroth Hospital Limited,Tamilnadu,Chennai,"#43, Lakshmi Takis Rd,Shenay Nagarshenoy Nagar, Chennai",600030,138,33,9,8,62,2,606,10
+806,Billroth Hospitals - Ra Puram,Tamilnadu,Chennai,"#52, 2Nd Main Road, Raja Annamalai Puram,Raja Annamalai Puram",600028,115,64,14,4,86,4,469,5
+848,Brs Hospital Pvt.Ltd,Tamilnadu,Chennai,No.28. Cathedral Garden Roadcathedral Gardens Road,600034,97,57,8,1,77,4,792,6
+857,C.K. Hospital,Tamilnadu,Erode,"# 41, Balasubbarayalu Streeterode",638001,63,18,9,3,24,3,760,6
+861,C.S.I. Kalyani General Hospital,Tamilnadu,Chennai,"15, Dr Radhakrishnan Salai, Mylapore, Chennai-600004, Next To City Centre",600004,395,144,28,12,96,6,2635,18
+863,C.S.I. Rainy Multi-Speciality Hospital,Tamilnadu,Chennai,"#45, G.A. Road Chennai",600021,104,74,10,2,87,5,615,5
+865,C.S.M Nursing Home,Tamilnadu,Chennai,"# 18, Rukmani Street,West Mambalam",600033,11,10,0,0,47,0,136,6
+884,Cauvery Trust Hospital,Tamilnadu,Chennai,"No.36,Ponnankinaru Street,Villivakkam,",600049,551,109,25,17,58,10,1745,29
+944,Chandra Hospital,Tamilnadu,Madurai,"# 10, Pillayarpalayam Road",625001,67,25,10,1,84,3,570,7
+975,Chennai Eye Care Hospital,Tamilnadu,Chennai,"#6,12Th Cross Street,Dhandeeswaran Nagar,Velachery",600042,27,6,1,1,75,1,54,3
+976,Chennai Krishna Hospital,Tamilnadu,Chennai,"No.297, Gst Road, Near Mit Flyover, Chromepet, Chennai, Tamilnadu",600044,143,81,10,3,29,6,604,14
+977,Chennai Meenakshi Multispeciality Hospital Ltd.,Tamilnadu,Chennai,"# 148, Luz Church Road, Malapore, Chennai, Tamilnadu.",600004,76,62,6,2,45,3,493,7
+980,Chettinad Super Speciality Hospital (Cssh)-(A Unit Of Rajah Muthiah Charitable And Educational Trust),Tamilnadu,Chennai,"I.T. Highway,Kelambakkam",603103,368,339,26,20,63,5,1251,29
+984,Child Jesus Hospital,Tamilnadu,Trichy,"P Box No 17, Cantonment, Tiruchirappalli, Trichy-620001Near To All India Radio Station",620001,72,59,14,9,43,5,482,8
+1005,Chitra Kalyana Raman Nursing Home,Tamilnadu,Salem,"56,A/1,Rajaji Road",636007,34,24,2,0,95,2,114,4
+1007,Chitras Ent Laser Surgery Super Speciality Hospital,Tamilnadu,Chennai,"30C, Cathedral Garden Lane,Nungambakkam.",600034,69,62,6,6,83,3,348,9
+1016,Christian Hospital,Tamilnadu,Madurai,"Vaigai Dam Road, Periyakulam,Perivakulam- 625 601",625601,143,33,14,3,30,3,760,6
+1020,Christudas Orthopaedic Speciality Hospital,Tamilnadu,Chennai,"#9.Duraiswamy Ngr. I.A.F. Road, Tamilnadu Chennai 59",600059,113,81,13,12,72,5,527,10
+1036,City Hospital,Tamilnadu,Erode,"#87,Rkv Road,Near Chennai Silks",638003,116,95,10,4,35,4,538,7
+1037,City Hospital,Tamilnadu,Tuticorin,"106, G/8A, Palai Main Road (W)Millerpuram Corner,",628008,54,29,6,4,57,3,302,11
+1044,City Hospital Pavalam Trauma Centre,Tamilnadu,Dindigul,4/361 Gandhiji Nagar Trichy Road,624005,75,42,7,0,82,3,453,6
+1052,Clinic Nallam,Tamilnadu,Pondicherry,"86,Eswaran Koil Street",605001,22,16,1,1,51,2,126,3
+1059,Coimbatore Bone And Joint Foundation Pvt Ltd,Tamilnadu,Coimbatore,"#1091-Mettupalayam Road,North Coimbatore Bus Stop,R.S.Puram",641002,120,106,7,7,81,5,411,9
+1060,Coimbatore Kidney Centre,Tamilnadu,Coimbatore,"738-B, Puliakulam Road, Coimbatore, Tamilnadu",641045,58,48,5,5,34,3,499,8
+1077,Crescent Hospitals,Tamilnadu,Madurai,"37/1,Sivaganga Road,Opp To Aavin Milk Project",625020,90,17,6,3,99,4,568,5
+1083,Csi Hospital,Tamilnadu,Kanchipuram,No.21.Hospital Roadkanchipuram,631502,50,9,12,0,71,3,469,8
+1085,Csr Nursing Home,Tamilnadu,Coimbatore,"# 272, 7Th Street Extension,Gandhipuram, Coimbatore-641012",641012,20,4,2,0,93,1,185,2
+1102,D.S.K. Hospital,Tamilnadu,Coimbatore,"# 19, Kadirnagar, Kangeyam Road, Tirupur.",641604,89,37,11,4,40,6,591,6
+1114,Darshan Surgical Centre Llp,Tamilnadu,Chennai,"Block T-80, New No-24 5Th Main Road",600040,64,28,11,7,86,3,349,6
+1144,Deepa Kannan Hospital,Tamilnadu,Karur,"# 33,Muthunagar,Karur",639002,60,36,11,9,25,3,598,10
+1151,Deepam Eye Hospital,Tamilnadu,Chennai,"#72,Medavakkam,Tank Road,Kilpauk",600010,13,4,3,2,43,0,137,5
+1152,Deepam Hospital,Tamilnadu,Chennai,"#327, Muthurangam Road,Tambaram(West),Kanchipuram,West Tambaram",600045,78,68,11,1,62,5,730,6
+1153,Deepam Hospital,Tamilnadu,Coimbatore,"687, Trichy Road.",641045,112,69,14,6,53,4,738,6
+1154,Deepam Hospital,Tamilnadu,Valapady,"#128,Ayya Gounder Street,Opp Police Station",636115,75,28,9,3,45,6,378,11
+1155,Deepam Hospital Ltd,Tamilnadu,Chennai,"30, Ayyasamy Street,",600044,109,109,10,2,91,5,330,9
+1156,Deepam Hospital Ltd,Tamilnadu,Chennai,"107-A, Gst Road, Chennai",600044,139,55,9,6,97,3,321,7
+1160,Deepika Eye Care Hospital,Tamilnadu,Kanchipuram,"1564/4D,Chengalpet Road",602105,37,12,1,0,37,0,163,1
+1163,Deepthi Hospital,Tamilnadu,Namakkal,"31-A,Mohanur Road",637001,115,63,6,2,72,4,490,7
+1183,Devadoss Multispeciality Hospital,Tamilnadu,Madurai,"#75/1,Alagarkovil Main Roadsurveyor Colony,",625007,148,70,9,5,97,5,425,7
+1184,Devaki Cancer Institute,Tamilnadu,Madurai,"#26,Theni Main Road,Arasaradi,Near Bypass Road",625016,73,9,13,5,21,6,426,10
+1185,Devaki Hospital,Tamilnadu,Sivagangai,"No.6/1,Kamban Mani Mandapam Road,Karaikudi,",630001,57,51,15,2,64,3,393,6
+1191,Devi Priya Hospital,Tamilnadu,Madurai,"12/54, A2G, T.B. Road,Usilampattiusilampatti, Madurai-625532.",625532,86,49,6,6,65,3,333,9
+1219,Dharan Hospital,Tamilnadu,Salem,"14,Seela Naicken Patti By Pass. On A National Highway Salem",636201,101,57,13,13,28,5,768,8
+1224,Dhiviya Nursing Home,Tamilnadu,Erode,"306, Chennimalai Road, Kangayam",638701,12,9,2,2,21,0,161,2
+1232,Dinesh Nursing Home,Tamilnadu,Madurai,"No.6-1-33,West Street,Viswanathapuram, Madurai-625014",625014,30,8,0,0,97,2,72,2
+1250,Doctor Rex'S Hospital,Tamilnadu,Chennai,"# 37, Millers Road, Kilpauk",600010,136,120,10,0,44,6,760,9
+1257,Dr Agarwal'S Eye Hospital Ltd,Tamilnadu,Chennai,"19, Cathedral Road",600086,27,13,1,0,70,0,198,5
+1258,Dr Agarwal'S Eye Hospital Ltd (Nanganallur),Tamilnadu,Nanganallur,"Ophthalmology Dept Margreet Sydney Hospital No 13, 2Nd Street Nanganallur Chennai-600061",600061,14,10,1,1,72,1,131,5
+1262,Dr Agarwals Eye Hospital Ltd,Tamilnadu,Chennai,"#107, A Block 3Rd Avenue Anna Nagar Near",600040,11,10,3,2,32,1,124,2
+1263,Dr Agarwals Eye Hospital Ltd,Tamilnadu,Chennai,"#33,7Th Avenue,Ashok Nagar",600083,21,14,1,1,62,0,143,6
+1264,Dr Agarwals Eye Hospital Ltd,Tamilnadu,Chennai,"No-6, Duraisamy Street Tdk Towers Tambaram",600045,17,14,2,2,100,0,92,5
+1265,Dr Agarwals Eye Hospital Ltd,Tamilnadu,Kanchipuram,"#32-B,Indiragandhi Road Opp Taluk Office",631502,36,19,3,0,85,0,134,4
+1266,Dr Agarwals Eye Hospital Ltd (Dharmapuri),Tamilnadu,Dharmapuri,"136 1St Floor,Nethaji Bye Pass Road",636701,10,1,0,0,74,1,191,2
+1267,Dr Agarwals Eye Hospital Ltd (Gopalapuram),Tamilnadu,Chennai,Retina Foudation No 31 1St Street Gopalapuram,600086,34,3,0,0,98,2,95,6
+1268,Dr Agarwals Eye Hospital Ltd (Kumbakonam),Tamilnadu,Kumbakonam,"2/381, Indiranagar,Kumbakonam",612001,28,16,0,0,33,2,138,2
+1269,Dr Agarwals Eye Hospital Ltd (Periyar Nagar),Tamilnadu,Chennai,"B-63, Siva Elango Salai 70Feet Road, Periyar Nagar",600082,33,19,2,0,87,2,130,5
+1270,Dr Agarwals Eye Hospital Ltd (Salem),Tamilnadu,Salem,"#114/7,Gandhi Road,Salem",636007,26,16,3,0,40,2,65,3
+1271,Dr Agarwals Eye Hospital Ltd (Villupuram),Tamilnadu,Villupuram,"#19, Trichy Trunk Road,Near To Villupuram Signal",605602,17,13,1,0,91,0,145,6
+1277,Dr Kamakshi National Hospital,Tamilnadu,Chennai,No 12 Jaffer Serang Streetsecond Line Beach Chennai,600001,132,63,14,10,44,5,358,8
+1280,Dr Lankesh Eye Hospital Pvt Ltd,Tamilnadu,Ashok Nagar,No-2 41St Street. 6Th Avenue. Ashok Nagarashok Nagar,600083,35,15,2,0,50,1,110,3
+1284,Dr Manoharan Hospital,Tamilnadu,Coimbatore,"No.1210,Thadagam Road,Near To Aavin Milk Company,R.S. Puram,",641002,124,112,6,5,23,5,416,11
+1293,Dr. A. Ansari Hospital,Tamilnadu,Nagapattanam,"# 20, Naganathar Sannadhi, Nagapattinam, Tamilnadu",611001,56,8,5,2,98,3,356,9
+1294,Dr. A. Govindarajan Eye Hospitals,Tamilnadu,Trichy,"No: 6, Officer'S Colony, Puthur Tiruchirapalli-620017Trichy",620017,35,22,0,0,33,1,164,5
+1300,Dr. Arvind Vision Care,Tamilnadu,Chennai,"#61, Reddy Palayam Road, Mogappair West, Chennai, Tamilnadu",600037,72,23,9,1,53,4,541,6
+1316,Dr. G.C. Hospital,Tamilnadu,Karur,"#30, North Pradakshanam Road, Karur, Tamilnadu.",639001,141,128,15,6,38,5,358,7
+1322,Dr. Grace George Hospital,Tamilnadu,Chennai,"# 34, Udayavar Koil Street,Thirumizhisai, Poonamalee.",600029,76,51,14,11,26,3,725,9
+1325,Dr. Jacquline Divyananda (Divya Hospital),Tamilnadu,Chennai,"# 20, Medavakkam Main Road, Madipakkam",600091,94,28,7,3,37,3,716,9
+1329,Dr. Jeyasekharan Medical Trust,Tamilnadu,Nagercoil,"#1159, K.P. Road, Nagerkoil.",629003,243,196,37,4,59,9,1278,13
+1331,Dr. K.M. Nallaswamy Hospital,Tamilnadu,Erode,"#93, Power House Road,Erode",638001,109,66,10,1,88,5,508,7
+1339,Dr. Kumaraswami Health Centre ( A Unit Of Indian Medical Centre),Tamilnadu,Kanyakumari,"N.H. Road # 47, 1/4C,1/4D,1/4E Perumalpuramperumalpuram, Kanyakumari.",629703,136,67,13,3,70,6,568,10
+1341,Dr. Loganathan Orthopaedic Hospital,Tamilnadu,Erode,"606/A, Mettur Main Road, Bhavani,",638301,128,99,11,7,90,5,482,9
+1347,Dr. Mehta'S Multispeciality Hospital Pvt Ltd.,Tamilnadu,Chennai,"2 (E), Mc. Nicholas Road, Chennai, Opposite To Chetpet Police Station.",600031,113,31,6,3,80,5,364,9

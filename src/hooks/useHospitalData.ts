@@ -25,10 +25,18 @@ export const useHospitalData = () => {
 
         if (!isMounted) return;
 
-        if (remoteHospitals.length > 0) {
-          setHospitals(remoteHospitals);
+        // Schema safety check: if the Node backend hasn't been rebooted, it returns the old schema. 
+        // We reject the stale backend explicitly and rely on our client-side Vite-HMR parsed TS dataset.
+        if (remoteMetrics && remoteMetrics.oxygenSupplyPercent != null) {
+          if (remoteHospitals.length > 0) {
+            setHospitals(remoteHospitals);
+          }
+          setMetrics(remoteMetrics);
+        } else {
+          console.warn('Backend returned stale schema. Falling back to frontend CSV parsing.');
+          setHospitals(fallbackHospitals);
+          setMetrics(fallbackMetrics);
         }
-        setMetrics(remoteMetrics);
         setBackendConnected(true);
       } catch {
         if (!isMounted) return;

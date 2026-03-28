@@ -41,38 +41,17 @@ declare global {
 }
 
 
-const SYMPTOM_RULES = [
-  { label: 'chest pain', weight: 28, patterns: [/chest pain/i, /crushing pain/i, /cardiac/i] },
-  { label: 'sweating', weight: 10, patterns: [/sweating/i, /clammy/i, /diaphoretic/i] },
-  { label: 'cannot stand', weight: 15, patterns: [/cannot stand/i, /can\'?t stand/i, /immobile/i, /not walking/i] },
-  { label: 'heavy breathing', weight: 18, patterns: [/heavy breathing/i, /labored breathing/i, /shortness of breath/i] },
-  { label: 'unconscious', weight: 30, patterns: [/unconscious/i, /unresponsive/i, /not responding/i] },
-  { label: 'bleeding', weight: 18, patterns: [/severe bleeding/i, /uncontrolled bleeding/i, /bleeding heavily/i] },
-  { label: 'injury', weight: 12, patterns: [/injury/i, /crush injury/i, /burn injury/i, /debris/i] },
-];
-
-const TRIAGE_SYMPTOM_EXTRACTORS = [
-  { value: 'Heavy Breathing / Labored', patterns: [/heavy breathing/i, /labored breathing/i, /shortness of breath/i] },
-  { value: 'Not Walking / Immobile', patterns: [/cannot stand/i, /can\'?t stand/i, /not walking/i, /immobile/i] },
-  { value: 'Severe Uncontrolled Bleeding', patterns: [/severe bleeding/i, /uncontrolled bleeding/i, /bleeding heavily/i] },
-  { value: 'Unconscious / Unresponsive', patterns: [/unconscious/i, /unresponsive/i, /not responding/i] },
-  { value: 'Crush Injury', patterns: [/crush injury/i] },
-  { value: 'Trapped Under Debris', patterns: [/trapped under debris/i, /under debris/i, /trapped/i] },
-  { value: 'Burn Injury', patterns: [/burn injury/i, /burned/i, /burns/i] },
-  { value: 'Cardiac Event', patterns: [/chest pain/i, /cardiac/i, /heart attack/i, /crushing pain/i] },
-];
-
 export function WalkieTalkiePanel() {
-  const { 
-    patients, 
-    hospitals, 
-    addPatient, 
+  const {
+    patients,
+    hospitals,
+    addPatient,
     removePatient,
-    addEvent, 
-    latestTriageSignal, 
+    addEvent,
+    latestTriageSignal,
     setLatestVoiceTriageSignal,
     seismicAnomaly,
-    updatePatient 
+    updatePatient
   } = useDisaster();
 
   const [connectionStatus, setConnectionStatus] = useState<'connected' | 'searching' | 'disconnected'>('searching');
@@ -182,140 +161,7 @@ export function WalkieTalkiePanel() {
     recognitionRef.current.start();
   };
 
-  const extractAge = (text: string): string => {
-    if (/middle\s*aged|middle-aged/i.test(text)) {
-      return '30-40';
-    }
-    if (/\byoung\b/i.test(text)) {
-      return '10';
-    }
-    if (/\bold\b|elderly|senior/i.test(text)) {
-      return 'Old';
-    }
-
-    const match = text.match(/\b(age\s*)?(\d{1,2})\b/i);
-    if (match?.[2]) {
-      return match[2];
-    }
-    return '';
-  };
-
-  const extractVoiceTriageSignal = (text: string) => {
-    const selectedSymptoms = TRIAGE_SYMPTOM_EXTRACTORS
-      .filter((item) => item.patterns.some((pattern) => pattern.test(text)))
-      .map((item) => item.value);
-
-    let consciousness: 'CONSCIOUS' | 'UNCONSCIOUS' = 'CONSCIOUS';
-    if (/unconscious|unresponsive|not responding/i.test(text)) {
-      consciousness = 'UNCONSCIOUS';
-    } else if (/conscious|responsive|alert/i.test(text)) {
-      consciousness = 'CONSCIOUS';
-    }
-
-    let bleeding = 'None';
-    if (/severe bleeding|uncontrolled bleeding|bleeding heavily/i.test(text)) {
-      bleeding = 'Severe';
-    } else if (/moderate bleeding/i.test(text)) {
-      bleeding = 'Moderate';
-    } else if (/minor bleeding|light bleeding/i.test(text)) {
-      bleeding = 'Minor';
-    }
-
-    let mobility = 'Unknown';
-    if (/cannot stand|can\'?t stand|immobile|not walking/i.test(text)) {
-      mobility = 'Immobile';
-    } else if (/assisted|with help/i.test(text)) {
-      mobility = 'Assisted';
-    } else if (/walking|ambulatory|can walk/i.test(text)) {
-      mobility = 'Walking';
-    }
-
-    return {
-      selectedSymptoms,
-      notes: text.slice(0, 500),
-      age: extractAge(text),
-      consciousness,
-      bleeding,
-      mobility,
-    };
-  };
-
-  useEffect(() => {
-    if (!transcription.trim()) {
-      return;
-    }
-
-    setLatestVoiceTriageSignal(extractVoiceTriageSignal(transcription));
-  }, [transcription, setLatestVoiceTriageSignal]);
-
-  const computePriority = (text: string): PriorityResult => {
-    const triageText = [
-      text,
-      latestTriageSignal.notes,
-      latestTriageSignal.selectedSymptoms.join(' '),
-      latestTriageSignal.consciousness,
-      latestTriageSignal.bleeding,
-      latestTriageSignal.mobility,
-    ].join(' ');
-
-    let score = 20;
-    const matchedSymptoms: string[] = [];
-
-    SYMPTOM_RULES.forEach((rule) => {
-      if (rule.patterns.some((pattern) => pattern.test(triageText))) {
-        score += rule.weight;
-        matchedSymptoms.push(rule.label);
-      }
-    });
-
-    if (latestTriageSignal.consciousness === 'UNCONSCIOUS') {
-      score += 25;
-      matchedSymptoms.push('unconscious (structured)');
-    }
-    if (latestTriageSignal.bleeding === 'Severe') {
-      score += 15;
-      matchedSymptoms.push('severe bleeding (structured)');
-    }
-    if (latestTriageSignal.mobility === 'Immobile') {
-      score += 12;
-      matchedSymptoms.push('immobile (structured)');
-    }
-
-    score = Math.min(100, score);
-
-    let tag: 'RED' | 'YELLOW' | 'GREEN' | 'BLACK' = 'GREEN';
-    if (score >= 85) tag = 'RED';
-    else if (score >= 60) tag = 'YELLOW';
-    else if (score >= 30) tag = 'GREEN';
-    else tag = 'BLACK';
-
-    const confidence = Math.min(98, 72 + matchedSymptoms.length * 4);
-    
-    // Logic: Proximity if anomaly, else capacity
-    let sortedHospitals = [...hospitals];
-    if (seismicAnomaly) {
-      const [latE, lngE] = seismicAnomaly.epicenter;
-      sortedHospitals = sortedHospitals
-        .map(h => ({ ...h, dist: Math.sqrt(Math.pow(h.lat - latE, 2) + Math.pow(h.lng - lngE, 2)) }))
-        .sort((a, b) => a.dist - b.dist);
-    } else {
-      sortedHospitals = sortedHospitals.sort((a, b) => b.availableBeds - a.availableBeds);
-    }
-
-    const preferredHospital = sortedHospitals.find((h) => h.capacity < 95) || hospitals[0];
-    const etaMinutes = 8 + Math.floor(Math.random() * 8);
-
-    return {
-      score,
-      tag,
-      confidence,
-      matchedSymptoms,
-      hospitalName: preferredHospital?.name ?? 'Nearest Hospital',
-      eta: `${etaMinutes} min`,
-    };
-  };
-
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     if (!transcription.trim()) {
       return;
     }
@@ -323,9 +169,20 @@ export function WalkieTalkiePanel() {
     setIsAnalyzing(true);
     setTriageResult(null);
 
-    setTimeout(() => {
-      setLatestVoiceTriageSignal(extractVoiceTriageSignal(transcription));
-      const result = computePriority(transcription);
+    try {
+      const response = await fetch('/api/walkie/analyze-triage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          transcript: transcription,
+          hospitals,
+          seismicAnomaly
+        })
+      });
+
+      const result = await response.json();
+      
+      setLatestVoiceTriageSignal(result.voiceTriageSignal);
       setTriageResult(result);
 
       addPatient({
@@ -334,8 +191,8 @@ export function WalkieTalkiePanel() {
         hospital: result.hospitalName,
         eta: result.eta,
         status: 'awaiting',
-        location: seismicAnomaly 
-          ? `${seismicAnomaly.epicenter[0].toFixed(3)}°N, ${seismicAnomaly.epicenter[1].toFixed(3)}°E` 
+        location: seismicAnomaly
+          ? `${seismicAnomaly.epicenter[0].toFixed(3)}°N, ${seismicAnomaly.epicenter[1].toFixed(3)}°E`
           : '12.927°N, 80.128°E',
         vitals: {
           heartRate: 98 + Math.floor(Math.random() * 25),
@@ -344,19 +201,20 @@ export function WalkieTalkiePanel() {
         },
       });
 
-      setResponsePreview(
-        `Patient triaged ${result.tag} with score ${result.score}. Matched symptoms: ${result.matchedSymptoms.join(', ') || 'none'}. Route to ${result.hospitalName}. ETA ${result.eta}.`
-      );
+      setResponsePreview(result.responsePreview);
 
       addEvent({
         type: 'dispatch',
         severity: result.tag === 'RED' ? 'critical' : result.tag === 'YELLOW' ? 'warning' : 'info',
-        message: `Voice triage complete: ${result.tag} (${result.score}) from live walkie transmission.`,
+        message: `Voice triage complete: ${result.tag} (${result.score}) processed via perfect BART NLP.`,
       });
 
       setIsAnalyzing(false);
-      setActiveTab('dispatch');
-    }, 1200);
+      setActiveTab('analyzed');
+    } catch(err) {
+      console.error(err);
+      setIsAnalyzing(false);
+    }
   };
 
   return (
@@ -425,7 +283,7 @@ export function WalkieTalkiePanel() {
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {isAnalyzing ? <Loader2 className="w-5 h-5 animate-spin" /> : <Activity className="w-5 h-5" />}
-            {isAnalyzing ? 'ANALYZING...' : 'ANALYZE THIS PATIENT'}
+            {isAnalyzing ? 'ANALYZING...' : 'SEND DATA'}
           </button>
         </div>
       )}
@@ -464,15 +322,14 @@ export function WalkieTalkiePanel() {
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <span className="font-mono text-sm font-bold text-white">{p.id}</span>
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-sm ${
-                      p.tag === 'RED' ? 'bg-red-500/20 text-red-500' : 
-                      p.tag === 'YELLOW' ? 'bg-amber-500/20 text-amber-500' :
-                      'bg-green-500/20 text-green-500'
-                    }`}>{p.score} PRIORITY • {p.tag}</span>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-sm ${p.tag === 'RED' ? 'bg-red-500/20 text-red-500' :
+                        p.tag === 'YELLOW' ? 'bg-amber-500/20 text-amber-500' :
+                          'bg-green-500/20 text-green-500'
+                      }`}>{p.score} PRIORITY • {p.tag}</span>
                   </div>
                   <div className="text-xs text-slate-400">Designated Hospital: <span className="text-slate-200">{p.hospital}</span></div>
                 </div>
-                <button 
+                <button
                   onClick={() => removePatient(p.id)}
                   className="w-8 h-8 rounded bg-red-500/10 text-red-500 flex items-center justify-center opacity-50 hover:opacity-100 transition-opacity hover:bg-red-500 hover:text-white shrink-0"
                   title="Remove record"
